@@ -16,6 +16,8 @@ namespace Infocursos.Models
         private DateTime fecha_final;
         private Horario horario;
         private Formador formador;
+        private Modalidad modalidad;
+        private Centro centro;
 
 
         public int Id_curso { get => id_curso; set => id_curso = value; }
@@ -27,8 +29,10 @@ namespace Infocursos.Models
         public DateTime Fecha_final { get => fecha_final; set => fecha_final = value; }
         public Horario Horario { get => horario; set => horario = value; }
         internal Formador Formador { get => formador; set => formador = value; }
+        public Modalidad Modalidad { get => modalidad; set => modalidad = value; }
+        public Centro Centro { get => centro; set => centro = value; }
 
-        public Curso(int id_curso, string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador)
+        public Curso(int id_curso, string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador, Modalidad modalidad)
         {
             Id_curso = id_curso;
             Curso_nombre = curso_nombre;
@@ -39,9 +43,11 @@ namespace Infocursos.Models
             Fecha_final = fecha_final;
             Horario = horario;
             Formador = formador;
+            Modalidad = modalidad;
+            Centro = null;
         }
 
-        public Curso(string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador)
+        public Curso(string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador, Modalidad modalidad)
         {
             Curso_nombre = curso_nombre;
             Curso_descripcion = curso_descripcion;
@@ -51,6 +57,8 @@ namespace Infocursos.Models
             Fecha_final = fecha_final;
             Horario = horario;
             Formador = formador;
+            Modalidad = modalidad;
+            Centro = null;
         }
     }
 }
