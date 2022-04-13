@@ -8,5 +8,8 @@ namespace Infocursos.Models
 {
     class User
     {
+        int Id_User;
+        string Email;
+        string Password;
     }
 }
