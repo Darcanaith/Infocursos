@@ -26,5 +26,11 @@ namespace Infocursos.Controllers
 
             return View();
         }
+        public ActionResult Registro()
+        {
+            ViewBag.Message = "Your register page.";
+
+            return View();
+        }
     }
 }
