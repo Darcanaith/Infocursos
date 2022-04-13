@@ -128,9 +128,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Alumno.cs" />
+    <Compile Include="Models\Curso.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Filtro.cs" />
     <Compile Include="Models\Formador.cs" />
+    <Compile Include="Models\Horario.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
