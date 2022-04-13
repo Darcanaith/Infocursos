@@ -12,6 +12,7 @@ namespace Infocursos.Models
         private string alumno_Direccion;
         private Municipio municipio;
 
+
         public DateTime Alumno_FechaNac { get => alumno_FechaNac; set => alumno_FechaNac = value; }
         public string Alumno_Direccion { get => alumno_Direccion; set => alumno_Direccion = value; }
         public Municipio Municipio { get => municipio; set => municipio = value; }

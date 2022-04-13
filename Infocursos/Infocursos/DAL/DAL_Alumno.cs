@@ -35,7 +35,7 @@ namespace Infocursos.DAL
 
             try
             {
-                string sql = @"SELECT * FROM jobs " + sentenciaFiltros + " " + orderBy;
+                string sql = @"SELECT * FROM User INNER JOIN Alumno ON Id_User=RId_User " + sentenciaFiltros + " " + orderBy;
 
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
                 SqlDataReader dr = cdm.ExecuteReader();
@@ -60,11 +60,11 @@ namespace Infocursos.DAL
             }
             catch (Exception er)
             {
-                
+
             }
         }
 
-        public void Update_Alumno(Alumno alumno)
+        /*public void Update_Alumno(Alumno alumno)
         {
             try
             {
@@ -106,6 +106,57 @@ namespace Infocursos.DAL
             catch (Exception er)
             {
                 MessageBox.Show("Error actualizando: " + er.Message);
+            }
+        }*/
+
+
+
+        public void Insert_Alumno(Alumno alumno)
+        {
+            try
+            {
+                string sql = @"INSERT INTO User VALUES(@Email @Password, @User_Nombre, @User_Apellidos)";
+
+                SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
+
+
+                SqlParameter pEmail = new SqlParameter("@Email", System.Data.SqlDbType.NVarChar, 100);
+                pEmail.Value = alumno.Email;
+
+                SqlParameter pPassword = new SqlParameter("@Password", System.Data.SqlDbType.NVarChar, 50);
+                pPassword.Value = alumno.Password;
+
+                SqlParameter pUser_Nombre = new SqlParameter("@User_Nombre", System.Data.SqlDbType.NVarChar, 100);
+                pUser_Nombre.Value = alumno.User_Nombre;
+
+                SqlParameter pUser_Apellidos = new SqlParameter("@User_Apellidos", System.Data.SqlDbType.NVarChar, 50);
+                pUser_Apellidos.Value = alumno.User_Apellidos;
+
+
+                cdm.Parameters.Add(pEmail);
+                cdm.Parameters.Add(pPassword);
+                cdm.Parameters.Add(pUser_Nombre);
+                cdm.Parameters.Add(pUser_Apellidos);
+                cdm.ExecuteNonQuery();
+
+                //MessageBox.Show("Alumno creado correctamente");
+            }
+            catch (Exception er)
+            {
+                //MessageBox.Show("Error creando: " + er.Message);
+            }
+        }
+        public void DeleteJob(Alumno alumno)
+        {
+            try
+            {
+                string sql = @"DELETE FROM jobs WHERE job_id='" + job.job_id + "';";
+                SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
+                cdm.ExecuteNonQuery();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show("Error eliminando: " + er.Message);
             }
         }
     }

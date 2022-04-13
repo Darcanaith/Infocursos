@@ -16,6 +16,8 @@ namespace Infocursos.Models
         private string user_Descripcion;
         private string user_Resumen;
         private string iMG_Perfil;
+        private List<Telefono> telefonos;
+
 
         public int Id_User { get => id_User; set => id_User = value; }
         public string Email { get => email; set => email = value; }
@@ -25,6 +27,7 @@ namespace Infocursos.Models
         public string User_Descripcion { get => user_Descripcion; set => user_Descripcion = value; }
         public string User_Resumen { get => user_Resumen; set => user_Resumen = value; }
         public string IMG_Perfil { get => iMG_Perfil; set => iMG_Perfil = value; }
+        public List<Telefono> Telefonos { get => telefonos; set => telefonos = value; }
 
         public User(string email, string password, string user_Nombre, string user_Apellidos)
         {
@@ -34,7 +37,7 @@ namespace Infocursos.Models
             User_Apellidos = user_Apellidos;  
         }
 
-        public User(int id_User, string email, string password, string user_Nombre, string user_Apellidos, string user_Descripcion, string user_Resumen, string iMG_Perfil)
+        public User(int id_User, string email, string password, string user_Nombre, string user_Apellidos, string user_Descripcion, string user_Resumen, string iMG_Perfil, List<Telefono> telefonos)
         {
             Id_User = id_User;
             Email = email;
@@ -44,6 +47,7 @@ namespace Infocursos.Models
             User_Descripcion = user_Descripcion;
             User_Resumen = user_Resumen;
             IMG_Perfil = iMG_Perfil;
+            Telefonos = telefonos;
         }
 
 
