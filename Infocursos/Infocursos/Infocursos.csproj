@@ -122,9 +122,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CNX.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DAL\DAL_Alumno.cs" />
+    <Compile Include="DAL\DAL_Formador.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Alumno.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Filtro.cs" />
+    <Compile Include="Models\Formador.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -166,8 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="DAL\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
