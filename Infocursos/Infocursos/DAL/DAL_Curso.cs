@@ -11,7 +11,7 @@ namespace Infocursos.DAL
     {
         CNX cnx = null;
 
-        public DAL_Curso(CNX cnx)
+        public DAL_Curso()
         {
             this.cnx = new CNX();
         }
@@ -44,16 +44,35 @@ namespace Infocursos.DAL
                 SqlDataReader reader = sqlCommand.ExecuteReader();
                 while (reader.Read())
                 {
-                    string sql_categoria_horario = "select Horario.* from Curso inner join Horario on Rid_Horario = Id_Horario where Id_curso = " + reader.GetInt32(0) + ";";
-                    SqlCommand sqlCommand_categoria_horario = new SqlCommand(sql, cnx.Connection);
-                    SqlDataReader reader_categoria_horario = sqlCommand_categoria_horario.ExecuteReader();
-                    while (reader_categoria_horario.Read())
+                    DAL_Horario dal_horario = new DAL_Horario();
+                    List<Horario> horarios = dal_horario.Select_Horarios(filtros, orderBy);
+                    foreach (Horario horario_de_lista in horarios)
                     {
-                        horario.Id_horario = reader_categoria_horario.GetInt32(0);
+                        if (reader.GetInt32(7) == horario_de_lista.Id_horario)
+                        {
+                            horario = horario_de_lista;
+                        }
                     }
 
-                    string sql_categoria_formador = "select Formador.* from Curso inner join Formador on Rid_Formador = RId_Userinner join Usuario on RId_User = id_user where Id_curso" + reader.GetInt32(0) + ";";
-                    
+                    DAL_Modalidad dal_modalidad = new DAL_Modalidad();
+                    List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(filtros, orderBy);
+                    foreach (Modalidad modalidad_de_lista in modalidades)
+                    {
+                        if(reader.GetInt32(9) == modalidad_de_lista.Id_modalidad)
+                        {
+                            modalidad = modalidad_de_lista;
+                        }
+
+                    }
+                    DAL_Centro dal_centro = new DAL_Centro();
+                    List<Centro> centros = dal_centro.Select_Centro(filtros,orderBy);
+                    foreach (Centro centro_de_lista in centros)
+                    {
+                        if (reader.GetInt32(10) == centro_de_lista.Id_centro)
+                        {
+                            centro = centro_de_lista;
+                        }
+                    }
                 }
             }
             catch (Exception)
