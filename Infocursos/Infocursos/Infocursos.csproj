@@ -131,6 +131,7 @@
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Filtro.cs" />
     <Compile Include="Models\Formador.cs" />
+    <Compile Include="Models\Municipio.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
