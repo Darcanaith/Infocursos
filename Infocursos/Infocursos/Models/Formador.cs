@@ -15,6 +15,7 @@ namespace Infocursos.Models
         private List<Curso> cursos;
         private List<Horario> horarios;
         private List<Modalidad> modalidades;
+        private List<Categoria> categorias;
 
         public bool IsAutorizado { get => isAutorizado; set => isAutorizado = value; }
         public string Nombre_Entidad { get => nombre_Entidad; set => nombre_Entidad = value; }
@@ -23,8 +24,7 @@ namespace Infocursos.Models
         public List<Curso> Cursos { get => cursos; set => cursos = value; }
         public List<Horario> Horarios { get => horarios; set => horarios = value; }
         public List<Modalidad> Modalidades { get => modalidades; set => modalidades = value; }
-
-
+        public List<Categoria> Categorias { get => categorias; set => categorias = value; }
 
         public Formador(string email, string password, string user_Nombre, string user_Apellidos, string nombre_Entidad) : base(email, password, user_Nombre, user_Apellidos)
         {

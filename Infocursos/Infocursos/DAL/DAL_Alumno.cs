@@ -17,8 +17,9 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
-        public void Select_Alumno(List<Filtro> filtros, string orderBy)
+        public List<Alumno> Select_Alumno(List<Filtro> filtros, string orderBy)
         {
+            List<Alumno> alumnos = new List<Alumno>();
             string sentenciaFiltros = "";
             if (filtros != null)
             {
@@ -39,13 +40,49 @@ namespace Infocursos.DAL
 
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
                 SqlDataReader dr = cdm.ExecuteReader();
-                Decimal? min_salary, max_salary;
 
 
                 while (dr.Read())
                 {
+                    List<Categoria> categorias = new List<Categoria>();
+
+                    try
+                    {
+                        string sql_Categorias = @"SELECT Categoria.* FROM Alumno_Categorias INNER JOIN Categoria ON Id_Categoria=RId_Categoria WHERE RId_Alumno= "+dr.GetInt32(0);
+                        SqlCommand cdm_Categorias = new SqlCommand(sql_Categorias, cnx.Connection);
+                        SqlDataReader dr_Categorias = cdm_Categorias.ExecuteReader();
+
+                        while (dr_Categorias.Read())
+                        {
+                            Categoria categoria_mayor;
+                            try
+                            {
+                                string sql_Categoria_Mayor = @"SELECT Categoria.* FROM Categoria INNER JOIN Categoria ON Id_Categoria=RId_Categoria_Mayor WHERE Id_Categoria= " + dr_Categorias.GetInt32(0);
+                                SqlCommand cdm_Categoria_Mayor = new SqlCommand(sql_Categoria_Mayor, cnx.Connection);
+                                SqlDataReader dr_Categoria_Mayor = cdm_Categoria_Mayor.ExecuteReader();
+
+                                while (dr_Categoria_Mayor.Read())
+                                {
+                                    categoria_mayor = new Categoria();
+                                }
+                                dr_Categoria_Mayor.Close();
+                            }
+                            catch
+                            {
+                                throw;
+                            }
+
+                            Categoria categoria = new Categoria(dr_Categorias.GetInt32(0),dr_Categorias.GetString(1), null);
+                        }
+                        dr_Categorias.Close();
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+
                     if (dr.GetValue(2) == DBNull.Value)
-                        min_salary = null;
+                    min_salary = null;
                     else
                         min_salary = dr.GetDecimal(2);
 
@@ -54,14 +91,16 @@ namespace Infocursos.DAL
                     else
                         max_salary = dr.GetDecimal(3);
 
-
+                    Alumno newAlumno = new Alumno();
                 }
                 dr.Close();
+
             }
             catch (Exception er)
             {
 
             }
+            return null;
         }
 
         /*public void Update_Alumno(Alumno alumno)
