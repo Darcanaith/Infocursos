@@ -54,6 +54,7 @@ namespace Infocursos.DAL
                         }
                     }
 
+
                     DAL_Modalidad dal_modalidad = new DAL_Modalidad();
                     List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
                     foreach (Modalidad modalidad_de_lista in modalidades)
@@ -64,23 +65,185 @@ namespace Infocursos.DAL
                         }
 
                     }
-                    DAL_Centro dal_centro = new DAL_Centro();
-                    List<Centro> centros = dal_centro.Select_Centro(null,null);
-                    foreach (Centro centro_de_lista in centros)
+
+                    if (reader.GetValue(10)!= DBNull.Value)
                     {
-                        if (reader.GetInt32(10) == centro_de_lista.Id_centro)
+                        DAL_Centro dal_centro = new DAL_Centro();
+                        List<Centro> centros = dal_centro.Select_Centro(null, null);
+                        foreach (Centro centro_de_lista in centros)
                         {
-                            centro = centro_de_lista;
+                            if (reader.GetInt32(10) == centro_de_lista.Id_centro)
+                            {
+                                centro = centro_de_lista;
+                            }
                         }
+
                     }
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return cursos;
+        }
+
+        public void Insert_Cursos(Curso curso)
+        {
+            try
+            {
+                string sql = "insert into Curso values(@curso_nombre, @curso_descripcion, @num_plaza, @horas_totales, @fecha_inicio, @fecha_final, @rid_horario, @rid_formador, @id_modaldiad, @rid_centro)";
+                SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
+
+                SqlParameter pcurso_nombre = new SqlParameter("@curso_nombre", System.Data.SqlDbType.NVarChar, 50);
+                pcurso_nombre.Value = curso.Curso_nombre;
+
+                SqlParameter pcurso_decripcion = new SqlParameter("@curso_descripcion", System.Data.SqlDbType.NVarChar, 4000);
+                pcurso_decripcion.Value = curso.Curso_descripcion;
+
+                SqlParameter pnum_plaza = new SqlParameter("@num_plaza", System.Data.SqlDbType.Int);
+                pnum_plaza.Value = curso.Num_plaza;
+
+                SqlParameter phoras_totales = new SqlParameter("@horas_totales", System.Data.SqlDbType.Int);
+                phoras_totales.Value = curso.Horas_totales;
+
+                SqlParameter pfecha_inicio = new SqlParameter("@fecha_inicio", System.Data.SqlDbType.Date);
+                pfecha_inicio.Value = curso.Fecha_inicio;
+
+                SqlParameter pfecha_final = new SqlParameter("@fecha_final", System.Data.SqlDbType.Date);
+                pfecha_final.Value = curso.Fecha_final;
+
+                SqlParameter prid_horario = new SqlParameter("@rid_horario", System.Data.SqlDbType.Int);
+                prid_horario.Value = curso.Horario.Id_horario;
+
+                SqlParameter prid_formador = new SqlParameter("@rid_formador", System.Data.SqlDbType.Int);
+                prid_formador.Value = curso.Formador.Id_User;
+
+                SqlParameter prid_modalidad = new SqlParameter("@rid_modalidad", System.Data.SqlDbType.Int);
+                prid_modalidad.Value = curso.Modalidad.Id_modalidad;
+
+                SqlParameter prid_centro = new SqlParameter("@rid_centro", System.Data.SqlDbType.Int);
+                if (curso.Centro == null)
+                {
+                    prid_centro.Value = DBNull.Value;
+                }
+                else
+                {
+                    prid_centro.Value = curso.Centro;
+                }
+
+                cmd.Parameters.Add(pcurso_nombre);
+                cmd.Parameters.Add(pcurso_decripcion);
+                cmd.Parameters.Add(pnum_plaza);
+                cmd.Parameters.Add(phoras_totales);
+                cmd.Parameters.Add(pfecha_inicio);
+                cmd.Parameters.Add(pfecha_final);
+                cmd.Parameters.Add(prid_horario);
+                cmd.Parameters.Add(prid_formador);
+                cmd.Parameters.Add(prid_modalidad);
+                cmd.Parameters.Add(prid_centro);
+                cmd.ExecuteNonQuery();
             }
             catch (Exception)
             {
 
                 throw;
             }
-            return cursos;
+            
+        }
+
+        public void Update_Curso(Curso curso)
+        {
+            try
+            {
+                string sql = @"update Curso set 
+                                curso_nombre = @curso_nombre
+                                curso_descripcion = @curso_descripcion
+                                num_plaza = @num_plaza
+                                horas_totales = @horas_totales
+                                fecha_inicio = @fecha_inicio
+                                fecha_final = @fecha_final
+                                rid_horario = @rid_horario
+                                rid_formador = @rid_formador
+                                rid_modalidad = @rid_modalidad
+                                rid_centro = @rid_centro
+                                where id_curso = @id_curso";
+                SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
+
+                SqlParameter pcurso_nombre = new SqlParameter("@curso_nombre", System.Data.SqlDbType.NVarChar, 50);
+                pcurso_nombre.Value = curso.Curso_nombre;
+
+                SqlParameter pcurso_decripcion = new SqlParameter("@curso_descripcion", System.Data.SqlDbType.NVarChar, 4000);
+                pcurso_decripcion.Value = curso.Curso_descripcion;
+
+                SqlParameter pnum_plaza = new SqlParameter("@num_plaza", System.Data.SqlDbType.Int);
+                pnum_plaza.Value = curso.Num_plaza;
+
+                SqlParameter phoras_totales = new SqlParameter("@horas_totales", System.Data.SqlDbType.Int);
+                phoras_totales.Value = curso.Horas_totales;
+
+                SqlParameter pfecha_inicio = new SqlParameter("@fecha_inicio", System.Data.SqlDbType.Date);
+                pfecha_inicio.Value = curso.Fecha_inicio;
+
+                SqlParameter pfecha_final = new SqlParameter("@fecha_final", System.Data.SqlDbType.Date);
+                pfecha_final.Value = curso.Fecha_final;
+
+                SqlParameter prid_horario = new SqlParameter("@rid_horario", System.Data.SqlDbType.Int);
+                prid_horario.Value = curso.Horario.Id_horario;
+
+                SqlParameter prid_formador = new SqlParameter("@rid_formador", System.Data.SqlDbType.Int);
+                prid_formador.Value = curso.Formador.Id_User;
+
+                SqlParameter prid_modalidad = new SqlParameter("@rid_modalidad", System.Data.SqlDbType.Int);
+                prid_modalidad.Value = curso.Modalidad.Id_modalidad;
+
+                SqlParameter prid_centro = new SqlParameter("@rid_centro", System.Data.SqlDbType.Int);
+                if (curso.Centro == null)
+                {
+                    prid_centro.Value = DBNull.Value;
+                }
+                else
+                {
+                    prid_centro.Value = curso.Centro;
+                }
+
+                SqlParameter pid_curso = new SqlParameter("@id_curso", System.Data.SqlDbType.Int);
+                pid_curso.Value = curso.Id_curso;
+
+                cmd.Parameters.Add(pcurso_nombre);
+                cmd.Parameters.Add(pcurso_decripcion);
+                cmd.Parameters.Add(pnum_plaza);
+                cmd.Parameters.Add(phoras_totales);
+                cmd.Parameters.Add(pfecha_inicio);
+                cmd.Parameters.Add(pfecha_final);
+                cmd.Parameters.Add(prid_horario);
+                cmd.Parameters.Add(prid_formador);
+                cmd.Parameters.Add(prid_modalidad);
+                cmd.Parameters.Add(prid_centro);
+                cmd.Parameters.Add(pid_curso);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public void Delete_Curso(Curso curso)
+        {
+            try
+            {
+                string sql = "delete from Curso where id_curso = '" + curso.Id_curso + "';";
+                SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

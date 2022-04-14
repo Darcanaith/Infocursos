@@ -41,7 +41,7 @@ namespace Infocursos.DAL
                 while (reader.Read())
                 {
                     DAL_Provincia dal_provincia = new DAL_Provincia();
-                    List<Provincia> provincias = dal_provincia.Select_Provincia(filtros, orderBy);
+                    List<Provincia> provincias = dal_provincia.Select_Provincia(null, null);
                     foreach (Provincia provincia_de_lista in provincias)
                     {
                         if (reader.GetInt32(2)== provincia_de_lista.Id_provincia)
