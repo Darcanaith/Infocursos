@@ -11,8 +11,8 @@ namespace Infocursos.Models
         private bool isAutorizado;
         private string nombre_Entidad;
         private string cod_Validacion;
-        private List<Centro> centros;
         private List<Curso> cursos;
+        private List<Centro> centros;
         private List<Horario> horarios;
         private List<Modalidad> modalidades;
         private List<Categoria> categorias;
@@ -26,11 +26,33 @@ namespace Infocursos.Models
         public List<Modalidad> Modalidades { get => modalidades; set => modalidades = value; }
         public List<Categoria> Categorias { get => categorias; set => categorias = value; }
 
-        public Formador(string email, string password, string user_Nombre, string user_Apellidos, string nombre_Entidad) : base(email, password, user_Nombre, user_Apellidos)
+        public Formador(string email, string password, string user_Nombre, string user_Apellidos, string nombre_Entidad) 
+            : base(email, password, user_Nombre, user_Apellidos)
         {
             Nombre_Entidad = nombre_Entidad;
             IsAutorizado = false;
-            Cod_Validacion = "RANDOM";
+            Cod_Validacion = GenerarCodValidacion(); 
+        }
+
+        public Formador(int id_User, string email, string password, string user_Nombre, string user_Apellidos, string user_Descripcion, 
+            string user_Resumen, string iMG_Perfil, List<string> telefonos, string nombre_Entidad) 
+            : base(id_User, email, password, user_Nombre, user_Apellidos, user_Descripcion, user_Resumen, iMG_Perfil, telefonos)
+        {
+            Nombre_Entidad = nombre_Entidad;
+            IsAutorizado = false;
+            Cod_Validacion = GenerarCodValidacion();
+        }
+
+        public string GenerarCodValidacion()
+        {
+            var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var Codigo = new char[10];
+            var random = new Random();
+
+            for (int i = 0; i < Codigo.Length; i++)
+                Codigo[i] = characters[random.Next(characters.Length)];
+
+            return new String(Codigo);
         }
     }
 }
