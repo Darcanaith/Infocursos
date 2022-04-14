@@ -36,7 +36,7 @@ namespace Infocursos.DAL
 
             try
             {
-                string sql = @"SELECT * FROM User INNER JOIN Alumno ON Id_User=RId_User " + sentenciaFiltros + " " + orderBy;
+                string sql = @"SELECT * FROM Usuario INNER JOIN Alumno ON Id_User=RId_User " + sentenciaFiltros + " " + orderBy;
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
                 SqlDataReader reader = cdm.ExecuteReader();
 
@@ -49,6 +49,8 @@ namespace Infocursos.DAL
                     string user_Descripcion = null, user_Resumen = null, iMG_Perfil = null, alumno_Direccion = null;
                     DateTime? alumno_FechaNac = null;
                     Municipio municipio=null;
+                    List<Object[]> idiomas_Nivel = new List<object[]>();
+                    List<string> telefonos_Alumno = new List<string>();
 
                     DAL_Alumno_Categorias dal_Alumno_Categorias = new DAL_Alumno_Categorias();
                     IDictionary<int[], int> idAlumno_Idcategorias = dal_Alumno_Categorias.Select_Alumno_Categorias(null,null);
@@ -83,8 +85,24 @@ namespace Infocursos.DAL
                             }
                         }
                     }
+                    DAL_Idioma dal_Idioma = new DAL_Idioma();
+                    IDictionary<int, Idioma> idiomas = dal_Idioma.Select_Idioma(null, null);
+                    DAL_Nivel_Idioma dal_Nivel_Idioma = new DAL_Nivel_Idioma();
+                    IDictionary<int, Nivel_Idioma> niveles_Idioma = dal_Nivel_Idioma.Select_Nivel_Idioma(null, null);
 
-                    Alumno newAlumno = new Alumno(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4),user_Descripcion,user_Resumen,iMG_Perfil,null,alumno_FechaNac,alumno_Direccion,municipio,categorias_Alumno);
+                    DAL_Alumno_Idioma dal_Alumno_Idioma = new DAL_Alumno_Idioma();
+                    IDictionary<int[], int> alumno_Idioma = dal_Alumno_Idioma.Select_Alumno_Idioma(null, null);
+                    foreach (KeyValuePair<int[], int> alumno_Idioma_Nivel in alumno_Idioma)
+                        if (reader.GetInt32(0) == alumno_Idioma_Nivel.Key[0])
+                            idiomas_Nivel.Add(new object[] { idiomas[alumno_Idioma_Nivel.Key[1]], niveles_Idioma[alumno_Idioma_Nivel.Value] });
+
+                    DAL_Telefono dat_telefono = new DAL_Telefono();
+                    IDictionary<int, string> telefonos = dat_telefono.Select_Telefono(null, null);
+                    foreach (KeyValuePair<int, string> telefono in telefonos)
+                        if (telefono.Key == reader.GetInt32(0))
+                            telefonos_Alumno.Add(telefono.Value);
+
+                        Alumno newAlumno = new Alumno(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4),user_Descripcion,user_Resumen,iMG_Perfil, telefonos_Alumno, alumno_FechaNac,alumno_Direccion,municipio,categorias_Alumno, idiomas_Nivel);
                 }
                 reader.Close();
 
@@ -147,7 +165,7 @@ namespace Infocursos.DAL
         {
             try
             {
-                string sql = @"INSERT INTO User VALUES(@Email @Password, @User_Nombre, @User_Apellidos)";
+                string sql = @"INSERT INTO Usuario VALUES(@Email @Password, @User_Nombre, @User_Apellidos)";
 
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
 
@@ -178,17 +196,18 @@ namespace Infocursos.DAL
                 //MessageBox.Show("Error creando: " + er.Message);
             }
         }
-        public void DeleteJob(Alumno alumno)
+        public void Delete_Alumno(Alumno alumno)
         {
             try
             {
-                string sql = @"DELETE FROM jobs WHERE job_id='" + job.job_id + "';";
+                string sql = @"DELETE FROM Alumno WHERE RId_User='" + alumno.Id_User + "';" +
+                              "DELETE FROM User WHERE Id_User='" + alumno.Id_User + "';";
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
                 cdm.ExecuteNonQuery();
             }
             catch (Exception er)
             {
-                MessageBox.Show("Error eliminando: " + er.Message);
+                //MessageBox.Show("Error eliminando: " + er.Message);
             }
         }
     }
