@@ -1,28 +1,50 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "InfoCursos";
 }
 <!-- Masthead-->
-<header class="masthead bg-primary text-white text-center">
-    <div class="container d-flex align-items-center flex-column">
-        <!-- Masthead Avatar Image-->
-        <img class="masthead-avatar mb-5" src="~/Content/assets/img/avataaars.svg" alt="..." />
-        <!-- Masthead Heading-->
-        <h1 class="masthead-heading text-uppercase mb-0">Start Bootstrap</h1>
-        <!-- Icon Divider-->
-        <div class="divider-custom divider-light">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-            <div class="divider-custom-line"></div>
+<header class="masthead bg-primary text-white text-center" style="background-image: url(/Content/assets/img/Banners/jaggerBanner.png); background-repeat: no-repeat; background-size: cover; ">
+    <!-- Contenedor para buscador web.-->
+    <section class="page-section" id="Buscador" >
+        <div class="container" id="buscadorDiv">
+            <!-- Buscador Section Form-->
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-7">
+                    <form id="buscadorForm">
+                        <div class="row g-3">
+                            <!-- Name input-->
+                            <div class="col-md-8">
+                                <div class="form-control">
+                                    <label for="name">Buscar cursos de...</label>
+                                    <input class="form-control" id="name" type="text" placeholder="Modalidad, Horario o palabra clave" >
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-control">
+                                    <label for="floatingSelectGrid">En...</label>
+                                    <select class="form-select" id="floatingSelectGrid">
+                                        <option selected value="0">España</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Submit Button-->
+                            <div class="col-md-1">
+                                <button class="btn btn-primary btn-xl" id="submitButton" type="submit">buscar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <!-- Masthead Subheading-->
-        <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p>
-    </div>
+    </section>
 </header>
 <!-- Portfolio Section-->
 <section class="page-section portfolio" id="portfolio">
     <div class="container">
         <!-- Portfolio Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Portfolio</h2>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Impulsa tu carrera cursando y formandote</h2>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
@@ -88,6 +110,9 @@
         </div>
     </div>
 </section>
+
+
+
 <!-- About Section-->
 <section class="page-section bg-primary text-white mb-0" id="about">
     <div class="container">
@@ -100,16 +125,31 @@
             <div class="divider-custom-line"></div>
         </div>
         <!-- About Section Content-->
-        <div class="row">
-            <div class="col-lg-4 ms-auto"><p class="lead">Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional SASS stylesheets for easy customization.</p></div>
-            <div class="col-lg-4 me-auto"><p class="lead">You can create your own custom avatar for the masthead, change the icon in the dividers, and add your email address to the contact form to make it fully functional!</p></div>
-        </div>
-        <!-- About Section Button-->
-        <div class="text-center mt-4">
-            <a class="btn btn-xl btn-outline-light" href="https://startbootstrap.com/theme/freelancer/">
-                <i class="fas fa-download me-2"></i>
-                Free Download!
-            </a>
+        <div class="row justify-content-center">
+            <!-- Admins foto 1-->
+            <div class="col-md-6 col-lg-4 mb-5">
+                <div class="portfolio-item mx-auto">
+                    <img class="img-fluid" src="~/Content/assets/img/admins/Escaner_20220222_2.png" alt="..." />
+                </div>
+            </div>
+            <!-- Admins foto 2-->
+            <div class="col-md-6 col-lg-4 mb-5">
+                <div class="portfolio-item mx-auto">
+                    <img class="img-fluid" src="~/Content/assets/img/admins/FotoMarcos.png" alt="..." />
+                </div>
+            </div>
+            <!-- Admins foto 3-->
+            <div class="col-md-6 col-lg-4 mb-5">
+                <div class="portfolio-item mx-auto">
+                    <img class="img-fluid" src="~/Content/assets/img/admins/fotoKevin.jpeg" alt="..." />
+                </div>
+            </div>
+            <!-- Admins foto 4-->
+            <div class="col-md-6 col-lg-4 mb-5">
+                <div class="portfolio-item mx-auto">
+                    <img class="img-fluid" src="~/Content/assets/img/admins/Escaner_20220222_2.png" alt="..." />
+                </div>
+            </div>
         </div>
     </div>
 </section>
