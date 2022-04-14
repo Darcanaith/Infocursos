@@ -63,5 +63,46 @@ namespace Infocursos.DAL
             }
             return centros;
         }
+
+        public void Insert_Centro(Centro centro)
+        {
+            try
+            {
+                string sql = "select into Centro values(@centro_direccion, @Rid_municipio)";
+                SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
+
+                SqlParameter pCentro_direccion = new SqlParameter("@centro_direccion", System.Data.SqlDbType.NVarChar, 150);
+                pCentro_direccion.Value = centro.Centro_direccion;
+
+                SqlParameter pRid_municipio = new SqlParameter("@Rid_municipio", System.Data.SqlDbType.Int);
+                pRid_municipio.Value = centro.Municipio.Id_municipio;
+
+                cdm.Parameters.Add(pCentro_direccion);
+                cdm.Parameters.Add(pRid_municipio);
+                cdm.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+
+        }
+
+        public void Delete_Centro(Centro centro)
+        {
+            try
+            {
+                string sql = "delete from Centro where id_centro = '" + centro.Id_centro + "';";
+                SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
+                cdm.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
