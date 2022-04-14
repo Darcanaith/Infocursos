@@ -32,7 +32,7 @@ namespace Infocursos.Models
         public Modalidad Modalidad { get => modalidad; set => modalidad = value; }
         public Centro Centro { get => centro; set => centro = value; }
 
-        public Curso(int id_curso, string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador, Modalidad modalidad)
+        public Curso(int id_curso, string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador, Modalidad modalidad, Centro centro = null)
         {
             Id_curso = id_curso;
             Curso_nombre = curso_nombre;
@@ -44,10 +44,10 @@ namespace Infocursos.Models
             Horario = horario;
             Formador = formador;
             Modalidad = modalidad;
-            Centro = null;
+            Centro = centro;
         }
 
-        public Curso(string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador, Modalidad modalidad)
+        public Curso(string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador, Modalidad modalidad, Centro centro = null)
         {
             Curso_nombre = curso_nombre;
             Curso_descripcion = curso_descripcion;
@@ -58,7 +58,7 @@ namespace Infocursos.Models
             Horario = horario;
             Formador = formador;
             Modalidad = modalidad;
-            Centro = null;
+            Centro = centro;
         }
     }
 }

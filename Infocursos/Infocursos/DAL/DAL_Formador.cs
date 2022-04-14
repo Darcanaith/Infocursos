@@ -17,7 +17,7 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
-        public List<Formador> Select_Alumno(List<Filtro> filtros, string orderBy)
+        public List<Formador> Select_Formador(List<Filtro> filtros, string orderBy)
         {
             List<Formador> Formadores = new List<Formador>();
             string sentenciaFiltros = "";

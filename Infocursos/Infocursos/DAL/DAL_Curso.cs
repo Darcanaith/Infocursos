@@ -54,6 +54,17 @@ namespace Infocursos.DAL
                         }
                     }
 
+                    DAL_Formador dal_formador = new DAL_Formador();
+                    List<Formador> formadores = dal_formador.Select_Formador(null, null);
+                    foreach (Formador formador_de_lista in formadores)
+                    {
+                        if (reader.GetInt32(8) == formador_de_lista.Id_User)
+                        {
+                            formador = formador_de_lista;
+                        }
+
+                    }
+
 
                     DAL_Modalidad dal_modalidad = new DAL_Modalidad();
                     List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
@@ -72,13 +83,15 @@ namespace Infocursos.DAL
                         List<Centro> centros = dal_centro.Select_Centro(null, null);
                         foreach (Centro centro_de_lista in centros)
                         {
-                            if (reader.GetInt32(10) == centro_de_lista.Id_centro)
+                            if (reader.GetInt32(9) == centro_de_lista.Id_centro)
                             {
                                 centro = centro_de_lista;
                             }
                         }
 
                     }
+                    Curso curso = new Curso(reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetDateTime(5), reader.GetDateTime(6), horario, formador, modalidad, centro);
+                    cursos.Add(curso);
                 }
             }
             catch (Exception)
