@@ -42,10 +42,10 @@ namespace Infocursos.DAL
                 while (reader.Read())
                 {
                     DAL_Municipio dal_municipio = new DAL_Municipio();
-                    List<Municipio> municipios = dal_municipio.Select_Municipio(filtros, orderBy);
+                    List<Municipio> municipios = dal_municipio.Select_Municipio(null, null);
                     foreach (Municipio municipio_de_lista in municipios)
                     {
-                        if (reader.GetInt32(2)== municipio_de_lista.Id_municipio)
+                        if (reader.GetInt32(2) == municipio_de_lista.Id_municipio)
                         {
                             municipio = municipio_de_lista;
                         }

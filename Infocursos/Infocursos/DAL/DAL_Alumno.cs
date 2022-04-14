@@ -37,63 +37,56 @@ namespace Infocursos.DAL
             try
             {
                 string sql = @"SELECT * FROM User INNER JOIN Alumno ON Id_User=RId_User " + sentenciaFiltros + " " + orderBy;
-
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader dr = cdm.ExecuteReader();
+                SqlDataReader reader = cdm.ExecuteReader();
 
+                DAL_Categoria dal_Categoria = new DAL_Categoria();
+                IDictionary<int, Categoria> categorias = dal_Categoria.Select_Categoria(null,null);
 
-                while (dr.Read())
+                while (reader.Read())
                 {
-                    List<Categoria> categorias = new List<Categoria>();
+                    List<Categoria> categorias_Alumno = new List<Categoria>();
+                    string user_Descripcion = null, user_Resumen = null, iMG_Perfil = null, alumno_Direccion = null;
+                    DateTime? alumno_FechaNac = null;
+                    Municipio municipio=null;
 
-                    try
+                    DAL_Alumno_Categorias dal_Alumno_Categorias = new DAL_Alumno_Categorias();
+                    IDictionary<int[], int> idAlumno_Idcategorias = dal_Alumno_Categorias.Select_Alumno_Categorias(null,null);
+                    foreach (KeyValuePair<int[],int> kp in idAlumno_Idcategorias)
+                        if (reader.GetInt32(0) == kp.Key[0])
+                            categorias_Alumno.Add(categorias[kp.Value]);
+
+                    if (reader.GetValue(5) != DBNull.Value)
+                        user_Descripcion = reader.GetString(5);
+
+                    if (reader.GetValue(6) != DBNull.Value)
+                        user_Resumen = reader.GetString(6);
+
+                    if (reader.GetValue(7) != DBNull.Value)
+                        iMG_Perfil = reader.GetString(7);
+
+                    if (reader.GetValue(9) != DBNull.Value)
+                        alumno_FechaNac = reader.GetDateTime(9);
+
+                    if (reader.GetValue(10) != DBNull.Value)
+                        alumno_Direccion = reader.GetString(10);
+
+                    if (reader.GetValue(11) != DBNull.Value)
                     {
-                        string sql_Categorias = @"SELECT Categoria.* FROM Alumno_Categorias INNER JOIN Categoria ON Id_Categoria=RId_Categoria WHERE RId_Alumno= "+dr.GetInt32(0);
-                        SqlCommand cdm_Categorias = new SqlCommand(sql_Categorias, cnx.Connection);
-                        SqlDataReader dr_Categorias = cdm_Categorias.ExecuteReader();
-
-                        while (dr_Categorias.Read())
+                        DAL_Municipio dal_municipio = new DAL_Municipio();
+                        List<Municipio> municipios = dal_municipio.Select_Municipio(null, null);
+                        foreach (Municipio municipio_de_lista in municipios)
                         {
-                            Categoria categoria_mayor;
-                            try
+                            if (reader.GetInt32(11) == municipio_de_lista.Id_municipio)
                             {
-                                string sql_Categoria_Mayor = @"SELECT Categoria.* FROM Categoria INNER JOIN Categoria ON Id_Categoria=RId_Categoria_Mayor WHERE Id_Categoria= " + dr_Categorias.GetInt32(0);
-                                SqlCommand cdm_Categoria_Mayor = new SqlCommand(sql_Categoria_Mayor, cnx.Connection);
-                                SqlDataReader dr_Categoria_Mayor = cdm_Categoria_Mayor.ExecuteReader();
-
-                                while (dr_Categoria_Mayor.Read())
-                                {
-                                    categoria_mayor = new Categoria();
-                                }
-                                dr_Categoria_Mayor.Close();
+                                municipio = municipio_de_lista;
                             }
-                            catch
-                            {
-                                throw;
-                            }
-
-                            Categoria categoria = new Categoria(dr_Categorias.GetInt32(0),dr_Categorias.GetString(1), null);
                         }
-                        dr_Categorias.Close();
-                    }
-                    catch
-                    {
-                        throw;
                     }
 
-                    if (dr.GetValue(2) == DBNull.Value)
-                    min_salary = null;
-                    else
-                        min_salary = dr.GetDecimal(2);
-
-                    if (dr.GetValue(3) == DBNull.Value)
-                        max_salary = null;
-                    else
-                        max_salary = dr.GetDecimal(3);
-
-                    Alumno newAlumno = new Alumno();
+                    Alumno newAlumno = new Alumno(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4),user_Descripcion,user_Resumen,iMG_Perfil,null,alumno_FechaNac,alumno_Direccion,municipio,categorias_Alumno);
                 }
-                dr.Close();
+                reader.Close();
 
             }
             catch (Exception er)
