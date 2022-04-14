@@ -45,7 +45,7 @@ namespace Infocursos.DAL
                 while (reader.Read())
                 {
                     DAL_Horario dal_horario = new DAL_Horario();
-                    List<Horario> horarios = dal_horario.Select_Horarios(filtros, orderBy);
+                    List<Horario> horarios = dal_horario.Select_Horarios(null, null);
                     foreach (Horario horario_de_lista in horarios)
                     {
                         if (reader.GetInt32(7) == horario_de_lista.Id_horario)
@@ -55,7 +55,7 @@ namespace Infocursos.DAL
                     }
 
                     DAL_Modalidad dal_modalidad = new DAL_Modalidad();
-                    List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(filtros, orderBy);
+                    List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
                     foreach (Modalidad modalidad_de_lista in modalidades)
                     {
                         if(reader.GetInt32(9) == modalidad_de_lista.Id_modalidad)
@@ -65,7 +65,7 @@ namespace Infocursos.DAL
 
                     }
                     DAL_Centro dal_centro = new DAL_Centro();
-                    List<Centro> centros = dal_centro.Select_Centro(filtros,orderBy);
+                    List<Centro> centros = dal_centro.Select_Centro(null,null);
                     foreach (Centro centro_de_lista in centros)
                     {
                         if (reader.GetInt32(10) == centro_de_lista.Id_centro)
