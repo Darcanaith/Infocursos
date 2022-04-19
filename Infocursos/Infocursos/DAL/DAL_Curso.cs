@@ -137,13 +137,9 @@ namespace Infocursos.DAL
 
                 SqlParameter prid_centro = new SqlParameter("@rid_centro", System.Data.SqlDbType.Int);
                 if (curso.Centro == null)
-                {
                     prid_centro.Value = DBNull.Value;
-                }
                 else
-                {
-                    prid_centro.Value = curso.Centro;
-                }
+                    prid_centro.Value = curso.Centro.Id_centro;
 
                 cmd.Parameters.Add(pcurso_nombre);
                 cmd.Parameters.Add(pcurso_decripcion);
@@ -170,17 +166,17 @@ namespace Infocursos.DAL
             try
             {
                 string sql = @"update Curso set 
-                                curso_nombre = @curso_nombre
-                                curso_descripcion = @curso_descripcion
-                                num_plaza = @num_plaza
-                                horas_totales = @horas_totales
-                                fecha_inicio = @fecha_inicio
-                                fecha_final = @fecha_final
-                                rid_horario = @rid_horario
-                                rid_formador = @rid_formador
-                                rid_modalidad = @rid_modalidad
-                                rid_centro = @rid_centro
-                                where id_curso = @id_curso";
+                                curso_nombre = @curso_nombre,
+                                curso_descripcion = @curso_descripcion,
+                                num_plaza = @num_plaza,
+                                horas_totales = @horas_totales,
+                                fecha_inicio = @fecha_inicio,
+                                fecha_final = @fecha_final,
+                                RId_Horario = @rid_horario,
+                                RId_Formador = @rid_formador,
+                                RId_Modalidad = @rid_modalidad,
+                                RId_Centro = @rid_centro,
+                                where Id_Curso = " + curso.Id_curso + "";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
 
                 SqlParameter pcurso_nombre = new SqlParameter("@curso_nombre", System.Data.SqlDbType.NVarChar, 50);
@@ -212,16 +208,9 @@ namespace Infocursos.DAL
 
                 SqlParameter prid_centro = new SqlParameter("@rid_centro", System.Data.SqlDbType.Int);
                 if (curso.Centro == null)
-                {
                     prid_centro.Value = DBNull.Value;
-                }
                 else
-                {
-                    prid_centro.Value = curso.Centro;
-                }
-
-                SqlParameter pid_curso = new SqlParameter("@id_curso", System.Data.SqlDbType.Int);
-                pid_curso.Value = curso.Id_curso;
+                    prid_centro.Value = curso.Centro.Id_centro;
 
                 cmd.Parameters.Add(pcurso_nombre);
                 cmd.Parameters.Add(pcurso_decripcion);

@@ -114,58 +114,95 @@ namespace Infocursos.DAL
             return null;
         }
 
-        /*public void Update_Alumno(Alumno alumno)
+        public void Update_Alumno(Alumno alumno)
         {
             try
             {
-                string sql = @"UPDATE jobs
-                            SET job_title = @job_title, min_salary = @min_salary, max_salary = @max_salary
-                            WHERE job_id= " + alumno.job_id + "; ";
+                string sql_Usuario = @"UPDATE Usuario SET 
+                                Email = @Email,
+                                Password = @Password, 
+                                User_Nombre = @User_Nombre, 
+                                User_Apellidos = @User_Apellidos,
+                                User_Descripcion = @User_Descripcion,
+                                User_Resumen = @User_Resumen,
+                                IMG_Perfil = @IMG_Perfil
+                                WHERE Id_User= " + alumno.Id_User + "; ";
+                SqlCommand cdm_Usuario = new SqlCommand(sql_Usuario, cnx.Connection);
 
-                SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
-
-
-                SqlParameter pjob_title = new SqlParameter("@job_title", System.Data.SqlDbType.VarChar, 35);
-                pjob_title.Value = job.job_title;
-
-                SqlParameter pmin_salary = new SqlParameter("@min_salary", System.Data.SqlDbType.Decimal);
-                pmin_salary.Precision = 8;
-                pmin_salary.Scale = 2;
-                if (job.min_salary.HasValue)
-                    pmin_salary.Value = job.min_salary;
-                else
-                    pmin_salary.Value = DBNull.Value;
-
-                SqlParameter pmax_salary = new SqlParameter("@max_salary", System.Data.SqlDbType.Decimal);
-                pmax_salary.Precision = 8;
-                pmax_salary.Scale = 2;
-                if (job.max_salary.HasValue)
-                    pmax_salary.Value = job.max_salary;
-                else
-                    pmax_salary.Value = DBNull.Value;
+                string sql_Alumno = @"UPDATE Alumno SET 
+                                Alumno_FechaNac = @Alumno_FechaNac,
+                                Alumno_Direccion = @Alumno_Direccion, 
+                                RId_Municipio = @RId_Municipio
+                                WHERE RId_User= " + alumno.Id_User + "; ";
+                SqlCommand cdm_Alumno = new SqlCommand(sql_Alumno, cnx.Connection);
 
 
-                cdm.Parameters.Add(pjob_title);
-                cdm.Parameters.Add(pmin_salary);
-                cdm.Parameters.Add(pmax_salary);
+                SqlParameter pEmail = new SqlParameter("@Email", System.Data.SqlDbType.NVarChar, 100);
+                pEmail.Value = alumno.Email;
 
+                SqlParameter pPassword = new SqlParameter("@Password", System.Data.SqlDbType.NVarChar, 50);
+                pPassword.Value = alumno.Password;
 
-                cdm.ExecuteNonQuery();
-                MessageBox.Show("Job actualizado correctamente");
+                SqlParameter pUser_Nombre = new SqlParameter("@User_Nombre", System.Data.SqlDbType.NVarChar, 100);
+                pUser_Nombre.Value = alumno.User_Nombre;
+
+                SqlParameter pUser_Apellidos = new SqlParameter("@User_Apellidos", System.Data.SqlDbType.NVarChar, 50);
+                pUser_Apellidos.Value = alumno.User_Apellidos;
+
+                SqlParameter pUser_Descripcion = new SqlParameter("@User_Descripcion", System.Data.SqlDbType.NVarChar, 4000);
+                pUser_Descripcion.Value = DBNull.Value;
+                if (alumno.User_Descripcion == null)
+                    pUser_Descripcion.Value = alumno.User_Descripcion;
+
+                SqlParameter pUser_Resumen = new SqlParameter("@User_Resumen", System.Data.SqlDbType.NVarChar, 250);
+                pUser_Resumen.Value = DBNull.Value;
+                if (alumno.User_Resumen == null)
+                    pUser_Resumen.Value = alumno.User_Resumen;
+
+                SqlParameter pIMG_Perfil = new SqlParameter("@IMG_Perfil", System.Data.SqlDbType.NVarChar, 300);
+                pIMG_Perfil.Value = DBNull.Value;
+                if (alumno.IMG_Perfil == null)
+                    pIMG_Perfil.Value = alumno.IMG_Perfil;
+
+                SqlParameter pAlumno_FechaNac = new SqlParameter("@Alumno_FechaNac", System.Data.SqlDbType.Date);
+                pAlumno_FechaNac.Value = DBNull.Value;
+                if (alumno.Alumno_FechaNac != null)
+                    pAlumno_FechaNac.Value = alumno.Alumno_FechaNac;
+
+                SqlParameter pAlumno_Direccion = new SqlParameter("@Alumno_Direccion", System.Data.SqlDbType.NVarChar, 150);
+                pAlumno_Direccion.Value = DBNull.Value;
+                if (alumno.Alumno_Direccion == null)
+                    pAlumno_Direccion.Value = alumno.Alumno_Direccion;
+
+                SqlParameter pRId_Municipio = new SqlParameter("@RId_Municipio", System.Data.SqlDbType.Int);
+                pRId_Municipio.Value = DBNull.Value;
+                if (alumno.Municipio == null)
+                    pRId_Municipio.Value = alumno.Municipio.Id_municipio;
+
+                cdm_Usuario.Parameters.Add(pEmail);
+                cdm_Usuario.Parameters.Add(pPassword);
+                cdm_Usuario.Parameters.Add(pUser_Nombre);
+                cdm_Usuario.Parameters.Add(pUser_Apellidos);
+                cdm_Usuario.Parameters.Add(pUser_Descripcion);
+                cdm_Usuario.Parameters.Add(pUser_Resumen);
+                cdm_Usuario.Parameters.Add(pIMG_Perfil);
+                cdm_Usuario.ExecuteNonQuery();
+
+                cdm_Alumno.Parameters.Add(pAlumno_FechaNac);
+                cdm_Alumno.Parameters.Add(pAlumno_Direccion);
+                cdm_Alumno.Parameters.Add(pRId_Municipio);
+                cdm_Alumno.ExecuteNonQuery();
             }
             catch (Exception er)
             {
-                MessageBox.Show("Error actualizando: " + er.Message);
+                throw;
             }
-        }*/
-
-
-
+        }
         public void Insert_Alumno(Alumno alumno)
         {
             try
             {
-                string sql = @"INSERT INTO Usuario VALUES(@Email @Password, @User_Nombre, @User_Apellidos)";
+                string sql = @"INSERT INTO Usuario VALUES(@Email, @Password, @User_Nombre, @User_Apellidos)";
 
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
 
@@ -189,11 +226,10 @@ namespace Infocursos.DAL
                 cdm.Parameters.Add(pUser_Apellidos);
                 cdm.ExecuteNonQuery();
 
-                //MessageBox.Show("Alumno creado correctamente");
             }
             catch (Exception er)
             {
-                //MessageBox.Show("Error creando: " + er.Message);
+                throw;
             }
         }
         public void Delete_Alumno(Alumno alumno)
@@ -201,7 +237,7 @@ namespace Infocursos.DAL
             try
             {
                 string sql = @"DELETE FROM Alumno WHERE RId_User='" + alumno.Id_User + "';" +
-                              "DELETE FROM User WHERE Id_User='" + alumno.Id_User + "';";
+                              "DELETE FROM Usuario WHERE Id_User='" + alumno.Id_User + "';";
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
                 cdm.ExecuteNonQuery();
             }
