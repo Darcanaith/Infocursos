@@ -1,0 +1,2 @@
+C:\Users\Marcos\Desktop\InfoCursos\ProyectoInfoCursos\Infocursos\Infocursos\obj\Debug\Infocursos.csprojAssemblyReference.cache
+C:\Users\Marcos\Desktop\InfoCursos\ProyectoInfoCursos\Infocursos\Infocursos\obj\Debug\Infocursos.csproj.CoreCompileInputs.cache
