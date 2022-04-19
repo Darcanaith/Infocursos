@@ -33,7 +33,10 @@ namespace Infocursos.Models
             Cont,
             [Display(Name = "Acaba por")]
             [Description("%")]
-            Fin
+            Fin,
+            [Display(Name = "Igual a")]
+            [Description("")]
+            Igual
         }
 
 

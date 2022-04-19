@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Infocursos.Models.Enums;
 
 namespace Infocursos.DAL
 {
@@ -118,16 +119,8 @@ namespace Infocursos.DAL
         {
             try
             {
-                string sql_Usuario = @"UPDATE Usuario SET 
-                                Email = @Email,
-                                Password = @Password, 
-                                User_Nombre = @User_Nombre, 
-                                User_Apellidos = @User_Apellidos,
-                                User_Descripcion = @User_Descripcion,
-                                User_Resumen = @User_Resumen,
-                                IMG_Perfil = @IMG_Perfil
-                                WHERE Id_User= " + alumno.Id_User + "; ";
-                SqlCommand cdm_Usuario = new SqlCommand(sql_Usuario, cnx.Connection);
+                DAL_Usuario dal_Usuario = new DAL_Usuario();
+                dal_Usuario.Update_Usuario(alumno);
 
                 string sql_Alumno = @"UPDATE Alumno SET 
                                 Alumno_FechaNac = @Alumno_FechaNac,
@@ -135,34 +128,6 @@ namespace Infocursos.DAL
                                 RId_Municipio = @RId_Municipio
                                 WHERE RId_User= " + alumno.Id_User + "; ";
                 SqlCommand cdm_Alumno = new SqlCommand(sql_Alumno, cnx.Connection);
-
-
-                SqlParameter pEmail = new SqlParameter("@Email", System.Data.SqlDbType.NVarChar, 100);
-                pEmail.Value = alumno.Email;
-
-                SqlParameter pPassword = new SqlParameter("@Password", System.Data.SqlDbType.NVarChar, 50);
-                pPassword.Value = alumno.Password;
-
-                SqlParameter pUser_Nombre = new SqlParameter("@User_Nombre", System.Data.SqlDbType.NVarChar, 100);
-                pUser_Nombre.Value = alumno.User_Nombre;
-
-                SqlParameter pUser_Apellidos = new SqlParameter("@User_Apellidos", System.Data.SqlDbType.NVarChar, 50);
-                pUser_Apellidos.Value = alumno.User_Apellidos;
-
-                SqlParameter pUser_Descripcion = new SqlParameter("@User_Descripcion", System.Data.SqlDbType.NVarChar, 4000);
-                pUser_Descripcion.Value = DBNull.Value;
-                if (alumno.User_Descripcion == null)
-                    pUser_Descripcion.Value = alumno.User_Descripcion;
-
-                SqlParameter pUser_Resumen = new SqlParameter("@User_Resumen", System.Data.SqlDbType.NVarChar, 250);
-                pUser_Resumen.Value = DBNull.Value;
-                if (alumno.User_Resumen == null)
-                    pUser_Resumen.Value = alumno.User_Resumen;
-
-                SqlParameter pIMG_Perfil = new SqlParameter("@IMG_Perfil", System.Data.SqlDbType.NVarChar, 300);
-                pIMG_Perfil.Value = DBNull.Value;
-                if (alumno.IMG_Perfil == null)
-                    pIMG_Perfil.Value = alumno.IMG_Perfil;
 
                 SqlParameter pAlumno_FechaNac = new SqlParameter("@Alumno_FechaNac", System.Data.SqlDbType.Date);
                 pAlumno_FechaNac.Value = DBNull.Value;
@@ -179,15 +144,6 @@ namespace Infocursos.DAL
                 if (alumno.Municipio == null)
                     pRId_Municipio.Value = alumno.Municipio.Id_municipio;
 
-                cdm_Usuario.Parameters.Add(pEmail);
-                cdm_Usuario.Parameters.Add(pPassword);
-                cdm_Usuario.Parameters.Add(pUser_Nombre);
-                cdm_Usuario.Parameters.Add(pUser_Apellidos);
-                cdm_Usuario.Parameters.Add(pUser_Descripcion);
-                cdm_Usuario.Parameters.Add(pUser_Resumen);
-                cdm_Usuario.Parameters.Add(pIMG_Perfil);
-                cdm_Usuario.ExecuteNonQuery();
-
                 cdm_Alumno.Parameters.Add(pAlumno_FechaNac);
                 cdm_Alumno.Parameters.Add(pAlumno_Direccion);
                 cdm_Alumno.Parameters.Add(pRId_Municipio);
@@ -202,28 +158,22 @@ namespace Infocursos.DAL
         {
             try
             {
-                string sql = @"INSERT INTO Usuario VALUES(@Email, @Password, @User_Nombre, @User_Apellidos)";
+                DAL_Usuario dal_Usuario = new DAL_Usuario();
+                dal_Usuario.Insert_Usuario(alumno);
+
+                string sql = @"INSERT INTO Alumno VALUES(@RId_User)";
 
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
 
 
-                SqlParameter pEmail = new SqlParameter("@Email", System.Data.SqlDbType.NVarChar, 100);
-                pEmail.Value = alumno.Email;
+                SqlParameter pRId_User = new SqlParameter("@RId_User", System.Data.SqlDbType.Int);
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(new Filtro("Email", alumno.Email, ECondicionText.Igual));
+                List<Formador> users = dal_Usuario.Select_Usuario(filtros, null);
 
-                SqlParameter pPassword = new SqlParameter("@Password", System.Data.SqlDbType.NVarChar, 50);
-                pPassword.Value = alumno.Password;
+                pRId_User.Value = users.First().Id_User;
 
-                SqlParameter pUser_Nombre = new SqlParameter("@User_Nombre", System.Data.SqlDbType.NVarChar, 100);
-                pUser_Nombre.Value = alumno.User_Nombre;
-
-                SqlParameter pUser_Apellidos = new SqlParameter("@User_Apellidos", System.Data.SqlDbType.NVarChar, 50);
-                pUser_Apellidos.Value = alumno.User_Apellidos;
-
-
-                cdm.Parameters.Add(pEmail);
-                cdm.Parameters.Add(pPassword);
-                cdm.Parameters.Add(pUser_Nombre);
-                cdm.Parameters.Add(pUser_Apellidos);
+                cdm.Parameters.Add(pRId_User);
                 cdm.ExecuteNonQuery();
 
             }
@@ -236,10 +186,12 @@ namespace Infocursos.DAL
         {
             try
             {
-                string sql = @"DELETE FROM Alumno WHERE RId_User='" + alumno.Id_User + "';" +
-                              "DELETE FROM Usuario WHERE Id_User='" + alumno.Id_User + "';";
+                string sql = @"DELETE FROM Alumno WHERE RId_User='" + alumno.Id_User + "';";
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
                 cdm.ExecuteNonQuery();
+
+                DAL_Usuario dal_Usuario = new DAL_Usuario();
+                dal_Usuario.Delete_Usuario(alumno);
             }
             catch (Exception er)
             {

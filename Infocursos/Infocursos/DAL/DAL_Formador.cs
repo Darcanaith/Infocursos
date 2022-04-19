@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Infocursos.Models.Enums;
 
 namespace Infocursos.DAL
 {
@@ -64,7 +65,7 @@ namespace Infocursos.DAL
                         if (telefono.Key == reader.GetInt32(0))
                             telefonos_Formador.Add(telefono.Value);
 
-                    Formador newFormador = new Formador(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), user_Descripcion, user_Resumen, iMG_Perfil, telefonos_Formador, nombre_Entidad);
+                    Formador newFormador = new Formador(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), user_Descripcion, user_Resumen, iMG_Perfil, telefonos_Formador, nombre_Entidad,reader.GetString(10),reader.GetBoolean(11));
                 }
                 reader.Close();
 
@@ -73,68 +74,22 @@ namespace Infocursos.DAL
             {
 
             }
-            return null;
+            return Formadores;
         }
         public void Update_Formador(Formador formador)
         {
             try
             {
-                string sql_Usuario = @"UPDATE Usuario SET 
-                                Email = @Email,
-                                Password = @Password, 
-                                User_Nombre = @User_Nombre, 
-                                User_Apellidos = @User_Apellidos,
-                                User_Descripcion = @User_Descripcion,
-                                User_Resumen = @User_Resumen,
-                                IMG_Perfil = @IMG_Perfil
-                                WHERE Id_User= " + formador.Id_User + "; ";
-                SqlCommand cdm_Usuario = new SqlCommand(sql_Usuario, cnx.Connection);
+                DAL_Usuario dal_Usuario = new DAL_Usuario();
+                dal_Usuario.Update_Usuario(formador);
 
                 string sql_Formador = @"UPDATE Formador SET 
                                 Nombre_Entidad = @Nombre_Entidad,
                                 WHERE RId_User= " + formador.Id_User + "; ";
                 SqlCommand cdm_Formador = new SqlCommand(sql_Formador, cnx.Connection);
 
-
-                SqlParameter pEmail = new SqlParameter("@Email", System.Data.SqlDbType.NVarChar, 100);
-                pEmail.Value = formador.Email;
-
-                SqlParameter pPassword = new SqlParameter("@Password", System.Data.SqlDbType.NVarChar, 50);
-                pPassword.Value = formador.Password;
-
-                SqlParameter pUser_Nombre = new SqlParameter("@User_Nombre", System.Data.SqlDbType.NVarChar, 100);
-                pUser_Nombre.Value = formador.User_Nombre;
-
-                SqlParameter pUser_Apellidos = new SqlParameter("@User_Apellidos", System.Data.SqlDbType.NVarChar, 50);
-                pUser_Apellidos.Value = formador.User_Apellidos;
-
-                SqlParameter pUser_Descripcion = new SqlParameter("@User_Descripcion", System.Data.SqlDbType.NVarChar, 4000);
-                pUser_Descripcion.Value = DBNull.Value;
-                if (formador.User_Descripcion == null)
-                    pUser_Descripcion.Value = formador.User_Descripcion;
-
-                SqlParameter pUser_Resumen = new SqlParameter("@User_Resumen", System.Data.SqlDbType.NVarChar, 250);
-                pUser_Resumen.Value = DBNull.Value;
-                if (formador.User_Resumen == null)
-                    pUser_Resumen.Value = formador.User_Resumen;
-
-                SqlParameter pIMG_Perfil = new SqlParameter("@IMG_Perfil", System.Data.SqlDbType.NVarChar, 300);
-                pIMG_Perfil.Value = DBNull.Value;
-                if (formador.IMG_Perfil == null)
-                    pIMG_Perfil.Value = formador.IMG_Perfil;
-
                 SqlParameter pNombre_Entidad = new SqlParameter("@Nombre_Entidad", System.Data.SqlDbType.NVarChar, 100);
                 pNombre_Entidad.Value = formador.Nombre_Entidad;
-
-
-                cdm_Usuario.Parameters.Add(pEmail);
-                cdm_Usuario.Parameters.Add(pPassword);
-                cdm_Usuario.Parameters.Add(pUser_Nombre);
-                cdm_Usuario.Parameters.Add(pUser_Apellidos);
-                cdm_Usuario.Parameters.Add(pUser_Descripcion);
-                cdm_Usuario.Parameters.Add(pUser_Resumen);
-                cdm_Usuario.Parameters.Add(pIMG_Perfil);
-                cdm_Usuario.ExecuteNonQuery();
 
                 cdm_Formador.Parameters.Add(pNombre_Entidad);
                 cdm_Formador.ExecuteNonQuery();
@@ -148,57 +103,35 @@ namespace Infocursos.DAL
         {
             try
             {
-                string sql_Usuario = @"INSERT INTO Usuario VALUES(@Email, @Password, @User_Nombre, @User_Apellidos)";
-                SqlCommand cdm_Usuario = new SqlCommand(sql_Usuario, cnx.Connection);
+                DAL_Usuario dal_Usuario = new DAL_Usuario();
+                dal_Usuario.Insert_Usuario(formador);
 
-                string sql_Formador = @"INSERT INTO Formador VALUES(@RId_User, @Nombre_Entidad, @Cod_Validacion, @IsAutorizado)";
-                SqlCommand cdm_Formador = new SqlCommand(sql_Usuario, cnx.Connection);
+                string sql = @"INSERT INTO Formador VALUES(@RId_User, @Nombre_Entidad, @Cod_Validacion, @IsAutorizado)";
+
+                SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
 
 
-                SqlParameter pEmail = new SqlParameter("@Email", System.Data.SqlDbType.NVarChar, 100);
-                pEmail.Value = formador.Email;
+                SqlParameter pRId_User = new SqlParameter("@RId_User", System.Data.SqlDbType.Int);
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(new Filtro("Email", formador.Email, ECondicionText.Igual));
+                List<Formador> users = dal_Usuario.Select_Usuario(filtros, null);
 
-                SqlParameter pPassword = new SqlParameter("@Password", System.Data.SqlDbType.NVarChar, 50);
-                pPassword.Value = formador.Password;
-
-                SqlParameter pUser_Nombre = new SqlParameter("@User_Nombre", System.Data.SqlDbType.NVarChar, 50);
-                pUser_Nombre.Value = formador.User_Nombre;
-
-                SqlParameter pUser_Apellidos = new SqlParameter("@User_Apellidos", System.Data.SqlDbType.NVarChar, 100);
-                pUser_Apellidos.Value = formador.User_Apellidos;
-
-                
+                pRId_User.Value = users.First().Id_User;
 
                 SqlParameter pNombre_Entidad = new SqlParameter("@Nombre_Entidad", System.Data.SqlDbType.NVarChar, 100);
                 pNombre_Entidad.Value = formador.Nombre_Entidad;
 
-                SqlParameter pCod_Validacion = new SqlParameter("@Cod_Validacion", System.Data.SqlDbType.NVarChar, 10);
+                SqlParameter pCod_Validacion = new SqlParameter("@Cos_Validacion", System.Data.SqlDbType.NVarChar, 10);
                 pCod_Validacion.Value = formador.Cod_Validacion;
 
                 SqlParameter pIsAutorizado = new SqlParameter("@IsAutorizado", System.Data.SqlDbType.Bit);
-                pIsAutorizado.Value = formador.User_Apellidos;
+                pIsAutorizado.Value = formador.IsAutorizado;
 
-
-                cdm_Usuario.Parameters.Add(pEmail);
-                cdm_Usuario.Parameters.Add(pPassword);
-                cdm_Usuario.Parameters.Add(pUser_Nombre);
-                cdm_Usuario.Parameters.Add(pUser_Apellidos);
-                cdm_Usuario.ExecuteNonQuery();
-
-
-                SqlParameter pRId_User = new SqlParameter("@RId_User", System.Data.SqlDbType.Int);
-
-                DAL_Formador dal_Formador = new DAL_Formador();
-                List<Formador> formadors = dal_Formador.Select_Formador(null,null);
-                foreach(Formador newFormador in formadors)
-                    if(newFormador.Email.Equals(formador.Email))
-                        pRId_User.Value = formador.Id_User;
-
-                cdm_Formador.Parameters.Add(pRId_User);
-                cdm_Formador.Parameters.Add(pNombre_Entidad);
-                cdm_Formador.Parameters.Add(pCod_Validacion);
-                cdm_Formador.Parameters.Add(pIsAutorizado);
-                cdm_Formador.ExecuteNonQuery();
+                cdm.Parameters.Add(pRId_User);
+                cdm.Parameters.Add(pNombre_Entidad);
+                cdm.Parameters.Add(pCod_Validacion);
+                cdm.Parameters.Add(pIsAutorizado);
+                cdm.ExecuteNonQuery();
 
             }
             catch (Exception er)
@@ -210,14 +143,16 @@ namespace Infocursos.DAL
         {
             try
             {
-                string sql = @"DELETE FROM Formador WHERE RId_User='" + formador.Id_User + "';" +
-                              "DELETE FROM Usuario WHERE Id_User='" + formador.Id_User + "';";
+                string sql = @"DELETE FROM Formador WHERE RId_User='" + formador.Id_User + "';";
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
                 cdm.ExecuteNonQuery();
+
+                DAL_Usuario dal_Usuario = new DAL_Usuario();
+                dal_Usuario.Delete_Usuario(formador);
             }
             catch (Exception er)
             {
-                //MessageBox.Show("Error eliminando: " + er.Message);
+                throw;
             }
         }
 

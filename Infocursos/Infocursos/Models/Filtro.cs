@@ -49,6 +49,8 @@ namespace Infocursos.Models
                     condicion = "LIKE '"+simbolo + condicionante + simbolo + "'";
                 else if (condicionText == ECondicionText.Fin)
                     condicion = "LIKE  '" + simbolo + condicionante + "'";
+                else if (condicionText == ECondicionText.Igual)
+                    condicion = "LIKE  '" + condicionante + "'";
             }
 
             else if ((condicionNum != null)) 

@@ -142,6 +142,7 @@
     <Compile Include="DAL\DAL_Nivel_Idioma.cs" />
     <Compile Include="DAL\DAL_Provincia.cs" />
     <Compile Include="DAL\DAL_Telefono.cs" />
+    <Compile Include="DAL\DAL_Usuario.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
