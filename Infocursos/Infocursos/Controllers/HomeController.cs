@@ -32,6 +32,11 @@ namespace Infocursos.Controllers
 
             return View();
         }
+        public ActionResult IniciarSesion()
+        {
+            ViewBag.Message = "Your register page.";
+            return View();
+        }
         public ActionResult RegistroAlumno()
         {
             ViewBag.Message = "Your register alumno page.";
