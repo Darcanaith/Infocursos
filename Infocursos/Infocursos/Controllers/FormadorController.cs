@@ -9,7 +9,7 @@ namespace Infocursos.Controllers
     public class FormadorController : Controller
     {
         // GET: Formador
-        public ActionResult FormadorPerfil()
+        public ActionResult Formador()
         {
             return View();
         }

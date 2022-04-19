@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CNX.cs" />
+    <Compile Include="Controllers\FormadorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\DAL_Alumno.cs" />
     <Compile Include="DAL\DAL_Alumno_Categorias.cs" />
@@ -214,6 +215,8 @@
     <Content Include="Views\Home\IniciarSesion.cshtml" />
     <Content Include="Views\Home\RegistroAlumno.cshtml" />
     <Content Include="Views\Home\RegistroFormador.cshtml" />
+    <Content Include="Views\Home\FormadorPerfilCurso.cshtml" />
+    <Content Include="Views\Formador\Formador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

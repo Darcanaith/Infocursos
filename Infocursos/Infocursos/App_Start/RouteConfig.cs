@@ -16,7 +16,7 @@ namespace Infocursos
             routes.MapRoute(
                 name: "Formador",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Formador", action = "FormadorPerfil", id = UrlParameter.Optional }
+                defaults: new { controller = "Formador", action = "Formador", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
