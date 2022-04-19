@@ -110,7 +110,7 @@ namespace Infocursos.DAL
             }
             catch (Exception er)
             {
-
+                throw;
             }
             return null;
         }
