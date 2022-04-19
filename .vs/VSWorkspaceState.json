@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\Infocursos",
-    "\\Infocursos\\Infocursos",
-    "\\Infocursos\\Infocursos\\Views",
-    "\\Infocursos\\Infocursos\\Views\\Home"
+    ""
   ],
-  "SelectedNode": "\\Infocursos\\Infocursos\\Views\\Home\\Registro.cshtml",
+  "SelectedNode": "\\Infocursos.sln",
   "PreviewInSolutionExplorer": false
 }
