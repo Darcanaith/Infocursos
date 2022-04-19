@@ -36,12 +36,12 @@ namespace Infocursos.Models
         }
 
         public Formador(int id_User, string email, string password, string user_Nombre, string user_Apellidos, string user_Descripcion, 
-            string user_Resumen, string iMG_Perfil, List<string> telefonos, string nombre_Entidad,string cod_Validacion, bool isAutorizado) 
+            string user_Resumen, string iMG_Perfil, List<string> telefonos, string nombre_Entidad) 
             : base(id_User, email, password, user_Nombre, user_Apellidos, user_Descripcion, user_Resumen, iMG_Perfil, telefonos)
         {
             Nombre_Entidad = nombre_Entidad;
-            IsAutorizado = isAutorizado;
-            Cod_Validacion = cod_Validacion;
+            IsAutorizado = false;
+            Cod_Validacion = GenerarCodValidacion();
         }
 
         public string GenerarCodValidacion()

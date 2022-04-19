@@ -163,10 +163,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\assets\favicon.ico" />
+    <Content Include="Content\assets\img\avataaars.svg" />
+    <Content Include="Content\assets\img\portfolio\cabin.png" />
+    <Content Include="Content\assets\img\portfolio\cake.png" />
+    <Content Include="Content\assets\img\portfolio\circus.png" />
+    <Content Include="Content\assets\img\portfolio\game.png" />
+    <Content Include="Content\assets\img\portfolio\safe.png" />
+    <Content Include="Content\assets\img\portfolio\submarine.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\styles.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -184,6 +193,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\scripts.js" />
+    <Content Include="Views\Home\index.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -198,6 +209,11 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\VistaPrueba.cshtml" />
+    <Content Include="Views\Home\Registro.cshtml" />
+    <Content Include="Views\Home\IniciarSesion.cshtml" />
+    <Content Include="Views\Home\RegistroAlumno.cshtml" />
+    <Content Include="Views\Home\RegistroFormador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
