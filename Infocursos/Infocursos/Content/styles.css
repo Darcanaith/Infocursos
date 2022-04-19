@@ -7993,6 +7993,7 @@ textarea.form-control-lg {
 
 .mb-4 {
     margin-bottom: 1.5rem !important;
+    margin-top:40px;
 }
 
 .mb-5 {
@@ -11995,6 +11996,7 @@ html {
 }
 
     #mainNav .navbar-brand {
+        margin-left:-800px;
         color: #fff;
     }
 
@@ -12166,4 +12168,10 @@ html {
 
 .copyright {
     background-color: #1a252f;
+}
+
+#header{
+    text-align:left;
+    margin-left:-1000px;
+    margin-right:1500px;
 }
