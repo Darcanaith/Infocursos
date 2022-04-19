@@ -45,10 +45,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Enums.NET, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7ea1c1650d506225, processorArchitecture=MSIL">
+      <HintPath>..\packages\Enums.NET.4.0.0\lib\net45\Enums.NET.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -122,9 +128,38 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CNX.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DAL\DAL_Alumno.cs" />
+    <Compile Include="DAL\DAL_Alumno_Categorias.cs" />
+    <Compile Include="DAL\DAL_Alumno_Idioma.cs" />
+    <Compile Include="DAL\DAL_Categoria.cs" />
+    <Compile Include="DAL\DAL_Centro.cs" />
+    <Compile Include="DAL\DAL_Curso.cs" />
+    <Compile Include="DAL\DAL_Formador.cs" />
+    <Compile Include="DAL\DAL_Horario.cs" />
+    <Compile Include="DAL\DAL_Idioma.cs" />
+    <Compile Include="DAL\DAL_Modalidad.cs" />
+    <Compile Include="DAL\DAL_Municipio.cs" />
+    <Compile Include="DAL\DAL_Nivel_Idioma.cs" />
+    <Compile Include="DAL\DAL_Provincia.cs" />
+    <Compile Include="DAL\DAL_Telefono.cs" />
+    <Compile Include="DAL\DAL_Usuario.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Alumno.cs" />
+    <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\Centro.cs" />
+    <Compile Include="Models\Curso.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Filtro.cs" />
+    <Compile Include="Models\Formador.cs" />
+    <Compile Include="Models\Horario.cs" />
+    <Compile Include="Models\Idioma.cs" />
+    <Compile Include="Models\Modalidad.cs" />
+    <Compile Include="Models\Municipio.cs" />
+    <Compile Include="Models\Nivel_Idioma.cs" />
+    <Compile Include="Models\Provincia.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -166,8 +201,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="DAL\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

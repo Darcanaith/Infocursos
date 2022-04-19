@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Infocursos",
+    "\\Infocursos\\Infocursos",
+    "\\Infocursos\\Infocursos\\DAL"
   ],
+  "SelectedNode": "\\Infocursos\\Infocursos\\DAL\\DAL_Curso.cs",
   "PreviewInSolutionExplorer": false
 }
