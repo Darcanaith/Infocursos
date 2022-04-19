@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infocursos.Models
 {
-    public class Alumno : Formador
+    public class Alumno : User
     {
         private DateTime? alumno_FechaNac;
         private string alumno_Direccion;

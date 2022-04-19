@@ -1,2 +1,4 @@
 C:\Users\Marcos\Desktop\InfoCursos\ProyectoInfoCursos\Infocursos\Infocursos\obj\Debug\Infocursos.csprojAssemblyReference.cache
 C:\Users\Marcos\Desktop\InfoCursos\ProyectoInfoCursos\Infocursos\Infocursos\obj\Debug\Infocursos.csproj.CoreCompileInputs.cache
+C:\Users\Marcos\Desktop\InfoCursos\ProyectoInfoCursos\Infocursos\Infocursos\obj\Debug\Infocursos.dll
+C:\Users\Marcos\Desktop\InfoCursos\ProyectoInfoCursos\Infocursos\Infocursos\obj\Debug\Infocursos.pdb
