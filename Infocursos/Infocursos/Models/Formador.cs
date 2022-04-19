@@ -11,6 +11,7 @@ namespace Infocursos.Models
         private string nombre_Entidad;
         private string cod_Validacion;
         private List<Curso> cursos;
+
         private List<Centro> centros;
         private List<Horario> horarios;
         private List<Modalidad> modalidades;
