@@ -222,7 +222,6 @@ namespace Infocursos.DAL
                 cmd.Parameters.Add(prid_formador);
                 cmd.Parameters.Add(prid_modalidad);
                 cmd.Parameters.Add(prid_centro);
-                cmd.Parameters.Add(pid_curso);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception)
