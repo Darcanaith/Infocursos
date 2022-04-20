@@ -13,25 +13,6 @@ namespace Infocursos.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-        public ActionResult Registro()
-        {
-            ViewBag.Message = "Your register page.";
-
-            return View();
-        }
         public ActionResult IniciarSesion()
         {
             ViewBag.Message = "Your register page.";
@@ -43,8 +24,18 @@ namespace Infocursos.Controllers
 
             return View();
         }
+
+        public ActionResult BuscadorAlumno()
+        {
+            ViewBag.Message = "Your Search alumno page.";
+
+            return View();
+        }
+        
         public ActionResult RegistroFormador()
         {
+
+
             ViewBag.Message = "Your register trainer page.";
 
             return View();
