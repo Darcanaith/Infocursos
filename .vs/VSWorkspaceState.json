@@ -3,8 +3,9 @@
     "",
     "\\Infocursos",
     "\\Infocursos\\Infocursos",
-    "\\Infocursos\\Infocursos\\DAL"
+    "\\Infocursos\\Infocursos\\Views",
+    "\\Infocursos\\Infocursos\\Views\\Alumno"
   ],
-  "SelectedNode": "\\Infocursos\\Infocursos\\DAL\\DAL_Curso.cs",
+  "SelectedNode": "\\Infocursos\\Infocursos\\Views\\Alumno\\AlumnoMisCursos.cshtml",
   "PreviewInSolutionExplorer": false
 }

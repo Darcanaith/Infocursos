@@ -12157,6 +12157,32 @@ html {
     }
 }
 
+.fotos{
+    border: 1px solid grey;
+    position:relative;
+    left: -240px;
+    width: 200px;
+    height: 230px;
+}
+
+.texto-curso{
+   border: solid 1px grey;
+   top: 1em;
+   padding: 15px;
+   margin-right: 400px;
+   margin-left: 1px;
+   margin-top: -210px;
+   width: 1850px;
+   height: 230px;   
+   text-align: left;
+   font-size: 18px;
+}
+
+#botones{
+    color: black;
+    text-align:left;
+}
+
 .footer {
     padding-top: 5rem;
     padding-bottom: 5rem;
