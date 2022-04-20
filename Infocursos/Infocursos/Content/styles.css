@@ -12179,8 +12179,8 @@ html {
 }
 
 #botones{
-    color: black;
-    text-align:left;
+    margin-left: -240px;
+    width: 700px;
 }
 
 .footer {
