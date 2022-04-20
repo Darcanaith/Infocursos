@@ -219,6 +219,7 @@
     <Content Include="Views\Formador\ListaAlumnos.cshtml" />
     <Content Include="Views\Alumno\AlumnoPerfil.cshtml" />
     <Content Include="Views\Alumno\AlumnoMisCursos.cshtml" />
+    <Content Include="Views\Formador\FormadorEditarPerfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

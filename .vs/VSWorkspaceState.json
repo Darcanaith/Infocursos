@@ -2,10 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\Infocursos",
-    "\\Infocursos\\Infocursos",
+    "\\Infocursos\\Infocursos\\Content",
+    "\\Infocursos\\Infocursos\\Content\\assets",
+    "\\Infocursos\\Infocursos\\Content\\assets\\img",
+    "\\Infocursos\\Infocursos\\Content\\assets\\img\\portfolio",
     "\\Infocursos\\Infocursos\\Views",
     "\\Infocursos\\Infocursos\\Views\\Alumno"
   ],
-  "SelectedNode": "\\Infocursos\\Infocursos\\Views\\Alumno\\AlumnoMisCursos.cshtml",
+  "SelectedNode": "\\Infocursos\\Infocursos.sln",
   "PreviewInSolutionExplorer": false
 }

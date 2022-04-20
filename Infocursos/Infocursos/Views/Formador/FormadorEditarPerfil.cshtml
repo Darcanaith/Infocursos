@@ -1,0 +1,70 @@
+﻿@model Infocursos.Models.Formador
+
+@{
+    ViewBag.Title = "FormadorEditarPerfil";
+    ViewBag.labelNombre = "Nombre";
+}
+<!-- Masthead-->
+<header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Heading-->
+        <h1 class="masthead-heading text-uppercase mb-0">Editar perfil de formador</h1>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+
+    </div>
+</header>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group editar_perfil_formador">
+        <label for="Nombre">Nombre</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.File, new { type = "file", @multiple = "multiple" })
+        </div>
+    </div>
+    <div class="form-group editar_perfil_formador">
+        <label for="Nombre">Nombre</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.User_Nombre, new { htmlAttributes = new { @class = "form-control", @id = "Nombre", @placeholder = "Inserte nombre" } })
+            @Html.ValidationMessageFor(model => model.User_Nombre, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <label for="Apellidos">Apellidos</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.User_Apellidos, new { htmlAttributes = new { @class = "form-control", @id = "Apellidos", @placeholder = "Inserte algun apellido" } })
+            @Html.ValidationMessageFor(model => model.User_Apellidos, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <label for="Entidad">Entidad</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Nombre_Entidad, new { htmlAttributes = new { @class = "form-control", @id = "Entidad", @placeholder = "Escriba alguna entidad" } })
+            @Html.ValidationMessageFor(model => model.Nombre_Entidad, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <label for="Resumen">Resumen</label>
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.User_Resumen, new { @class = "form-control", @rows = 3, @id = "Resumen", @placeholder = "Escriba un resumen" })
+            @Html.ValidationMessageFor(model => model.User_Resumen, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary btn-md">Editar</button>
+        </div>
+    </div>
+}
