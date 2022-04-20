@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infocursos.Models
 {
-    public class User
+    public class Usuario
     {
         private int id_User;
         private string email;
@@ -29,7 +29,7 @@ namespace Infocursos.Models
         public string IMG_Perfil { get => iMG_Perfil; set => iMG_Perfil = value; }
         public List<string> Telefonos { get => telefonos; set => telefonos = value; }
 
-        public User(string email, string password, string user_Nombre, string user_Apellidos)
+        public Usuario(string email, string password, string user_Nombre, string user_Apellidos)
         {
             Email = email;
             Password = password;
@@ -37,7 +37,7 @@ namespace Infocursos.Models
             User_Apellidos = user_Apellidos;  
         }
 
-        public User(int id_User, string email, string password, string user_Nombre, string user_Apellidos, string user_Descripcion, string user_Resumen, string iMG_Perfil, List<string> telefonos)
+        public Usuario(int id_User, string email, string password, string user_Nombre, string user_Apellidos, string user_Descripcion, string user_Resumen, string iMG_Perfil, List<string> telefonos)
         {
             Id_User = id_User;
             Email = email;

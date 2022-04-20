@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace Infocursos.DAL
                 for (int i = 0; i < filtros.Count; i++)
                 {
                     if (i == 0)
-                        sentenciaFiltros = "WHERE ";
+                        sentenciaFiltros = " WHERE ";
                     else
                         sentenciaFiltros += " AND ";
 
@@ -37,7 +38,7 @@ namespace Infocursos.DAL
 
             try
             {
-                string sql = @"SELECT * FROM Usuario INNER JOIN Alumno ON Id_User=RId_User " + sentenciaFiltros + " " + orderBy;
+                string sql = @"SELECT * FROM Usuario INNER JOIN Alumno ON Id_User=RId_User" + sentenciaFiltros + " " + orderBy;
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
                 SqlDataReader reader = cdm.ExecuteReader();
 
@@ -103,7 +104,7 @@ namespace Infocursos.DAL
                         if (telefono.Key == reader.GetInt32(0))
                             telefonos_Alumno.Add(telefono.Value);
 
-                        Alumno newAlumno = new Alumno(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4),user_Descripcion,user_Resumen,iMG_Perfil, telefonos_Alumno, alumno_FechaNac,alumno_Direccion,municipio,categorias_Alumno, idiomas_Nivel);
+                    alumnos.Add(new Alumno(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4),user_Descripcion,user_Resumen,iMG_Perfil, telefonos_Alumno, alumno_FechaNac,alumno_Direccion,municipio,categorias_Alumno, idiomas_Nivel));
                 }
                 reader.Close();
 
@@ -112,7 +113,7 @@ namespace Infocursos.DAL
             {
                 throw;
             }
-            return null;
+            return alumnos;
         }
 
         public void Update_Alumno(Alumno alumno)
@@ -161,16 +162,17 @@ namespace Infocursos.DAL
                 DAL_Usuario dal_Usuario = new DAL_Usuario();
                 dal_Usuario.Insert_Usuario(alumno);
 
-                string sql = @"INSERT INTO Alumno VALUES(@RId_User)";
+                string sql = @"INSERT INTO Alumno(RId_User) 
+                                VALUES(@RId_User)";
 
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
 
 
                 SqlParameter pRId_User = new SqlParameter("@RId_User", System.Data.SqlDbType.Int);
+
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(new Filtro("Email", alumno.Email, ECondicionText.Igual));
-                List<Formador> users = dal_Usuario.Select_Usuario(filtros, null);
-
+                List<Usuario> users = dal_Usuario.Select_Usuario(filtros, null);
                 pRId_User.Value = users.First().Id_User;
 
                 cdm.Parameters.Add(pRId_User);
