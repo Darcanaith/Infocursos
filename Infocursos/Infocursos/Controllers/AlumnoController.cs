@@ -50,9 +50,7 @@ namespace Infocursos.Controllers
             else
             {
                 filtros.Add(new Filtro("Email", email, ECondicionText.Igual));
-                List<Usuario> usuarios = new List<Usuario>();
-                usuarios = dal_Usuario.Select_Usuario(filtros, null);
-                if (usuarios.Count > 0)
+                if ((dal_Usuario.Select_Usuario(filtros, null)).Count > 0)
                     ViewBag.ErrorEmail = "Ya existe un usuario con este Email";
                 else
                     ViewData["EmailText"] = email;

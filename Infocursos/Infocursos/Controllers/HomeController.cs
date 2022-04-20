@@ -46,14 +46,12 @@ namespace Infocursos.Controllers
             {
                 filtros = new List<Filtro>();
                 filtros.Add(new Filtro("Email", email, ECondicionText.Igual));
-                List<Usuario> usuarios = new List<Usuario>();
-                usuarios = dal_Usuario.Select_Usuario(filtros, null);
-                if (usuarios.Count == 0)
+                if ((dal_Usuario.Select_Usuario(filtros, null)).Count == 0)
                     ViewBag.ErrorEmail = "Usuario Incorrecto";
                 else
                 {
                     ViewData["LoginEmailText"] = email;
-                    if(!usuarios.First().Password.Equals(password))
+                    if(!(dal_Usuario.Select_Usuario(filtros, null)).First().Password.Equals(password))
                         ViewBag.ErrorPassword = "Contraseña Incorrecta";
                 }
             }
