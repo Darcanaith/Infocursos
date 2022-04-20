@@ -13,11 +13,12 @@ namespace Infocursos
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}",
-                defaults: new { controller = "Home", action = "Index" }
-            );
+    name: "Default",
+    url: "{controller}/{action}",
+    defaults: new { controller = "Home", action = "Index" }
+);
 
             routes.MapRoute(
                 name: "Formador",
@@ -32,6 +33,9 @@ namespace Infocursos
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Alumno", action = "Alumno", id = UrlParameter.Optional }
             );
+
+
+
 
         }
     }
