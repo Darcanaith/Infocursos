@@ -100,7 +100,17 @@ namespace Infocursos.Controllers
         // GET: Formador
         public ActionResult FormadorPerfil()
         {
-            return View();
+            if (Session["User"] == null || (Session["User"].ToString().Split('/')[0]).Equals("Alumno"))
+                return View("../Home/Index");
+            List<Filtro> filtros;
+
+            DAL_Formador dal_Formador = new DAL_Formador();
+            filtros = new List<Filtro>();
+            filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
+            Formador formador = dal_Formador.Select_Formador(filtros, null).First();
+            @ViewData["Nombre_Entidad"] = formador.Nombre_Entidad;
+            @ViewData["Resumen"] = formador.User_Resumen;
+                return View();
         }
         public ActionResult PaginaFormador()
         {
