@@ -16,16 +16,16 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
-        public List<Formador> Select_Usuario(List<Filtro> filtros, string orderBy)
+        public List<Usuario> Select_Usuario(List<Filtro> filtros, string orderBy)
         {
-            List<Formador> Uesrs = new List<Formador>();
+            List<Usuario> Usuarios = new List<Usuario>();
             string sentenciaFiltros = "";
             if (filtros != null)
             {
                 for (int i = 0; i < filtros.Count; i++)
                 {
                     if (i == 0)
-                        sentenciaFiltros = "WHERE ";
+                        sentenciaFiltros = " WHERE ";
                     else
                         sentenciaFiltros += " AND ";
 
@@ -42,7 +42,7 @@ namespace Infocursos.DAL
                 while (reader.Read())
                 {
 
-                    string user_Descripcion = null, user_Resumen = null, iMG_Perfil = null, nombre_Entidad = null;
+                    string user_Descripcion = null, user_Resumen = null, iMG_Perfil = null;
                     List<string> telefonos_User = new List<string>();
 
                     if (reader.GetValue(5) != DBNull.Value)
@@ -54,27 +54,24 @@ namespace Infocursos.DAL
                     if (reader.GetValue(7) != DBNull.Value)
                         iMG_Perfil = reader.GetString(7);
 
-                    if (reader.GetValue(9) != DBNull.Value)
-                        nombre_Entidad = reader.GetString(9);
-
                     DAL_Telefono dat_telefono = new DAL_Telefono();
                     IDictionary<int, string> telefonos = dat_telefono.Select_Telefono(null, null);
                     foreach (KeyValuePair<int, string> telefono in telefonos)
                         if (telefono.Key == reader.GetInt32(0))
                             telefonos_User.Add(telefono.Value);
 
-                    User newUser = new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), user_Descripcion, user_Resumen, iMG_Perfil, telefonos_User);
+                    Usuarios.Add(new Usuario(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), user_Descripcion, user_Resumen, iMG_Perfil, telefonos_User));
                 }
                 reader.Close();
 
             }
             catch (Exception er)
             {
-
+                throw;
             }
-            return Uesrs;
+            return Usuarios;
         }
-        public void Update_Usuario(User usuario)
+        public void Update_Usuario(Usuario usuario)
         {
             try
             {
@@ -132,11 +129,12 @@ namespace Infocursos.DAL
                 throw;
             }
         }
-        public void Insert_Usuario(User user)
+        public void Insert_Usuario(Usuario user)
         {
             try
             {
-                string sql_Usuario = @"INSERT INTO Usuario VALUES(@Email, @Password, @User_Nombre, @User_Apellidos)";
+                string sql_Usuario = @"INSERT INTO Usuario(Email, Password, User_Nombre, User_Apellidos) 
+                                        VALUES(@Email, @Password, @User_Nombre, @User_Apellidos)";
                 SqlCommand cdm_Usuario = new SqlCommand(sql_Usuario, cnx.Connection);
 
                 SqlParameter pEmail = new SqlParameter("@Email", System.Data.SqlDbType.NVarChar, 100);
@@ -162,7 +160,7 @@ namespace Infocursos.DAL
                 throw;
             }
         }
-        public void Delete_Usuario(User user)
+        public void Delete_Usuario(Usuario user)
         {
             try
             {

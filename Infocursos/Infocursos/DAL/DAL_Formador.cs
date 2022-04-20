@@ -65,7 +65,7 @@ namespace Infocursos.DAL
                         if (telefono.Key == reader.GetInt32(0))
                             telefonos_Formador.Add(telefono.Value);
 
-                    Formador newFormador = new Formador(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), user_Descripcion, user_Resumen, iMG_Perfil, telefonos_Formador, nombre_Entidad,reader.GetString(10),reader.GetBoolean(11));
+                    Formadores.Add(new Formador(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), user_Descripcion, user_Resumen, iMG_Perfil, telefonos_Formador, nombre_Entidad,reader.GetString(10),reader.GetBoolean(11)));
                 }
                 reader.Close();
 
@@ -106,7 +106,7 @@ namespace Infocursos.DAL
                 DAL_Usuario dal_Usuario = new DAL_Usuario();
                 dal_Usuario.Insert_Usuario(formador);
 
-                string sql = @"INSERT INTO Formador VALUES(@RId_User, @Nombre_Entidad, @Cod_Validacion, @IsAutorizado)";
+                string sql = @"INSERT INTO Formador(RId_User, Nombre_Entidad, Cod_Validacion, IsAutorizado) VALUES(@RId_User, @Nombre_Entidad, @Cod_Validacion, @IsAutorizado)";
 
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
 
@@ -114,14 +114,14 @@ namespace Infocursos.DAL
                 SqlParameter pRId_User = new SqlParameter("@RId_User", System.Data.SqlDbType.Int);
                 List<Filtro> filtros = new List<Filtro>();
                 filtros.Add(new Filtro("Email", formador.Email, ECondicionText.Igual));
-                List<Formador> users = dal_Usuario.Select_Usuario(filtros, null);
+                List<Usuario> users = dal_Usuario.Select_Usuario(filtros, null);
 
                 pRId_User.Value = users.First().Id_User;
 
                 SqlParameter pNombre_Entidad = new SqlParameter("@Nombre_Entidad", System.Data.SqlDbType.NVarChar, 100);
                 pNombre_Entidad.Value = formador.Nombre_Entidad;
 
-                SqlParameter pCod_Validacion = new SqlParameter("@Cos_Validacion", System.Data.SqlDbType.NVarChar, 10);
+                SqlParameter pCod_Validacion = new SqlParameter("@Cod_Validacion", System.Data.SqlDbType.NVarChar, 10);
                 pCod_Validacion.Value = formador.Cod_Validacion;
 
                 SqlParameter pIsAutorizado = new SqlParameter("@IsAutorizado", System.Data.SqlDbType.Bit);

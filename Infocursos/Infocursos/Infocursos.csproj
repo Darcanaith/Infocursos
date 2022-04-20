@@ -161,7 +161,7 @@
     <Compile Include="Models\Municipio.cs" />
     <Compile Include="Models\Nivel_Idioma.cs" />
     <Compile Include="Models\Provincia.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -209,8 +209,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\IniciarSesion.cshtml" />
-    <Content Include="Views\Home\RegistroAlumno.cshtml" />
-    <Content Include="Views\Home\RegistroFormador.cshtml" />
+    <Content Include="Views\Alumno\RegistroAlumno.cshtml" />
+    <Content Include="Views\Formador\RegistroFormador.cshtml" />
     <Content Include="Views\Formador\FormadorPerfil.cshtml" />
     <Content Include="Views\Formador\PaginaFormador.cshtml" />
     <Content Include="Views\Formador\FormadorPerfilCurso.cshtml" />
@@ -219,6 +219,7 @@
     <Content Include="Views\Formador\ListaAlumnos.cshtml" />
     <Content Include="Views\Alumno\AlumnoPerfil.cshtml" />
     <Content Include="Views\Alumno\AlumnoMisCursos.cshtml" />
+    <Content Include="Views\Formador\FormadorEditarPerfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
