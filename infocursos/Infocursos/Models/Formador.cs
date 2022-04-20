@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Infocursos.Models
 {
-    public class Formador : User
+    public class Formador : Usuario
     {
         private bool isAutorizado;
         private string nombre_Entidad;

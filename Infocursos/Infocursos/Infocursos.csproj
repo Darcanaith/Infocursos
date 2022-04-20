@@ -210,7 +210,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\IniciarSesion.cshtml" />
     <Content Include="Views\Alumno\RegistroAlumno.cshtml" />
-    <Content Include="Views\Home\RegistroFormador.cshtml" />
+    <Content Include="Views\Formador\RegistroFormador.cshtml" />
     <Content Include="Views\Formador\FormadorPerfil.cshtml" />
     <Content Include="Views\Formador\PaginaFormador.cshtml" />
     <Content Include="Views\Formador\FormadorPerfilCurso.cshtml" />
@@ -219,6 +219,7 @@
     <Content Include="Views\Formador\ListaAlumnos.cshtml" />
     <Content Include="Views\Alumno\AlumnoPerfil.cshtml" />
     <Content Include="Views\Alumno\AlumnoMisCursos.cshtml" />
+    <Content Include="Views\Formador\FormadorEditarPerfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

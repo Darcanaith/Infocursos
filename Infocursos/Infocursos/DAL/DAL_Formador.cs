@@ -106,7 +106,7 @@ namespace Infocursos.DAL
                 DAL_Usuario dal_Usuario = new DAL_Usuario();
                 dal_Usuario.Insert_Usuario(formador);
 
-                string sql = @"INSERT INTO Formador VALUES(@RId_User, @Nombre_Entidad, @Cod_Validacion, @IsAutorizado)";
+                string sql = @"INSERT INTO Formador(RId_User, Nombre_Entidad, Cod_Validacion, IsAutorizado) VALUES(@RId_User, @Nombre_Entidad, @Cod_Validacion, @IsAutorizado)";
 
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
 
@@ -121,7 +121,7 @@ namespace Infocursos.DAL
                 SqlParameter pNombre_Entidad = new SqlParameter("@Nombre_Entidad", System.Data.SqlDbType.NVarChar, 100);
                 pNombre_Entidad.Value = formador.Nombre_Entidad;
 
-                SqlParameter pCod_Validacion = new SqlParameter("@Cos_Validacion", System.Data.SqlDbType.NVarChar, 10);
+                SqlParameter pCod_Validacion = new SqlParameter("@Cod_Validacion", System.Data.SqlDbType.NVarChar, 10);
                 pCod_Validacion.Value = formador.Cod_Validacion;
 
                 SqlParameter pIsAutorizado = new SqlParameter("@IsAutorizado", System.Data.SqlDbType.Bit);
