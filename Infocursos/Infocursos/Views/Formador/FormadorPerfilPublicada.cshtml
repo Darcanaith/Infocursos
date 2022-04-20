@@ -76,13 +76,7 @@
                                         <div class="invalid-feedback" data-sb-feedback="horas_totales:required">Horas totales es obligatorio.</div>
                                     </div>
                                 </div>
-                                <div class="col-md">
-                                    <div class="form-floating mb-2">
-                                        <input class="form-control" id="password" type="password" placeholder="Contraseña" data-sb-validations="required,email" />
-                                        <label for="password">Contraseña</label>
-                                        <div class="invalid-feedback" data-sb-feedback="password:required">An password is required.</div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="row g-2">
                                 <div class="col-md">
@@ -102,57 +96,57 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row g-2">
+                            <div class="row g-3">
                                 <div class="col-md">
+                                    <!-- Input para Centro -->
                                     <div class="form-floating mb-2">
-                                        <input class="form-control" id="email" type="email" placeholder="Enter your mail..." data-sb-validations="required" />
-                                        <label for="email">E-mail</label>
-                                        <div class="invalid-feedback" data-sb-feedback="email:required">A email is required.</div>
+                                        <select class="form-select" id="centro" name="centro">
+                                            <option selected>Este</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                        <label for="centro">Centro</label>
                                     </div>
                                 </div>
                                 <div class="col-md">
+                                    <!-- Input para Horario -->
                                     <div class="form-floating mb-2">
-                                        <input class="form-control" id="password" type="password" placeholder="Contraseña" data-sb-validations="required,email" />
-                                        <label for="password">Contraseña</label>
-                                        <div class="invalid-feedback" data-sb-feedback="password:required">An password is required.</div>
+                                        <select class="form-select" id="horario" name="horario">
+                                            <option selected>Mañana</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                        <label for="horario">Horario</label>
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <!-- Input para modalidad -->
+                                    <div class="form-floating mb-2">
+                                        <select class="form-select" id="modalidad" name="modalidad">
+                                            <option selected>Teletrabajo</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                        <label for="modalidad">Modalidad</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row g-2">
-                                <div class="col-md">
-                                    <div class="form-floating mb-2">
-                                        <input class="form-control" id="email" type="email" placeholder="Enter your mail..." data-sb-validations="required" />
-                                        <label for="email">E-mail</label>
-                                        <div class="invalid-feedback" data-sb-feedback="email:required">A email is required.</div>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <div class="form-floating mb-2">
-                                        <input class="form-control" id="password" type="password" placeholder="Contraseña" data-sb-validations="required,email" />
-                                        <label for="password">Contraseña</label>
-                                        <div class="invalid-feedback" data-sb-feedback="password:required">An password is required.</div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <!-- Input para curso_descripcion -->
                             <div class="form-group mb-2" style="font-size: 1.5rem; color: #6c757d;">
                                 <label for="curso_descripcion">Descripcion</label>
                                 <textarea class="form-control" id="curso_descripcion" rows="8" name="curso_descripcion"></textarea>
                             </div>
                             <!-- Submit error message-->
-                            <!---->
-                            <!-- This is what your users will see when there is-->
-                            <!-- an error submitting the form-->
                             <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-2">Error sending message!</div></div>
                             <!-- Submit Button-->
                             <button class="btn btn-primary btn-xl disabled" id="RegisterButton" type="submit">Crear Curso</button>
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
-
     </div>
 </div>
