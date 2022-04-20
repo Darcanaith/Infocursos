@@ -26,27 +26,38 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-xl-7">
                 <!-- to get an API token!-->
-                <form id="inicioSesionForm">
-                    <!-- E-mail input-->
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="email" type="email" placeholder="E-mail" data-sb-validations="required" />
-                        <label for="email">E-mail</label>
-                        <div class="invalid-feedback" data-sb-feedback="email:required">A email is required.</div>
-                    </div>
-                    <!-- Password input-->
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="password" type="password" placeholder="Contraseña" data-sb-validations="required,email" />
-                        <label for="password">Contraseña</label>
-                        <div class="invalid-feedback" data-sb-feedback="password:required">An password is required.</div>
-                    </div>
-                    <!-- Submit error message-->
-                    <!---->
-                    <!-- This is what your users will see when there is-->
-                    <!-- an error submitting the form-->
-                    <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                    <!-- Submit Button-->
-                    <button class="btn btn-primary btn-xl" id="loginButton" type="submit">Iniciar sesion</button>
-                </form>
+                @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                {
+                    <form id="inicioSesionForm">
+                        <!-- E-mail input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="email" name="email" value=@ViewData["LoginEmailText"] type="email" placeholder="E-mail" data-sb-validations="required" />
+                            <label for="email">E-mail</label>
+                            @if (ViewBag.ErrorEmail != null)
+                            {
+                                @ViewBag.ErrorEmail
+                            }
+                            <div class="invalid-feedback" data-sb-feedback="email:required">A email is required.</div>
+                        </div>
+                        <!-- Password input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="password" name="password" value=@ViewData["LoginPasswordText"] type="password" placeholder="Contraseña" data-sb-validations="required,email" />
+                            <label for="password">Contraseña</label>
+                            @if (ViewBag.ErrorPassword != null)
+                            {
+                                @ViewBag.ErrorPassword
+                            }
+                            <div class="invalid-feedback" data-sb-feedback="password:required">An password is required.</div>
+                        </div>
+                        <!-- Submit error message-->
+                        <!---->
+                        <!-- This is what your users will see when there is-->
+                        <!-- an error submitting the form-->
+                        <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                        <!-- Submit Button-->
+                        <button class="btn btn-primary btn-xl" id="loginButton" value="Login" type="submit">Iniciar sesion</button>
+                    </form>
+                 }
             </div>
         </div>
     </div>

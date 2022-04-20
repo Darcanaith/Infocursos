@@ -32,10 +32,24 @@
             @Html.ActionLink("InfoCursos", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/Index">Inicio</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/IniciarSesion">Iniciar Sesión</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Alumno/RegistroAlumno">Registro</a></li>
-
+                    @if (Session["User"] == null)
+                    {
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/Index">Inicio</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/IniciarSesion">Iniciar Sesión</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Alumno/RegistroAlumno">Registro</a></li>
+                     }
+                    else if ((Session["User"].ToString().Split('/')[0]).Equals("Alumno"))
+                    {
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/Index">Inicio</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/IniciarSesion">Mis Cursos</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Alumno/RegistroAlumno">Perfil</a></li>
+                    }
+                    else if ((Session["User"].ToString().Split('/')[0]).Equals("Formador"))
+                    {
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/Index">Gestionar Cursos</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/IniciarSesion">Buscar Alumnos</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Alumno/RegistroAlumno">Perfil</a></li>
+                    }
                 </ul>
             </div>
         </div>
