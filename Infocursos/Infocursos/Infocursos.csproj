@@ -209,7 +209,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\IniciarSesion.cshtml" />
-    <Content Include="Views\Home\RegistroAlumno.cshtml" />
+    <Content Include="Views\Alumno\RegistroAlumno.cshtml" />
     <Content Include="Views\Home\RegistroFormador.cshtml" />
     <Content Include="Views\Formador\FormadorPerfil.cshtml" />
     <Content Include="Views\Formador\PaginaFormador.cshtml" />
