@@ -127,6 +127,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CNX.cs" />
+    <Compile Include="Controllers\AlumnoController.cs" />
+    <Compile Include="Controllers\FormadorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\DAL_Alumno.cs" />
     <Compile Include="DAL\DAL_Alumno_Categorias.cs" />
@@ -194,7 +196,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\scripts.js" />
-    <Content Include="Views\Home\index.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -206,14 +207,18 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\VistaPrueba.cshtml" />
-    <Content Include="Views\Home\Registro.cshtml" />
     <Content Include="Views\Home\IniciarSesion.cshtml" />
     <Content Include="Views\Home\RegistroAlumno.cshtml" />
     <Content Include="Views\Home\RegistroFormador.cshtml" />
+    <Content Include="Views\Formador\FormadorPerfil.cshtml" />
+    <Content Include="Views\Formador\PaginaFormador.cshtml" />
+    <Content Include="Views\Formador\FormadorPerfilCurso.cshtml" />
+    <Content Include="Views\Formador\FormadorPerfilInfo.cshtml" />
+    <Content Include="Views\Formador\FormadorPerfilPublicada.cshtml" />
+    <Content Include="Views\Formador\ListaAlumnos.cshtml" />
+    <Content Include="Views\Alumno\AlumnoPerfil.cshtml" />
+    <Content Include="Views\Alumno\AlumnoMisCursos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
