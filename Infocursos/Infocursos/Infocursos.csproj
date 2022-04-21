@@ -128,6 +128,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CNX.cs" />
     <Compile Include="Controllers\AlumnoController.cs" />
+    <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\FormadorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\DAL_Alumno.cs" />
@@ -220,6 +221,7 @@
     <Content Include="Views\Alumno\AlumnoPerfil.cshtml" />
     <Content Include="Views\Alumno\AlumnoMisCursos.cshtml" />
     <Content Include="Views\Formador\FormadorEditarPerfil.cshtml" />
+    <Content Include="Views\Curso\Curso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

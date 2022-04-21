@@ -34,6 +34,11 @@ namespace Infocursos
                 defaults: new { controller = "Alumno", action = "Alumno", id = UrlParameter.Optional }
             );
 
+            routes.MapRoute(
+                name: "Curso",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Curso", action = "Curso" }
+            );
 
 
 
