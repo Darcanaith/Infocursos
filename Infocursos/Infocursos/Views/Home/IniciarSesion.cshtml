@@ -28,34 +28,38 @@
                 <!-- to get an API token!-->
                 @using (Html.BeginForm("Login", "Home", FormMethod.Post))
                 {
-                    <form id="inicioSesionForm">
-                        <!-- E-mail input-->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="email" name="email" value=@ViewData["LoginEmailText"] type="email" placeholder="E-mail" data-sb-validations="required" />
-                            <label for="email">E-mail</label>
-                            @if (ViewBag.ErrorEmail != null)
-                            {
-                                @ViewBag.ErrorEmail
-                            }
-                            <div class="invalid-feedback" data-sb-feedback="email:required">A email is required.</div>
-                        </div>
-                        <!-- Password input-->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="password" name="password" value=@ViewData["LoginPasswordText"] type="password" placeholder="Contraseña" data-sb-validations="required,email" />
-                            <label for="password">Contraseña</label>
-                            @if (ViewBag.ErrorPassword != null)
-                            {
-                                @ViewBag.ErrorPassword
-                            }
-                            <div class="invalid-feedback" data-sb-feedback="password:required">An password is required.</div>
-                        </div>
-                        <!-- Submit error message-->
-                        <!---->
-                        <!-- This is what your users will see when there is-->
-                        <!-- an error submitting the form-->
-                        <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                        <!-- Submit Button-->
+                <form id="inicioSesionForm">
+                    <!-- E-mail input-->
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="email" name="email" value=@ViewData["LoginEmailText"] type="email" placeholder="E-mail" data-sb-validations="required" />
+                        <label for="email">E-mail</label>
+                        @if (ViewBag.ErrorEmail != null)
+                        {
+                            @ViewBag.ErrorEmail
+                        }
+                        <div class="invalid-feedback" data-sb-feedback="email:required">A email is required.</div>
+                    </div>
+                    <!-- Password input-->
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="password" name="password" value=@ViewData["LoginPasswordText"] type="password" placeholder="Contraseña" data-sb-validations="required,email" />
+                        <label for="password">Contraseña</label>
+                        @if (ViewBag.ErrorPassword != null)
+                        {
+                            @ViewBag.ErrorPassword
+                        }
+                        <div class="invalid-feedback" data-sb-feedback="password:required">An password is required.</div>
+                    </div>
+                    <!-- Submit error message-->
+                    <!---->
+                    <!-- This is what your users will see when there is-->
+                    <!-- an error submitting the form-->
+                    <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                    <!-- Submit Button-->
+                    <div class="flex-row ">
                         <button class="btn btn-primary btn-xl" id="loginButton" value="Login" type="submit">Iniciar sesion</button>
+                        <label class="float-end" style="padding-top:3em"><a class="nav-link" href="../Alumno/RegistroAlumno" style="text-decoration:none; color:#2C3E50">No tienes cuenta aun? Registrate</a></label>
+                    </div>
+                    
                     </form>
                  }
             </div>

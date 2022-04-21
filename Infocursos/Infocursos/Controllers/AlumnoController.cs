@@ -88,5 +88,11 @@ namespace Infocursos.Controllers
 
             return View("RegistroAlumno");
         }
+
+        [HttpPost]
+        public ActionResult CambioARegistroFormador()
+        {
+            return View("../Formador/RegistroFormador");
+        }
     }
 }

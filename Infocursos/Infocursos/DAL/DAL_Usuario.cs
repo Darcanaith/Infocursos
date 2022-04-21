@@ -82,7 +82,7 @@ namespace Infocursos.DAL
                                 User_Apellidos = @User_Apellidos,
                                 User_Descripcion = @User_Descripcion,
                                 User_Resumen = @User_Resumen,
-                                IMG_Perfil = @IMG_Perfil
+                                IMG_Perfil = @IMG_Perfil 
                                 WHERE Id_User= " + usuario.Id_User + "; ";
                 SqlCommand cdm_Usuario = new SqlCommand(sql_Usuario, cnx.Connection);
 
@@ -101,17 +101,17 @@ namespace Infocursos.DAL
 
                 SqlParameter pUser_Descripcion = new SqlParameter("@User_Descripcion", System.Data.SqlDbType.NVarChar, 4000);
                 pUser_Descripcion.Value = DBNull.Value;
-                if (usuario.User_Descripcion == null)
+                if (usuario.User_Descripcion != null)
                     pUser_Descripcion.Value = usuario.User_Descripcion;
 
                 SqlParameter pUser_Resumen = new SqlParameter("@User_Resumen", System.Data.SqlDbType.NVarChar, 250);
                 pUser_Resumen.Value = DBNull.Value;
-                if (usuario.User_Resumen == null)
+                if (usuario.User_Resumen != null)
                     pUser_Resumen.Value = usuario.User_Resumen;
 
                 SqlParameter pIMG_Perfil = new SqlParameter("@IMG_Perfil", System.Data.SqlDbType.NVarChar, 300);
                 pIMG_Perfil.Value = DBNull.Value;
-                if (usuario.IMG_Perfil == null)
+                if (usuario.IMG_Perfil != null)
                     pIMG_Perfil.Value = usuario.IMG_Perfil;
 
 

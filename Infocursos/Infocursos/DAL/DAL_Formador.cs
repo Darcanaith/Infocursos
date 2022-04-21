@@ -84,7 +84,7 @@ namespace Infocursos.DAL
                 dal_Usuario.Update_Usuario(formador);
 
                 string sql_Formador = @"UPDATE Formador SET 
-                                Nombre_Entidad = @Nombre_Entidad,
+                                Nombre_Entidad = @Nombre_Entidad 
                                 WHERE RId_User= " + formador.Id_User + "; ";
                 SqlCommand cdm_Formador = new SqlCommand(sql_Formador, cnx.Connection);
 

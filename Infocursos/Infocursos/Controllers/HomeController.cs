@@ -78,7 +78,6 @@ namespace Infocursos.Controllers
             return View("IniciarSesion");
         }
 
-
         public ActionResult BuscadorAlumno()
         {
             ViewBag.Message = "Your Search alumno page.";
@@ -86,13 +85,5 @@ namespace Infocursos.Controllers
             return View();
         }
         
-        public ActionResult RegistroFormador()
-        {
-
-
-            ViewBag.Message = "Your register trainer page.";
-
-            return View();
-        }
     }
 }
