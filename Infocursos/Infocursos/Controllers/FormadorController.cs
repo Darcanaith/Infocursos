@@ -18,15 +18,21 @@ namespace Infocursos.Controllers
 
         public ActionResult FormadorEditarPerfil()
         {
-            DAL_Formador dal_Formador = new DAL_Formador();
-            List<Filtro> filtros = new List<Filtro>();
-            filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
-            Formador formador = dal_Formador.Select_Formador(filtros, null).First();
-            @ViewData["Nombre_Entidad"] = formador.Nombre_Entidad;
-            @ViewData["Resumen"] = formador.User_Resumen;
-            @ViewData["Descripcion"] = formador.User_Descripcion;
-            @ViewData["Resumen"] = formador.User_Resumen;
-            return View();
+            if (Session["User"] == null || (Session["User"].ToString().Split('/')[0]).Equals("Alumno"))
+                return View("../Home/Index");
+            else
+            {
+                DAL_Formador dal_Formador = new DAL_Formador();
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
+                Formador formador = dal_Formador.Select_Formador(filtros, null).First();
+                @ViewData["Nombre_Entidad"] = formador.Nombre_Entidad;
+                @ViewData["User_nombre"] = formador.User_Nombre;
+                @ViewData["User_apellidos"] = formador.User_Apellidos;
+                @ViewData["Resumen"] = formador.User_Resumen;
+                return View();
+            }
+            
         }
 
         // POST: Formador/Create
@@ -136,7 +142,7 @@ namespace Infocursos.Controllers
         }
 
         [HttpPost]
-        public EmptyResult UpdateFormadorPerfil()
+        public ActionResult UpdateInfoFormadorPerfil()
         {
             DAL_Formador dal_Formador = new DAL_Formador();
             List<Filtro> filtros = new List<Filtro>();
@@ -147,7 +153,7 @@ namespace Infocursos.Controllers
             formador.User_Apellidos = Request["Apellidos"];
             formador.User_Resumen = Request["Resumen"];
             dal_Formador.Update_Formador(formador);
-            return new EmptyResult();
+            return View("FormadorPerfil");
         }
         [HttpPost]
         public ActionResult GuardarDescripcion()
