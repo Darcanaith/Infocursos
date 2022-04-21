@@ -137,7 +137,23 @@ namespace Infocursos.Controllers
 
 
             @ViewData["Descripcion"] = formador.User_Descripcion;
-            @ViewData["Resumen"] = formador.User_Resumen;
+
+            DAL_Curso dal_Curso = new DAL_Curso();
+            List<Filtro> filtrosCurso = new List<Filtro>();
+            filtros.Add(new Filtro("RId_Formador",formador.Id_User.ToString(), ECondicionNum.Ig));
+            List<Curso> cursos = dal_Curso.Select_Curso(filtrosCurso, null);
+            List<string> horarios = new List<string>();
+            List<string> modalidades = new List<string>();
+            foreach (Curso curso in cursos)
+            {
+                horarios.Add(curso.Horario.Tipo_horario);
+                modalidades.Add(curso.Modalidad.Tipo_modalidad);
+            }
+            horarios = horarios.Distinct().ToList();
+            modalidades = modalidades.Distinct().ToList();
+            @ViewData["Horarios"] = horarios;
+            @ViewData["Modalidades"] = modalidades;
+
             return new EmptyResult();
         }
 
