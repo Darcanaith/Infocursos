@@ -32,7 +32,7 @@ namespace Infocursos.Controllers
             string apellidos = Request["Apellidos"];
             string entidad = Request["Entidad"];
             string resumen = Request["Resumen"];
-            Formador formador = (Formador)ViewData["Formador"];
+            Formador formador = (Formador) ViewData["Formador"];
             formador.User_Nombre = nombre;
             formador.User_Apellidos = apellidos;
             formador.Nombre_Entidad = entidad;
