@@ -14,5 +14,12 @@ namespace Infocursos.Controllers
             return View();
         }
 
+        public ActionResult CursoBusqueda()
+        {
+            return View();
+        }
+
+
+
     }
 }
