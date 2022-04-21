@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Infocursos.Models;
 using Infocursos.DAL;
 using static Infocursos.Models.Enums;
+using System.IO;
 
 namespace Infocursos.Controllers
 {
@@ -165,7 +166,7 @@ namespace Infocursos.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateInfoFormadorPerfil()
+        public ActionResult UpdateInfoFormadorPerfil(HttpPostedFileBase Imagen)
         {
             DAL_Formador dal_Formador = new DAL_Formador();
             List<Filtro> filtros = new List<Filtro>();
@@ -175,6 +176,14 @@ namespace Infocursos.Controllers
             formador.User_Nombre = Request["Nombre"];
             formador.User_Apellidos = Request["Apellidos"];
             formador.User_Resumen = Request["Resumen"];
+
+            if (Imagen != null)
+            {
+                string path = Path.Combine(Server.MapPath("~/ImagenPerfilFormador"), Path.GetFileName(Imagen.FileName));
+                Imagen.SaveAs(path);
+                formador.IMG_Perfil = Imagen.FileName;
+            }
+            ViewBag.FileStatus = "File uploaded successfully.";
             dal_Formador.Update_Formador(formador);
 
             RellenarFormadorPerfil();

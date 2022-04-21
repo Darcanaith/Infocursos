@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -17,6 +18,10 @@ namespace Infocursos.Models
         private List<Modalidad> modalidades;
         private List<Categoria> categorias;
 
+        [DataType(DataType.Upload)]
+        [Display(Name = "Upload File")]
+        [Required(ErrorMessage = "Please choose file to upload.")]
+        public string file { get; set; }
         public bool IsAutorizado { get => isAutorizado; set => isAutorizado = value; }
         public string Nombre_Entidad { get => nombre_Entidad; set => nombre_Entidad = value; }
         public string Cod_Validacion { get => cod_Validacion; set => cod_Validacion = value; }

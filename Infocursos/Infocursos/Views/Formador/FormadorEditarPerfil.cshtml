@@ -17,53 +17,51 @@
     </div>
 </header>
 
-    @using (Html.BeginForm("UploadFile", "Formador", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        Html.AntiForgeryToken();
-        Html.ValidationSummary(true, "", new { @class = "text-danger" });
-        <div>
-            @Html.TextBox("file", "Formador", new { type = "file" }) <br />
-            <input type="submit" value="Upload" />
-            @ViewBag.Message
+@using (Html.BeginForm("UpdateInfoFormadorPerfil", "Formador", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(file => file.file, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input class="form-control" name="Imagen" type="file" value=@ViewData["Imagen"] />
+            @Html.ValidationMessageFor(file => file.file, "", new { @class = "text-danger" })
         </div>
-    }
-    @using (Html.BeginForm("UpdateInfoFormadorPerfil", "Formador", FormMethod.Post))
-    {
-        <div class="form-group editar_perfil_formador">
-            <label for="Nombre">Nombre</label>
+    </div>
+    <div class="form-group editar_perfil_formador">
+        <label for="Nombre">Nombre</label>
+        <div class="col-md-10">
+            <input class="form-control" , id="Nombre" name="Nombre" value="@ViewData["User_Nombre"]" />
+        </div>
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <label for="Apellidos">Apellidos</label>
+        <div class="col-md-10">
+            <input class="form-control" , id="Nombre" name="Apellidos" value="@ViewData["User_Apellidos"]" />
+        </div>
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <label for="Entidad">Entidad</label>
+        <div class="col-md-10">
+            <input class="form-control" , id="Nombre" name="Entidad" value="@ViewData["Nombre_Entidad"]" />
+        </div>
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <label for="Resumen">Resumen</label>
+        <div class="col-md-10">
             <div class="col-md-10">
-                <input class="form-control" , id="Nombre" name="Nombre" value="@ViewData["User_Nombre"]" />
+                <input class="form-control" , id="Nombre" name="Resumen" value="@ViewData["Resumen"]" />
             </div>
         </div>
 
-        <div class="form-group editar_perfil_formador">
-            <label for="Apellidos">Apellidos</label>
-            <div class="col-md-10">
-                <input class="form-control" , id="Nombre" name="Apellidos" value="@ViewData["User_Apellidos"]" />
-            </div>
-        </div>
+    </div>
 
-        <div class="form-group editar_perfil_formador">
-            <label for="Entidad">Entidad</label>
-            <div class="col-md-10">
-                <input class="form-control" , id="Nombre" name="Entidad" value="@ViewData["Nombre_Entidad"]" />
-            </div>
+    <div class="form-group editar_perfil_formador">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary btn-md">Editar</button>
         </div>
-
-        <div class="form-group editar_perfil_formador">
-            <label for="Resumen">Resumen</label>
-            <div class="col-md-10">
-                <div class="col-md-10">
-                    <input class="form-control" , id="Nombre" name="Resumen" value="@ViewData["Resumen"]" />
-                </div>
-            </div>
-
-        </div>
-
-        <div class="form-group editar_perfil_formador">
-            <div class="col-md-offset-2 col-md-10">
-                <button type="submit" class="btn btn-primary btn-md">Editar</button>
-            </div>
-        </div>
-    }
+    </div>
+}
 
