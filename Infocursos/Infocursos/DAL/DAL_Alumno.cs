@@ -80,12 +80,8 @@ namespace Infocursos.DAL
                         DAL_Municipio dal_municipio = new DAL_Municipio();
                         List<Municipio> municipios = dal_municipio.Select_Municipio(null, null);
                         foreach (Municipio municipio_de_lista in municipios)
-                        {
                             if (reader.GetInt32(11) == municipio_de_lista.Id_municipio)
-                            {
                                 municipio = municipio_de_lista;
-                            }
-                        }
                     }
                     DAL_Idioma dal_Idioma = new DAL_Idioma();
                     IDictionary<int, Idioma> idiomas = dal_Idioma.Select_Idioma(null, null);

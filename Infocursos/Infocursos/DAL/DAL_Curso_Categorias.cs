@@ -6,18 +6,18 @@ using System.Web;
 
 namespace Infocursos.DAL
 {
-    public class DAL_Alumno_Categorias
+    public class DAL_Curso_Categorias
     {
         CNX cnx = null;
 
-        public DAL_Alumno_Categorias()
+        public DAL_Curso_Categorias()
         {
             cnx = new CNX();
         }
 
-        public IDictionary<int[], int> Select_Alumno_Categorias(List<string> filtros, string orderBy)
+        public IDictionary<int[], int> Select_Curso_Categorias(List<string> filtros, string orderBy)
         {
-            IDictionary<int[], int> alumno_Categoria = new Dictionary<int[], int>();
+            IDictionary<int[], int> curso_Categoria = new Dictionary<int[], int>();
 
             string sentenciaFiltros = "";
             if (filtros != null)
@@ -35,13 +35,13 @@ namespace Infocursos.DAL
 
             try
             {
-                string sql = "select * from Alumno_Categoria" + sentenciaFiltros + " " + orderBy + ";";
+                string sql = "select * from Curso_Categorias" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     int[] clave = new int[2] { reader.GetInt32(0), reader.GetInt32(1) };
-                    alumno_Categoria.Add(clave, reader.GetInt32(1));
+                    curso_Categoria.Add(clave, reader.GetInt32(1));
                 }
 
                 reader.Close();
@@ -51,7 +51,7 @@ namespace Infocursos.DAL
             {
                 throw;
             }
-            return alumno_Categoria;
+            return curso_Categoria;
         }
     }
 }

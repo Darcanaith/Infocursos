@@ -132,6 +132,7 @@
     <Compile Include="Controllers\FormadorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\DAL_Alumno.cs" />
+    <Compile Include="DAL\DAL_Curso_Categorias.cs" />
     <Compile Include="DAL\DAL_Alumno_Categorias.cs" />
     <Compile Include="DAL\DAL_Alumno_Idioma.cs" />
     <Compile Include="DAL\DAL_Categoria.cs" />

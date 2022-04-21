@@ -11,7 +11,7 @@ namespace Infocursos.Controllers
 {
     public class FormadorController : Controller
     {
-        public ActionResult registroFormador()
+        public ActionResult RegistroFormador()
         {
             return View();
         }
@@ -104,7 +104,7 @@ namespace Infocursos.Controllers
                 return RedirectToAction("../Home/IniciarSesion");
             }
 
-            return View("registroFormador");
+            return View("RegistroFormador");
         }
 
         public ActionResult CambioARegistroAlumnor()
@@ -144,15 +144,22 @@ namespace Infocursos.Controllers
             List<Curso> cursos = dal_Curso.Select_Curso(filtrosCurso, null);
             List<string> horarios = new List<string>();
             List<string> modalidades = new List<string>();
+            List<string> categorias = new List<string>();
+
             foreach (Curso curso in cursos)
             {
                 horarios.Add(curso.Horario.Tipo_horario);
                 modalidades.Add(curso.Modalidad.Tipo_modalidad);
+                foreach (Categoria cat in curso.Categorias)
+                    categorias.Add(cat.Categoria_nombre);
             }
             horarios = horarios.Distinct().ToList();
             modalidades = modalidades.Distinct().ToList();
+            categorias = categorias.Distinct().ToList();
+
             @ViewData["Horarios"] = horarios;
             @ViewData["Modalidades"] = modalidades;
+            @ViewData["Categorias"] = categorias;
 
             return new EmptyResult();
         }

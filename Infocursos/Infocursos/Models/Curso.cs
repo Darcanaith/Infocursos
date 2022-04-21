@@ -18,6 +18,7 @@ namespace Infocursos.Models
         private Formador formador;
         private Modalidad modalidad;
         private Centro centro;
+        private List<Categoria> categorias= new List<Categoria>();
 
 
         public int Id_curso { get => id_curso; set => id_curso = value; }
@@ -31,8 +32,9 @@ namespace Infocursos.Models
         internal Formador Formador { get => formador; set => formador = value; }
         public Modalidad Modalidad { get => modalidad; set => modalidad = value; }
         public Centro Centro { get => centro; set => centro = value; }
+        public List<Categoria> Categorias { get => categorias; set => categorias = value; }
 
-        public Curso(int id_curso, string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador, Modalidad modalidad, Centro centro = null)
+        public Curso(int id_curso, string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador, Modalidad modalidad, Centro centro, List<Categoria> categorias)
         {
             Id_curso = id_curso;
             Curso_nombre = curso_nombre;
@@ -45,6 +47,7 @@ namespace Infocursos.Models
             Formador = formador;
             Modalidad = modalidad;
             Centro = centro;
+            Categorias = categorias;
         }
 
         public Curso(string curso_nombre, string curso_descripcion, int num_plaza, int horas_totales, DateTime fecha_inicio, DateTime fecha_final, Horario horario, Formador formador, Modalidad modalidad, Centro centro = null)
