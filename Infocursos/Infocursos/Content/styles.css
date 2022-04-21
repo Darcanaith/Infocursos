@@ -12190,6 +12190,72 @@ html {
     color: #fff;
 }
 
+.logo-insta{
+   margin-bottom: 60px;
+   margin-top: 40px;
+}
+
+.mover-logo{
+    margin-right:50px;
+    margin-left: 60px;
+}
+
+.logo-twitter {
+    margin-bottom: 10px;
+    margin-top: -110px;
+    margin-left: 950px;
+    margin-right: 300px;    
+    width: 400px;
+}
+
+.logo-face {
+    margin-bottom: 10px;
+    margin-top: -110px;
+    margin-left: 600px;
+    width: 300px;
+}
+
+.logo-linkedin {
+  margin-bottom: -100px;
+  margin-top: -140px;
+  margin-left: 330px;
+
+}
+
+.AlineacionTexto{
+}
+
+.div-profile-left1 {
+    display: inline-block;
+    border: 1px solid grey;
+    margin-left:-900px;
+    margin-right:-400px;
+    height: 300px;
+    width: 200px;
+}
+
+.div-profile-left2{
+        display: inline-block;
+        border: 1px solid grey;
+        margin-left: 200px;
+        margin-right: -2000px;
+        margin-top: 350px;
+    }
+
+.div-profile-left3 {
+    display: inline-block;
+    border: 1px solid grey;
+    margin-left: 200px;
+    margin-right: -1500px;
+    margin-top: 50px;
+}
+
+
+    .div-profile-right {
+        margin-left: 2000px;
+        margin-right: 100px
+    }
+
 .copyright {
     background-color: #1a252f;
 }

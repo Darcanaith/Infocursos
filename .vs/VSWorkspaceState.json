@@ -2,12 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\Infocursos",
-    "\\Infocursos\\Infocursos\\Content",
-    "\\Infocursos\\Infocursos\\Content\\assets",
-    "\\Infocursos\\Infocursos\\Content\\assets\\img",
-    "\\Infocursos\\Infocursos\\Content\\assets\\img\\portfolio",
     "\\Infocursos\\Infocursos\\Views",
-    "\\Infocursos\\Infocursos\\Views\\Alumno"
+    "\\Infocursos\\Infocursos\\Views\\Alumno",
+    "\\Infocursos\\Infocursos\\Views\\Home"
   ],
   "SelectedNode": "\\Infocursos\\Infocursos.sln",
   "PreviewInSolutionExplorer": false
