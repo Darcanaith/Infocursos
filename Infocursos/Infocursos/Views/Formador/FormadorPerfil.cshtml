@@ -11,9 +11,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-left text-left" style="padding:0.5em;background-image: url(/Content/assets/img/Banners/jaggerBanner.png); background-repeat: no-repeat; background-size: 100% 80%;;">
-                            <div class="mt-3 align-items-right text-right" style="text-align:right;">
-                                <button class="btn btn-primary">Editar</button>
-                            </div>
+                            @using (Html.BeginForm("UpdateFormadorPerfil", "Formador", FormMethod.Post))
+                            {
+                                <div class="mt-3 align-items-right text-right" style="text-align:right;">
+                                    <button class="btn btn-primary" value="UpdateFormadorPerfil">Editar</button>
+                                </div>
+                            }
                             <img src="~/Content/assets/img/Formador/huevo.png" alt="Admin" class="rounded-circle" style="background-color:white ;padding:0.2em" width="150">
                         </div>
 
@@ -71,7 +74,7 @@
                                         }
                                         else
                                         {
-                                            <p>@ViewData["Descripcion"]</p>
+                                            <p class="text-secondary mb-1">@ViewData["Descripcion"]</p>
                                         }
 
 
