@@ -12222,39 +12222,17 @@ html {
 
 }
 
-.AlineacionTexto{
+#alinear-texto {
+    margin-left: 100px;
+    margin-top: -1000px;
 }
 
-.div-profile-left1 {
-    display: inline-block;
-    border: 1px solid grey;
-    margin-left:-900px;
-    margin-right:-400px;
-    height: 300px;
-    width: 200px;
+#div-right{
+    margin-left: 800px;
+    width: 2300px;
+    margin-bottom: 100px;
+   
 }
-
-.div-profile-left2{
-        display: inline-block;
-        border: 1px solid grey;
-        margin-left: 200px;
-        margin-right: -2000px;
-        margin-top: 350px;
-    }
-
-.div-profile-left3 {
-    display: inline-block;
-    border: 1px solid grey;
-    margin-left: 200px;
-    margin-right: -1500px;
-    margin-top: 50px;
-}
-
-
-    .div-profile-right {
-        margin-left: 2000px;
-        margin-right: 100px
-    }
 
 .copyright {
     background-color: #1a252f;
