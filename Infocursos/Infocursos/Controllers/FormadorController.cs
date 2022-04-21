@@ -176,6 +176,8 @@ namespace Infocursos.Controllers
             formador.User_Apellidos = Request["Apellidos"];
             formador.User_Resumen = Request["Resumen"];
             dal_Formador.Update_Formador(formador);
+
+            RellenarFormadorPerfil();
             return View("FormadorPerfil");
         }
         [HttpPost]
