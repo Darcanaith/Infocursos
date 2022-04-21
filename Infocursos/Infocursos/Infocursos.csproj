@@ -162,7 +162,7 @@
     <Compile Include="Models\Municipio.cs" />
     <Compile Include="Models\Nivel_Idioma.cs" />
     <Compile Include="Models\Provincia.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
