@@ -72,6 +72,12 @@ namespace Infocursos.Controllers
 
             return View();
         }
+        public ActionResult BuscadorAlumno()
+        {
+            ViewBag.Message = "Your search student page.";
+
+            return View();
+        }
 
         [HttpGet]
         public ActionResult UploadFile()

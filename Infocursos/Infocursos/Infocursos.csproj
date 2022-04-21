@@ -223,6 +223,7 @@
     <Content Include="Views\Formador\FormadorEditarPerfil.cshtml" />
     <Content Include="Views\Curso\Curso.cshtml" />
     <Content Include="Views\Curso\CursoBusqueda.cshtml" />
+    <Content Include="Views\Formador\BuscadorAlumno.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

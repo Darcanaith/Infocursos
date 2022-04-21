@@ -12234,6 +12234,17 @@ html {
    
 }
 
+#texto-buscador{
+    font-size: 30px;
+    margin-top: 80px;
+    margin-bottom: 100px;
+    color: black;
+}
+
+#buscador-centrado{
+    margin-left:300px;
+}
+
 .copyright {
     background-color: #1a252f;
 }
