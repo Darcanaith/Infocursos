@@ -18,6 +18,14 @@ namespace Infocursos.Controllers
 
         public ActionResult FormadorEditarPerfil()
         {
+            DAL_Formador dal_Formador = new DAL_Formador();
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
+            Formador formador = dal_Formador.Select_Formador(filtros, null).First();
+            @ViewData["Nombre_Entidad"] = formador.Nombre_Entidad;
+            @ViewData["Resumen"] = formador.User_Resumen;
+            @ViewData["Descripcion"] = formador.User_Descripcion;
+            @ViewData["Resumen"] = formador.User_Resumen;
             return View();
         }
 
@@ -124,6 +132,21 @@ namespace Infocursos.Controllers
 
             @ViewData["Descripcion"] = formador.User_Descripcion;
             @ViewData["Resumen"] = formador.User_Resumen;
+            return new EmptyResult();
+        }
+
+        [HttpPost]
+        public EmptyResult UpdateFormadorPerfil()
+        {
+            DAL_Formador dal_Formador = new DAL_Formador();
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
+            Formador formador = dal_Formador.Select_Formador(filtros, null).First();
+            formador.Nombre_Entidad = Request["Entidad"];
+            formador.User_Nombre = Request["Nombre"];
+            formador.User_Apellidos = Request["Apellidos"];
+            formador.User_Resumen = Request["Resumen"];
+            dal_Formador.Update_Formador(formador);
             return new EmptyResult();
         }
         [HttpPost]
