@@ -1,6 +1,5 @@
 ﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -20,4 +19,8 @@
     background-color: rgba(199, 27, 0, 0.9);
     padding: 3em;
     border-radius: 2em;
+}
+
+.editar_perfil_formador{
+    margin: 20px;
 }

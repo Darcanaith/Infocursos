@@ -1,5 +1,4 @@
-﻿@model Infocursos.Models.Formador
-
+﻿@model Infocursos.Models.Formador formador = (Infocursos.Models.Formador) ViewData["Formador"]
 @{
     ViewBag.Title = "FormadorEditarPerfil";
 }
@@ -17,66 +16,56 @@
 
     </div>
 </header>
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditFormador", "Formador", FormMethod.Post))
 {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+    Html.AntiForgeryToken();
+    Html.ValidationSummary(true, "", new { @class = "text-danger" });
+
+    using (Html.BeginForm("UploadFile", "Formador", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div>
+            @Html.TextBox("file", "Formador", new { type = "file" }) <br />
+            <input type="submit" value="Upload" />
+            @ViewBag.Message
+        </div>
+    }
+    
+    <div class="form-group editar_perfil_formador">
+        <label for="Nombre">Nombre</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            @Html.EditorFor(formador => formador.User_Nombre, new { htmlAttributes = new { @class = "form-control", @id = "Nombre", @placeholder = "Inserte nombre", @name = "Nombre" } })
+            @Html.ValidationMessageFor(formador => formador.User_Nombre, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="form-group editar_perfil_formador">
+        <label for="Apellidos">Apellidos</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            @Html.EditorFor(formador => formador.User_Apellidos, new { htmlAttributes = new { @class = "form-control", @id = "Apellidos", @placeholder = "Inserte algun apellido", @name = "Apellidos" } })
+            @Html.ValidationMessageFor(formador => formador.User_Apellidos, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.User_Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="form-group editar_perfil_formador">
+        <label for="Entidad">Entidad</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.User_Nombre, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.User_Nombre, "", new { @class = "text-danger" })
+            @Html.EditorFor(formador => formador.Nombre_Entidad, new { htmlAttributes = new { @class = "form-control", @id = "Entidad", @placeholder = "Escriba alguna entidad", @name = "Entidad" } })
+            @Html.ValidationMessageFor(formador => formador.Nombre_Entidad, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
-         @Html.LabelFor(model => model.User_Apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
-         <div class="col-md-10">
-             @Html.EditorFor(model => model.User_Apellidos, new { htmlAttributes = new { @class = "form-control" } })
-             @Html.ValidationMessageFor(model => model.User_Apellidos, "", new { @class = "text-danger" })
-         </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.User_Resumen, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="form-group editar_perfil_formador">
+        <label for="Resumen">Resumen</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.User_Resumen, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.User_Resumen, "", new { @class = "text-danger" })
+            @Html.TextAreaFor(formador => formador.User_Resumen, new { @class = "form-control", @rows = 3, @id = "Resumen", @placeholder = "Escriba un resumen", @name = "Resumen" })
+            @Html.ValidationMessageFor(formador => formador.User_Resumen, "", new { @class = "text-danger" })
         </div>
+
     </div>
 
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Nombre_Entidad, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Nombre_Entidad, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Nombre_Entidad, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
+    <div class="form-group editar_perfil_formador">
         <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-primary btn-xl">Editar</button>
+            <button type="submit" class="btn btn-primary btn-md">Editar</button>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
