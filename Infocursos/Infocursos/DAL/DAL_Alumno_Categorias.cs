@@ -32,24 +32,26 @@ namespace Infocursos.DAL
                     sentenciaFiltros += filtros[i];
                 }
             }
-
+            SqlDataReader reader = null;
             try
             {
                 string sql = "select * from Alumno_Categorias" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = cmd.ExecuteReader();
+                reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     int[] clave = new int[2] { reader.GetInt32(0), reader.GetInt32(1) };
                     alumno_Categoria.Add(clave, reader.GetInt32(1));
                 }
-
-                reader.Close();
-
             }
             catch (Exception er)
             {
                 throw;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
             return alumno_Categoria;
         }

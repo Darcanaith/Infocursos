@@ -33,11 +33,12 @@ namespace Infocursos.DAL
                 }
             }
 
+            SqlDataReader reader = null;
             try
             {
                 string sql = "SELECT * FROM Nivel_Idioma" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = cmd.ExecuteReader();
+                reader = cmd.ExecuteReader();
                 while (reader.Read())
                     nivel_Idiomas.Add(reader.GetInt32(0), new Nivel_Idioma(reader.GetInt32(0), reader.GetString(1)));
             }
@@ -45,6 +46,11 @@ namespace Infocursos.DAL
             {
 
                 throw;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
             return nivel_Idiomas;
         }

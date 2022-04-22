@@ -33,11 +33,12 @@ namespace Infocursos.DAL
                 }
             }
 
+            SqlDataReader reader = null;
             try
             {
                 string sql = "SELECT * FROM Telefono" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = cmd.ExecuteReader();
+                reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     telefonos.Add(reader.GetInt32(0),reader.GetString(1));
@@ -45,8 +46,12 @@ namespace Infocursos.DAL
             }
             catch (Exception)
             {
-
                 throw;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
             return telefonos;
         }

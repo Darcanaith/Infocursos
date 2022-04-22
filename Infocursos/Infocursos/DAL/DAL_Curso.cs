@@ -33,19 +33,23 @@ namespace Infocursos.DAL
                     sentenciaFiltros += filtros[i];
                 }
             }
-
+            SqlDataReader reader = null;
             try
             {
                 string sql = "select  * from Curso " + sentenciaFiltros + " " + orderBy +  ";";
                 SqlCommand sqlCommand = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = sqlCommand.ExecuteReader();
+                reader = sqlCommand.ExecuteReader();
 
                 DAL_Categoria dal_Categoria = new DAL_Categoria();
                 IDictionary<int, Categoria> categorias = dal_Categoria.Select_Categoria(null, null);
 
+                DAL_Curso_Categorias dal_Curso_Categorias = new DAL_Curso_Categorias();
+                DAL_Horario dal_horario = new DAL_Horario();
+                DAL_Formador dal_formador = new DAL_Formador();
+                DAL_Modalidad dal_modalidad = new DAL_Modalidad();
+                DAL_Centro dal_centro = new DAL_Centro();
 
-                
-                
+
                 while (reader.Read())
                 {
                     Horario horario = null;
@@ -53,27 +57,22 @@ namespace Infocursos.DAL
                     Modalidad modalidad = null;
                     Centro centro = null;
                     List<Categoria> categorias_Curso = new List<Categoria>();
-
-                    DAL_Curso_Categorias dal_Curso_Categorias = new DAL_Curso_Categorias();
+                
                     IDictionary<int[], int> idAlumno_Idcategorias = dal_Curso_Categorias.Select_Curso_Categorias(null, null);
                     foreach (KeyValuePair<int[], int> kp in idAlumno_Idcategorias)
                         if (reader.GetInt32(0) == kp.Key[0])
                             categorias_Curso.Add(categorias[kp.Value]);
-
-                    DAL_Horario dal_horario = new DAL_Horario();
+          
                     List<Horario> horarios = dal_horario.Select_Horarios(null, null);
                     foreach (Horario horario_de_lista in horarios)
                         if (reader.GetInt32(7) == horario_de_lista.Id_horario)
                             horario = horario_de_lista;
-
-                    DAL_Formador dal_formador = new DAL_Formador();
+  
                     List<Formador> formadores = dal_formador.Select_Formador(null, null);
                     foreach (Formador formador_de_lista in formadores)
                         if (reader.GetInt32(8) == formador_de_lista.Id_User)
                             formador = formador_de_lista;
-
-
-                    DAL_Modalidad dal_modalidad = new DAL_Modalidad();
+                
                     List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
                     foreach (Modalidad modalidad_de_lista in modalidades)
                         if(reader.GetInt32(9) == modalidad_de_lista.Id_modalidad)
@@ -82,21 +81,24 @@ namespace Infocursos.DAL
 
                     if (reader.GetValue(10)!= DBNull.Value)
                     {
-                        DAL_Centro dal_centro = new DAL_Centro();
                         List<Centro> centros = dal_centro.Select_Centro(null, null);
                         foreach (Centro centro_de_lista in centros)
                             if (reader.GetInt32(9) == centro_de_lista.Id_centro)
                                 centro = centro_de_lista;
-
                     }
                     Curso curso = new Curso(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetDateTime(5), reader.GetDateTime(6), horario, formador, modalidad, centro, categorias_Curso);
                     cursos.Add(curso);
                 }
-                reader.Close();
+                
             }
             catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                if(reader != null)
+                    reader.Close();
             }
             return cursos;
         }

@@ -32,11 +32,13 @@ namespace Infocursos.DAL
                     sentenciaFiltros += filtros[i];
                 }
             }
+
+            SqlDataReader reader = null;
             try
             {
                 string sql = "select * from Modalidad" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = cmd.ExecuteReader();
+                reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     Modalidad modalidad = new Modalidad(reader.GetInt32(0), reader.GetString(1));
@@ -47,6 +49,11 @@ namespace Infocursos.DAL
             {
 
                 throw;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
             return modalidades;
 

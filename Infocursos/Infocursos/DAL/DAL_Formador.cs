@@ -18,6 +18,7 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
+
         public List<Formador> Select_Formador(List<Filtro> filtros, string orderBy)
         {
             List<Formador> Formadores = new List<Formador>();
@@ -34,12 +35,14 @@ namespace Infocursos.DAL
                     sentenciaFiltros += filtros[i];
                 }
             }
-
+            SqlDataReader reader = null;
             try
             {
                 string sql = @"SELECT * FROM Usuario INNER JOIN Formador ON Id_User=RId_User " + sentenciaFiltros + " " + orderBy;
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = cdm.ExecuteReader();
+                reader = cdm.ExecuteReader();
+
+                DAL_Telefono dat_telefono = new DAL_Telefono();
 
                 while (reader.Read())
                 {
@@ -59,20 +62,17 @@ namespace Infocursos.DAL
                     if (reader.GetValue(9) != DBNull.Value)
                         nombre_Entidad = reader.GetString(9);
 
-                    DAL_Telefono dat_telefono = new DAL_Telefono();
-                    IDictionary<int, string> telefonos = dat_telefono.Select_Telefono(null, null);
-                    foreach (KeyValuePair<int, string> telefono in telefonos)
-                        if (telefono.Key == reader.GetInt32(0))
-                            telefonos_Formador.Add(telefono.Value);
-
                     Formadores.Add(new Formador(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), user_Descripcion, user_Resumen, iMG_Perfil, telefonos_Formador, nombre_Entidad,reader.GetString(10),reader.GetBoolean(11)));
                 }
-                reader.Close();
-
             }
             catch (Exception er)
             {
                 throw;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
             return Formadores;
         }

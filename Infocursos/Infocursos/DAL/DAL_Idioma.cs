@@ -32,12 +32,12 @@ namespace Infocursos.DAL
                     sentenciaFiltros += filtros[i];
                 }
             }
-
+            SqlDataReader reader = null;
             try
             {
                 string sql = "SELECT * FROM Idioma" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = cmd.ExecuteReader();
+                reader = cmd.ExecuteReader();
                 while (reader.Read())
                     idiomas.Add(reader.GetInt32(0), new Idioma(reader.GetInt32(0), reader.GetString(1)));
             }
@@ -45,6 +45,11 @@ namespace Infocursos.DAL
             {
 
                 throw;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
             return idiomas;
         }
