@@ -8,7 +8,7 @@
 
         <div class="row gutters-sm">
             <div class="col-md-12 mb-3">
-
+                <p>@ViewData["horarioText"]</p>
                 <div class="card mb-3">
                     <div class="card-header">
                         <button class="btn btn-primary">Añadir Curso</button>
@@ -46,7 +46,7 @@
                                 <hr>
                             </div>
                         </div>
-                        @using (Html.BeginForm("FormadorEditarPerfil", "Formador", FormMethod.Post))
+                        @using (Html.BeginForm("InsertFormadorCurso", "Formador", FormMethod.Post))
                         {
                             <!-- Parte Formulario añadir curso. -->
                             <form id="crearCursoForm" style="display:block;">
@@ -114,7 +114,7 @@
                                         <!-- Input para Horario -->
                                         <div class="form-floating mb-2">
                                             <select class="form-select" id="horario" name="horario">
-                                                <option selected>Mañana</option>
+                                                <option selected>Selecciona un horario</option>
                                                 <option value="1">One</option>
                                                 <option value="2">Two</option>
                                                 <option value="3">Three</option>
@@ -144,7 +144,7 @@
                                 <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-2">Error sending message!</div></div>
                                 <!-- Submit Button-->
 
-                                <button class="btn btn-primary btn-xl disabled" id="RegisterButton" type="submit">Crear Curso</button>
+                                <button class="btn btn-primary btn-xl " id="RegisterButton" type="submit">Crear Curso</button>
 
                             </form>
                         }
