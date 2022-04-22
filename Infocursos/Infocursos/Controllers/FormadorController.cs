@@ -12,6 +12,14 @@ namespace Infocursos.Controllers
 {
     public class FormadorController : Controller
     {
+        public bool FormadorIsLoged()
+        {
+            if (Session["User"] == null || ((Usuario)Session["User"] as Formador) == null)
+                return false;
+            else
+                return true;
+        }
+
         public ActionResult RegistroFormador()
         {
             return View();
@@ -19,20 +27,16 @@ namespace Infocursos.Controllers
 
         public ActionResult FormadorEditarPerfil()
         {
-            if (Session["User"] == null || (Session["User"].ToString().Split('/')[0]).Equals("Alumno"))
+            if (!FormadorIsLoged())
                 return View("../Home/Index");
-            else
-            {
-                DAL_Formador dal_Formador = new DAL_Formador();
-                List<Filtro> filtros = new List<Filtro>();
-                filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
-                Formador formador = dal_Formador.Select_Formador(filtros, null).First();
-                @ViewData["Nombre_Entidad"] = formador.Nombre_Entidad;
-                @ViewData["User_nombre"] = formador.User_Nombre;
-                @ViewData["User_apellidos"] = formador.User_Apellidos;
-                @ViewData["Resumen"] = formador.User_Resumen;
-                return View();
-            }
+
+            Formador formador = (Formador)Session["User"];
+            @ViewData["Nombre_Entidad"] = formador.Nombre_Entidad;
+            @ViewData["User_nombre"] = formador.User_Nombre;
+            @ViewData["User_apellidos"] = formador.User_Apellidos;
+            @ViewData["Resumen"] = formador.User_Resumen;
+            return View();
+
             
         }
 
@@ -118,8 +122,9 @@ namespace Infocursos.Controllers
         {
             @ViewData["DisplayAddButton"] = "normal";
             @ViewData["DisplayAddDescripcion"] = "none";
-            if (Session["User"] == null || (Session["User"].ToString().Split('/')[0]).Equals("Alumno"))
+            if (!FormadorIsLoged())
                 return View("../Home/Index");
+            
 
             
             return RellenarFormadorPerfil();
@@ -158,14 +163,15 @@ namespace Infocursos.Controllers
         [HttpPost]
         public ActionResult RellenarFormadorPerfil()
         {
+            Formador formador = (Formador)Session["User"];
+
             if (@ViewData["Mostrar"] == null)
                 @ViewData["Mostrar"] = "Info";
             SetButtonsInfo_Curso(@ViewData["Mostrar"].Equals("Info"));
 
-            DAL_Formador dal_Formador = new DAL_Formador();
             List<Filtro> filtros = new List<Filtro>();
-            filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
-            Formador formador = dal_Formador.Select_Formador(filtros, null).First();
+            List<Filtro> filtrosCurso = new List<Filtro>();
+
             ViewData["IMG_Perfil"] = formador.IMG_Perfil;
             @ViewData["Nombre_Entidad"] = formador.Nombre_Entidad;
             @ViewData["Resumen"] = formador.User_Resumen;
@@ -173,8 +179,9 @@ namespace Infocursos.Controllers
             @ViewData["Descripcion"] = formador.User_Descripcion;
 
             DAL_Curso dal_Curso = new DAL_Curso();
-            List<Filtro> filtrosCurso = new List<Filtro>();
+            
             filtros.Add(new Filtro("RId_Formador",formador.Id_User.ToString(), ECondicionNum.Ig));
+
             List<Curso> cursos = dal_Curso.Select_Curso(filtrosCurso, null);
             List<string> horarios = new List<string>();
             List<string> modalidades = new List<string>();
@@ -201,10 +208,7 @@ namespace Infocursos.Controllers
         [HttpPost]
         public ActionResult UpdateInfoFormadorPerfil(HttpPostedFileBase Imagen)
         {
-            DAL_Formador dal_Formador = new DAL_Formador();
-            List<Filtro> filtros = new List<Filtro>();
-            filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
-            Formador formador = dal_Formador.Select_Formador(filtros, null).First();
+            Formador formador = (Formador)Session["User"];
             formador.Nombre_Entidad = Request["Entidad"];
             formador.User_Nombre = Request["Nombre"];
             formador.User_Apellidos = Request["Apellidos"];
@@ -217,6 +221,8 @@ namespace Infocursos.Controllers
                 formador.IMG_Perfil = Imagen.FileName;
             }
             ViewBag.FileStatus = "File uploaded successfully.";
+
+            DAL_Formador dal_Formador = new DAL_Formador();
             dal_Formador.Update_Formador(formador);
 
             
@@ -235,9 +241,8 @@ namespace Infocursos.Controllers
             else
             {
                 DAL_Formador dal_Formador = new DAL_Formador();
-                List<Filtro> filtros = new List<Filtro>();
-                filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
-                Formador formador = dal_Formador.Select_Formador(filtros, null).First();
+               
+                Formador formador = (Formador)Session["User"];
                 formador.User_Descripcion = description;
                 dal_Formador.Update_Formador(formador);
             }
@@ -356,6 +361,7 @@ namespace Infocursos.Controllers
             /*else if(fecha_final < fecha_inicio)*/
             else
                 ViewData["fecha_finalText"] = fecha_final;
+
             return View("FormadorPerfilPublicada");
         }
         public ActionResult ListaAlumnos()

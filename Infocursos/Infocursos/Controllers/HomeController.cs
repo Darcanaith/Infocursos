@@ -81,9 +81,9 @@ namespace Infocursos.Controllers
                 DAL_Formador dal_Formador = new DAL_Formador();
 
                 if ((dal_Alumno.Select_Alumno(filtros, null)).Count() > 0)
-                    Session["User"] = "Alumno/" + (dal_Alumno.Select_Alumno(filtros, null)).First().Email;
+                    Session["User"] = (dal_Alumno.Select_Alumno(filtros, null)).First();
                 else if ((dal_Formador.Select_Formador(filtros, null)).Count() > 0)
-                    Session["User"] = "Formador/" + (dal_Formador.Select_Formador(filtros, null)).First().Email;
+                    Session["User"] = (dal_Formador.Select_Formador(filtros, null)).First();
 
                 return View("Index");
             }
