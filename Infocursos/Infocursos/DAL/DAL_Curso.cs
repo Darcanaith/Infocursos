@@ -92,6 +92,7 @@ namespace Infocursos.DAL
                     Curso curso = new Curso(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetDateTime(5), reader.GetDateTime(6), horario, formador, modalidad, centro, categorias_Curso);
                     cursos.Add(curso);
                 }
+                reader.Close();
             }
             catch (Exception)
             {
