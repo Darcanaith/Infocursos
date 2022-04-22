@@ -13,6 +13,19 @@ namespace Infocursos.Controllers
     {
         public ActionResult Index()
         {
+            /*
+            DAL_Provincia dal_Provincia = new DAL_Provincia();
+
+            if ((dal_Provincia.Select_Provincia(null, null)).Count == 0)
+                ViewBag.ErrorProvincias = "Problemas con la conexion de BBDD.";
+
+            if (String.IsNullOrEmpty("" + ViewBag.NombreCursoError))
+            {
+                List<Provincia> provincias = new List<Provincia>();
+                provincias = dal_Provincia.Select_Provincia(null, null);
+                @ViewData["Provincia"] = provincias;
+                return View();
+            }*/
             return View();
         }
 
@@ -38,7 +51,7 @@ namespace Infocursos.Controllers
             string email = Request["email"];
             ViewBag.ErrorPassword = null;
             string password = Request["password"];
-            
+
 
             if (String.IsNullOrEmpty(email))
                 ViewBag.ErrorEmail = "Usuario Incorrecto";
@@ -51,7 +64,7 @@ namespace Infocursos.Controllers
                 else
                 {
                     ViewData["LoginEmailText"] = email;
-                    if(!(dal_Usuario.Select_Usuario(filtros, null)).First().Password.Equals(password))
+                    if (!(dal_Usuario.Select_Usuario(filtros, null)).First().Password.Equals(password))
                         ViewBag.ErrorPassword = "Contraseña Incorrecta";
                 }
             }
@@ -68,7 +81,7 @@ namespace Infocursos.Controllers
                 DAL_Formador dal_Formador = new DAL_Formador();
 
                 if ((dal_Alumno.Select_Alumno(filtros, null)).Count() > 0)
-                    Session["User"] = "Alumno/"+(dal_Alumno.Select_Alumno(filtros, null)).First().Email;
+                    Session["User"] = "Alumno/" + (dal_Alumno.Select_Alumno(filtros, null)).First().Email;
                 else if ((dal_Formador.Select_Formador(filtros, null)).Count() > 0)
                     Session["User"] = "Formador/" + (dal_Formador.Select_Formador(filtros, null)).First().Email;
 
@@ -84,6 +97,37 @@ namespace Infocursos.Controllers
 
             return View();
         }
-        
+
+        [HttpPost]
+        public ActionResult buscarCurso()
+        {
+            DAL_Provincia dal_Provincia = new DAL_Provincia();
+            List<Filtro> filtros = new List<Filtro>();
+
+            //DAL_Usuario dal_Usuario = new DAL_Usuario();
+            //List<Filtro> filtros = new List<Filtro>();
+
+            string busquedaCurso = Request["nombreCurso"];
+            ViewBag.NombreCursoError = null;
+
+            if (String.IsNullOrEmpty(busquedaCurso))
+                ViewBag.NombreCursoError = "Busqueda incorrecta.";
+            else
+            {
+                filtros.Add(new Filtro("Nombre_provincia", busquedaCurso, ECondicionText.Cont));
+                if ((dal_Provincia.Select_Provincia(filtros, null)).Count == 0)
+                    ViewBag.NombreCursoError = "No se han encontrado cursos con esta informacion.";
+            }
+            if (String.IsNullOrEmpty("" + ViewBag.NombreCursoError))
+            {
+                List<Provincia> provincias = new List<Provincia>();
+                provincias = dal_Provincia.Select_Provincia(filtros, null);
+                @ViewData["Provincia"] = provincias;
+                return View();
+            }
+            return View();
+
+        }
+
     }
 }
