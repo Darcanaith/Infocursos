@@ -306,6 +306,58 @@ namespace Infocursos.Controllers
 
             return View();
         }
+
+
+        [HttpPost]
+        public ActionResult InsertFormadorCurso()
+        {
+            ViewBag.ErrorCursoNombre = null;
+            string curso_nombre = Request["curso_nombre"];
+            ViewBag.ErrorNumPlaza = null;
+            string num_plaza = Request["num_plaza"];
+            ViewBag.ErrorHorasTotales = null;
+            string horas_totales = Request["horas_totales"];
+            ViewBag.ErrorFechaInicio = null;
+            string fecha_inicio = Request["fecha_inicio"];
+            ViewBag.ErrorFechaFinal = null;
+            string fecha_final = Request["fecha_final"];
+            ViewBag.ErrorCentro = null;
+            string centro = Request["centro"];
+            ViewBag.ErrorHorario = null;
+            string horario = Request["horario"];
+            ViewBag.ErrorModalidad = null;
+            string modalidad = Request["modalidad"];
+            ViewBag.ErrorDescripcion = null;
+            string descripcion = Request["descripcion"];
+
+            if (String.IsNullOrEmpty(curso_nombre))
+                ViewBag.ErrorCursoNombre = "*Este campo es obligatorio";
+            else
+                ViewData["curso_nombreText"] = curso_nombre;
+
+
+            if (String.IsNullOrEmpty(num_plaza))
+                ViewBag.ErrorNumPlaza = "*Este campo es obligatorio";
+            else
+                ViewData["num_plazaText"] = num_plaza;
+
+            if (String.IsNullOrEmpty(horas_totales))
+                ViewBag.ErrorHorasTotales = "*Este campo es obligatorio";
+            else
+                ViewData["horas_totalesText"] = horas_totales;
+
+            if (String.IsNullOrEmpty(fecha_inicio))
+                ViewBag.ErrorFechaInicio = "*Este campo es obligatorio";
+            else
+                ViewData["fecha_inicioText"] = fecha_inicio;
+
+            if (String.IsNullOrEmpty(fecha_final))
+                ViewBag.ErrorFechaFinal = "*Este campo es obligatorio";
+            /*else if(fecha_final < fecha_inicio)*/
+            else
+                ViewData["fecha_finalText"] = fecha_final;
+            return View("FormadorPerfilPublicada");
+        }
         public ActionResult ListaAlumnos()
         {
             ViewBag.Message = "Your List Alumno page.";
