@@ -330,9 +330,9 @@ namespace Infocursos.Controllers
             foreach (Modalidad modalidad in modalidades)
                 modalidades_string.Add(modalidad.Tipo_modalidad);
 
-            @ViewData["centros"] = centros_string;
-            @ViewData["horarios"] = horarios_string;
-            @ViewData["modalidades"] = modalidades_string;
+            @ViewData["centros"] = centros;
+            @ViewData["horarios"] = horarios;
+            @ViewData["modalidades"] = modalidades;
 
             return View();
         }
