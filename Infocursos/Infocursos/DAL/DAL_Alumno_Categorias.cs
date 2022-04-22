@@ -35,7 +35,7 @@ namespace Infocursos.DAL
 
             try
             {
-                string sql = "select * from Alumno_Categoria" + sentenciaFiltros + " " + orderBy + ";";
+                string sql = "select * from Alumno_Categorias" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
