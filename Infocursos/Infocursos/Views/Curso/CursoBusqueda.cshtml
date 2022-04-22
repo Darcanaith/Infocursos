@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Curso";
+}
+
+<header class="masthead bg-primary text-white text-center" style="background-image: url(/Content/assets/img/Banners/jaggerBanner.png); background-repeat: no-repeat; background-size: cover; ">
+    <!-- Contenedor para buscador web.-->
+    <section class="page-section" id="Buscador">
+        <div class="container" id="buscadorDiv">
+            <!-- Buscador Section Form-->
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-7">
+                    <form id="buscadorForm">
+                        <div class="row g-3">
+                            <!-- Name input-->
+                            <div class="col-md-8">
+                                <div class="form-control">
+                                    <label for="name">Buscar cursos de...</label>
+                                    <input class="form-control" id="name" type="text" placeholder="Modalidad, Horario o palabra clave">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-control">
+                                    <label for="floatingSelectGrid">En...</label>
+                                    <select class="form-select" id="floatingSelectGrid">
+                                        <option selected value="0">España</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Submit Button-->
+                            <div class="col-md-1">
+                                <button class="btn btn-primary btn-xl" id="submitButton" type="submit">buscar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</header>
+
+<div class="container" style="margin:5em;">
+    <div class="main-body">
+        <div class="row gutters-sm">
+            <div class="col-md-3 mb-2">
+                <div class="card mt-2 px-3">
+                    <div class="form-check mt-3">
+                        <h6>Categorias</h6>
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Default checkbox
+                        </label>
+                    </div>
+                    <div class="form-check mt-3">
+                        <h6>Modalidad</h6>
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Default checkbox
+                        </label>
+                    </div>
+                    <div class="form-check mt-3">
+                        <h6>Horarios</h6>
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Default checkbox
+                        </label>
+                    </div>
+                    <div class="form-check mt-3">
+                        <button class="btn btn-primary btn" id="submitButton" type="submit">Aplicar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body" id="divCurso">
+                        <div class="d-flex flex-column align-items-left text-left">
+                            <div class="mt-2">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <h6 class="mb-2">
+                                            <img src="~/Content/assets/img/Formador/defaultImg.png" alt="Admin" width="100">
+                                        </h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <h5>Nombre curso.</h5>
+                                        <div class="text-secondary">
+                                            Nombre empresa
+                                        </div>
+                                        <div class="text-secondary">
+                                            Horas
+                                        </div>
+                                        <div class="text-secondary">
+                                            Fecha inicio - Fecha final.
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
