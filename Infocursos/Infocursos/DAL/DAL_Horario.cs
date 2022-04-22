@@ -34,11 +34,12 @@ namespace Infocursos.DAL
                     sentenciaFiltros += filtros[i];
                 }
             }
+            SqlDataReader reader = null;
             try
             {
                 string sql = "select * from Horario" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = cmd.ExecuteReader();
+                reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -51,6 +52,11 @@ namespace Infocursos.DAL
             {
 
                 throw;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
             return horarios;
         }

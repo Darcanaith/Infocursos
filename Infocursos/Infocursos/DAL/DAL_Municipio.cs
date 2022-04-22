@@ -32,15 +32,18 @@ namespace Infocursos.DAL
                     sentenciaFiltros += filtros[i];
                 }
             }
+            SqlDataReader reader = null;
             try
             {
                 string sql = "select * from Municipio" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
                 Provincia provincia = null;
-                SqlDataReader  reader = cmd.ExecuteReader();
+                reader = cmd.ExecuteReader();
+
+                DAL_Provincia dal_provincia = new DAL_Provincia();
                 while (reader.Read())
                 {
-                    DAL_Provincia dal_provincia = new DAL_Provincia();
+                    
                     List<Provincia> provincias = dal_provincia.Select_Provincia(null, null);
                     foreach (Provincia provincia_de_lista in provincias)
                     {
@@ -58,6 +61,11 @@ namespace Infocursos.DAL
             {
 
                 throw;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
             return municipios;
 

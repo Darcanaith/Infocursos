@@ -33,11 +33,14 @@ namespace Infocursos.DAL
                 }
             }
 
+            SqlDataReader reader = null;
             try
             {
                 string sql = @"SELECT * FROM Usuario" + sentenciaFiltros + " " + orderBy;
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = cdm.ExecuteReader();
+                reader = cdm.ExecuteReader();
+
+                DAL_Telefono dat_telefono = new DAL_Telefono();
 
                 while (reader.Read())
                 {
@@ -53,8 +56,7 @@ namespace Infocursos.DAL
 
                     if (reader.GetValue(7) != DBNull.Value)
                         iMG_Perfil = reader.GetString(7);
-
-                    DAL_Telefono dat_telefono = new DAL_Telefono();
+                    
                     IDictionary<int, string> telefonos = dat_telefono.Select_Telefono(null, null);
                     foreach (KeyValuePair<int, string> telefono in telefonos)
                         if (telefono.Key == reader.GetInt32(0))
@@ -62,12 +64,15 @@ namespace Infocursos.DAL
 
                     Usuarios.Add(new Usuario(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), user_Descripcion, user_Resumen, iMG_Perfil, telefonos_User));
                 }
-                reader.Close();
-
             }
             catch (Exception er)
             {
                 throw;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
             return Usuarios;
         }

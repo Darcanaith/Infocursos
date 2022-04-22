@@ -118,17 +118,50 @@ namespace Infocursos.Controllers
         {
             @ViewData["DisplayAddButton"] = "normal";
             @ViewData["DisplayAddDescripcion"] = "none";
-
             if (Session["User"] == null || (Session["User"].ToString().Split('/')[0]).Equals("Alumno"))
                 return View("../Home/Index");
 
-            RellenarFormadorPerfil();
-            return View();
+            
+            return RellenarFormadorPerfil();
+        }
+        public void SetButtonsInfo_Curso(bool infoIsSelected)
+        {
+            if (!infoIsSelected)
+            {
+                @ViewData["DisplayInfo"] = "none";
+                @ViewData["DisplayCursos"] = "normal";
+                @ViewData["BTNInfo"] = "btn-outline-primary";
+                @ViewData["BTNCursos"] = "btn-primary disabled";
+            }
+            else
+            {
+                @ViewData["DisplayInfo"] = "normal";
+                @ViewData["DisplayCursos"] = "none";
+                @ViewData["BTNInfo"] = "btn-primary disabled";
+                @ViewData["BTNCursos"] = "btn-outline-primary";
+            }
         }
 
         [HttpPost]
-        public EmptyResult RellenarFormadorPerfil()
+        public ActionResult Info_Cursos()
         {
+            string IsVisible = Request["WhoIsVisible"];
+            if(IsVisible.Equals("Info"))
+                @ViewData["Mostrar"] = "Curso";
+            else
+                @ViewData["Mostrar"] = "Info";
+
+
+            return RellenarFormadorPerfil();
+        }
+
+        [HttpPost]
+        public ActionResult RellenarFormadorPerfil()
+        {
+            if (@ViewData["Mostrar"] == null)
+                @ViewData["Mostrar"] = "Info";
+            SetButtonsInfo_Curso(@ViewData["Mostrar"].Equals("Info"));
+
             DAL_Formador dal_Formador = new DAL_Formador();
             List<Filtro> filtros = new List<Filtro>();
             filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
@@ -162,7 +195,7 @@ namespace Infocursos.Controllers
             @ViewData["Modalidades"] = modalidades;
             @ViewData["Categorias"] = categorias;
 
-            return new EmptyResult();
+            return View("FormadorPerfil");
         }
 
         [HttpPost]
@@ -186,8 +219,8 @@ namespace Infocursos.Controllers
             ViewBag.FileStatus = "File uploaded successfully.";
             dal_Formador.Update_Formador(formador);
 
-            RellenarFormadorPerfil();
-            return View("FormadorPerfil");
+            
+            return RellenarFormadorPerfil();
         }
         [HttpPost]
         public ActionResult GuardarDescripcion()
@@ -209,8 +242,7 @@ namespace Infocursos.Controllers
                 dal_Formador.Update_Formador(formador);
             }
 
-            RellenarFormadorPerfil();
-            return View("FormadorPerfil");
+            return RellenarFormadorPerfil();
         }
 
         [HttpPost]
@@ -227,8 +259,8 @@ namespace Infocursos.Controllers
                 @ViewData["DisplayAddButton"] = "normal";
                 @ViewData["DisplayAddDescripcion"] = "none";
             }
-            RellenarFormadorPerfil();
-            return View("FormadorPerfil");
+
+            return RellenarFormadorPerfil();
         }
 
         [HttpPost]
@@ -245,8 +277,8 @@ namespace Infocursos.Controllers
                 @ViewData["DisplayAddButton"] = "none";
                 @ViewData["DisplayAddDescripcion"] = "normal";
             }
-            RellenarFormadorPerfil();
-            return View("FormadorPerfil");
+
+            return RellenarFormadorPerfil();
         }
 
         public ActionResult PaginaFormador()

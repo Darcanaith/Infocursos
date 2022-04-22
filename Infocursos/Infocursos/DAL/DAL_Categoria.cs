@@ -34,20 +34,17 @@ namespace Infocursos.DAL
                     sentenciaFiltros += filtros[i];
                 }
             }
-
+            SqlDataReader reader = null;
             try
             {
                 string sql = "select * from Categoria" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = cmd.ExecuteReader();
+                reader = cmd.ExecuteReader();
                 while (reader.Read())
                     if (reader.GetValue(2) == DBNull.Value)
                         categorias.Add(reader.GetInt32(0), new Categoria(reader.GetInt32(0), reader.GetString(1), null));
                     else
                         categorias_sinCatMay.Add(new Categoria(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2)));
-
-                reader.Close();
-
                 do
                 {
                     List<Categoria> temp = new List<Categoria>();
@@ -71,6 +68,11 @@ namespace Infocursos.DAL
             catch (Exception er)
             {
                 throw;
+            }
+            finally
+            {
+                if(reader!=null)
+                    reader.Close();
             }
             return categorias;
         }

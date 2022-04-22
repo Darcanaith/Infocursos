@@ -33,11 +33,12 @@ namespace Infocursos.DAL
                 }
             }
 
+            SqlDataReader reader = null;
             try
             {
                 string sql = "select * from Provincia" + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
-                SqlDataReader reader = cmd.ExecuteReader();
+                reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     Provincia provincia = new Provincia(reader.GetInt32(0), reader.GetString(1));
@@ -46,8 +47,12 @@ namespace Infocursos.DAL
             }
             catch (Exception)
             {
-
                 throw;
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
             }
             return provincias;
         }
