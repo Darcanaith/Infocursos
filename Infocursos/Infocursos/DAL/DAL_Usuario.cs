@@ -133,8 +133,8 @@ namespace Infocursos.DAL
         {
             try
             {
-                string sql_Usuario = @"INSERT INTO Usuario(Email, Password, User_Nombre, User_Apellidos) 
-                                        VALUES(@Email, @Password, @User_Nombre, @User_Apellidos)";
+                string sql_Usuario = @"INSERT INTO Usuario(Email, Password, User_Nombre, User_Apellidos, IMG_Perfil) 
+                                        VALUES(@Email, @Password, @User_Nombre, @User_Apellidos, @IMG_Perfil)";
                 SqlCommand cdm_Usuario = new SqlCommand(sql_Usuario, cnx.Connection);
 
                 SqlParameter pEmail = new SqlParameter("@Email", System.Data.SqlDbType.NVarChar, 100);
@@ -149,10 +149,14 @@ namespace Infocursos.DAL
                 SqlParameter pUser_Apellidos = new SqlParameter("@User_Apellidos", System.Data.SqlDbType.NVarChar, 100);
                 pUser_Apellidos.Value = user.User_Apellidos;
 
+                SqlParameter pIMG_Perfil = new SqlParameter("@IMG_Perfil", System.Data.SqlDbType.NVarChar, 300);
+                pIMG_Perfil.Value = user.IMG_Perfil;
+
                 cdm_Usuario.Parameters.Add(pEmail);
                 cdm_Usuario.Parameters.Add(pPassword);
                 cdm_Usuario.Parameters.Add(pUser_Nombre);
                 cdm_Usuario.Parameters.Add(pUser_Apellidos);
+                cdm_Usuario.Parameters.Add(pIMG_Perfil);
                 cdm_Usuario.ExecuteNonQuery();
             }
             catch (Exception er)
