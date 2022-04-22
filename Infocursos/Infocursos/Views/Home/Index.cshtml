@@ -32,7 +32,7 @@
                                         }
                                         @if (@ViewData["Provincia"] != null)
                                         {
-                                            <select class="form-select" id="floatingSelectGrid">
+                                            <select class="form-select" id="floatingSelectGrid" name="provincia">
                                                 <option selected value="0">España</option>
                                                 @foreach (var provincia in ViewData["Provincia"] as List<Infocursos.Models.Provincia>)
                                                 {
