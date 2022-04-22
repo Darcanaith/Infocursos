@@ -34,7 +34,8 @@ namespace Infocursos.Models
             Email = email;
             Password = password;
             User_Nombre = user_Nombre;
-            User_Apellidos = user_Apellidos;  
+            User_Apellidos = user_Apellidos;
+            IMG_Perfil = "huevo.png";
         }
 
         public Usuario(int id_User, string email, string password, string user_Nombre, string user_Apellidos, string user_Descripcion, string user_Resumen, string iMG_Perfil, List<string> telefonos)
