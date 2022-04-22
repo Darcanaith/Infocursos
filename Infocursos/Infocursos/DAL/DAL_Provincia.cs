@@ -43,6 +43,7 @@ namespace Infocursos.DAL
                     Provincia provincia = new Provincia(reader.GetInt32(0), reader.GetString(1));
                     provincias.Add(provincia);
                 }
+                reader.Close();
             }
             catch (Exception)
             {

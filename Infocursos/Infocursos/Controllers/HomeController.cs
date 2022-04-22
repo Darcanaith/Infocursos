@@ -13,7 +13,7 @@ namespace Infocursos.Controllers
     {
         public ActionResult Index()
         {
-            /*
+            
             DAL_Provincia dal_Provincia = new DAL_Provincia();
 
             if ((dal_Provincia.Select_Provincia(null, null)).Count == 0)
@@ -25,7 +25,7 @@ namespace Infocursos.Controllers
                 provincias = dal_Provincia.Select_Provincia(null, null);
                 @ViewData["Provincia"] = provincias;
                 return View();
-            }*/
+            }
             return View();
         }
 
