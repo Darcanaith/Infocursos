@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using Infocursos.Models;
 using System.Data.SqlClient;
+using static Infocursos.Models.Enums;
+using EnumsNET;
 
 namespace Infocursos.DAL
 {
@@ -26,9 +28,9 @@ namespace Infocursos.DAL
                 for (int i = 0; i < filtros.Count; i++)
                 {
                     if (i == 0)
-                        sentenciaFiltros = "WHERE ";
+                        sentenciaFiltros = " WHERE ";
                     else
-                        sentenciaFiltros += " AND ";
+                        sentenciaFiltros += " " +filtros[i].Conector+ " ";
 
                     sentenciaFiltros += filtros[i];
                 }

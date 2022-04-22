@@ -29,7 +29,7 @@ namespace Infocursos.DAL
                     if (i == 0)
                         sentenciaFiltros = "WHERE ";
                     else
-                        sentenciaFiltros += " AND ";
+                        sentenciaFiltros += " " + filtros[i].Conector + " ";
 
                     sentenciaFiltros += filtros[i];
                 }

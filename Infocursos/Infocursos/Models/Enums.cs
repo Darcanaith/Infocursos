@@ -11,6 +11,14 @@ namespace Infocursos.Models
 {
     public static class Enums
     {
+        public enum EConector
+        {
+            [Description("AND")]
+            AND,
+
+            [Description("OR")]
+            OR,
+        }
         public enum ECondicionNum  
         {
             [Display(Name = "Mas pequeño que")]

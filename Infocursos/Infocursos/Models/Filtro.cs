@@ -16,13 +16,33 @@ namespace Infocursos.Models
         string atributoFiltrado;
         ECondicionText? condicionText;
         ECondicionNum? condicionNum;
+        EConector conector;
         string condicionante;
 
+        public string Conector { get => ((EConector)conector).AsString(EnumFormat.Description); }
+
+        public Filtro(string atributoFiltrado, string condicionante, ECondicionNum condicionNum, EConector conector)
+        {
+            this.atributoFiltrado = atributoFiltrado;
+            this.condicionNum = condicionNum;
+            this.condicionante = condicionante;
+            this.conector = conector;
+            condicionText = null;
+        }
+        public Filtro(string atributoFiltrado, string condicionante, ECondicionText condicionText, EConector conector)
+        {
+            this.atributoFiltrado = atributoFiltrado;
+            this.condicionText = condicionText;
+            this.condicionante = condicionante;
+            this.conector = conector;
+            condicionNum = null;
+        }
         public Filtro(string atributoFiltrado, string condicionante, ECondicionNum condicionNum)
         {
             this.atributoFiltrado = atributoFiltrado;
             this.condicionNum = condicionNum;
             this.condicionante = condicionante;
+            this.conector = EConector.AND;
             condicionText = null;
         }
         public Filtro(string atributoFiltrado, string condicionante, ECondicionText condicionText)
@@ -30,8 +50,10 @@ namespace Infocursos.Models
             this.atributoFiltrado = atributoFiltrado;
             this.condicionText = condicionText;
             this.condicionante = condicionante;
+            this.conector = EConector.AND;
             condicionNum = null;
         }
+
 
 
         override
