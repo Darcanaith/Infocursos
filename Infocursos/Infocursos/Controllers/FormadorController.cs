@@ -133,9 +133,9 @@ namespace Infocursos.Controllers
             List<Filtro> filtros = new List<Filtro>();
             filtros.Add(new Filtro("Email", (Session["User"].ToString().Split('/')[1]), ECondicionText.Igual));
             Formador formador = dal_Formador.Select_Formador(filtros, null).First();
+            ViewData["IMG_Perfil"] = formador.IMG_Perfil;
             @ViewData["Nombre_Entidad"] = formador.Nombre_Entidad;
             @ViewData["Resumen"] = formador.User_Resumen;
-
 
             @ViewData["Descripcion"] = formador.User_Descripcion;
 
