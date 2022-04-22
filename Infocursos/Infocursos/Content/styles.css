@@ -4896,8 +4896,8 @@ textarea.form-control-lg {
         color: #fff;
     }
 
+
 .card {
-    position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -5955,6 +5955,24 @@ textarea.form-control-lg {
     .toast:not(.show) {
         display: none;
     }
+
+    .container.card{
+        width: 300px;
+        height: 430px;
+        border-radius: 8px;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+        overflow: hidden;
+        margin: 20px;
+        text-align: center;
+        transition: all 0.25s;
+    }
+
+    .container .card:hover{
+        transform: translate(-15px);
+        box-shadow: 0 12px 16px rgba(0,0,0,0.2);
+    }
+
+   
 
 .toast-container {
     width: -webkit-max-content;
@@ -12229,9 +12247,35 @@ html {
 
 #div-right{
     margin-left: 800px;
-    width: 2300px;
+    width: 1000px;
     margin-bottom: 100px;
-   
+}
+
+#idiomas{
+    margin-top: -10px;
+}
+
+#idiomas-nivel{
+    margin-top: 90px;
+    font-size: 30px;
+}
+
+#avatar{
+    margin-left:400px;
+    height: 50px;
+    margin-top: 10px;
+}
+
+#boton-editar{
+    margin-left:500px;
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+#texto-datos{
+    margin-top: 10px;
+    margin-bottom: -40px;
+    font-size: 30px;
 }
 
 #texto-buscador{
@@ -12245,6 +12289,52 @@ html {
     margin-left:300px;
 }
 
+
+#titulo-datos{
+    margin-top: -60px;
+    margin-bottom: 100px;
+}
+
+#titulo-descripcion{
+    margin-top: -60px;
+    margin-bottom: 100px;
+}
+
+#texto-descripcion{
+    margin-top: 50px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
 .copyright {
     background-color: #1a252f;
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+    background-color: #F5F5F5;
+}
+::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #F90; 
+    background-image: -webkit-linear-gradient(90deg,rgba(255, 255, 255, .2) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, .2) 50%,rgba(255, 255, 255, .2) 75%,transparent 75%,transparent)
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.9);
+    border-radius: 10px;
+    background-color: #CCCCCC;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #D62929;
+    background-image: -webkit-linear-gradient(90deg,transparent,rgba(0, 0, 0, 0.4) 50%,transparent,transparent)
 }
