@@ -36,7 +36,7 @@ namespace Infocursos.DAL
             SqlDataReader reader = null;
             try
             {
-                string sql = "select * from Modalidad" + sentenciaFiltros + " " + orderBy + ";";
+                string sql = "select * from Modalidad " + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
                 reader = cmd.ExecuteReader();
                 while (reader.Read())

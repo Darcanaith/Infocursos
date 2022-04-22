@@ -107,7 +107,7 @@ namespace Infocursos.DAL
         {
             try
             {
-                string sql = "insert into Curso values(@curso_nombre, @curso_descripcion, @num_plaza, @horas_totales, @fecha_inicio, @fecha_final, @rid_horario, @rid_formador, @id_modaldiad, @rid_centro)";
+                string sql = "insert into Curso values(@curso_nombre, @curso_descripcion, @num_plaza, @horas_totales, @fecha_inicio, @fecha_final, @rid_horario, @rid_formador, @rid_modalidad, @rid_centro)";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
 
                 SqlParameter pcurso_nombre = new SqlParameter("@curso_nombre", System.Data.SqlDbType.NVarChar, 50);
