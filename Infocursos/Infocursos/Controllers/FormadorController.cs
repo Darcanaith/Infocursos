@@ -297,55 +297,98 @@ namespace Infocursos.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult VerListaCursos()
+        public void SetButtonLista_cursos(bool cursoIsSelected)
         {
-            string boton_lista = Request["boton_lista"];
-            string boton_anadir = Request["boton_añadir"];
-            if (string.IsNullOrEmpty(boton_lista))
+            if (!cursoIsSelected)
             {
+                @ViewData["anadir_cursos"] = "none";
+                @ViewData["lista_cursos"] = "normal";
                 @ViewData["style_button_lista"] = "btn-outline-primary";
-                @ViewData["enable_div"] = "";
+                @ViewData["style_button_añadir"] = "btn-primary";
             }
-            if (string.IsNullOrEmpty(boton_anadir))
+            else
             {
+                @ViewData["anadir_cursos"] = "normal";
+                @ViewData["lista_cursos"] = "none";
+                @ViewData["style_button_lista"] = "btn-primary";
                 @ViewData["style_button_añadir"] = "btn-outline-primary";
-                @ViewData["enable_div"] = "none";
 
             }
+        }
+
+        [HttpPost]
+        public ActionResult MostrarLista_cursos(Formador formador)
+        {
+            string botonListaCursos = Request["boton_lista"];
+             if (botonListaCursos.Equals("boton_lista"))
+                @ViewData["Mostrar"] = "lista_cursos";
+            else
+                @ViewData["Mostrar"] = "añadir_cursos";
+
+
+            return RellenarListaCurso(formador);
+         }
+
+        public ActionResult RellenarListaCurso(Formador formador)
+        {
+            if (ViewData["Mostrar"] == null)
+                @ViewData["Mostrar"] = "añadir_cursos";
+            SetButtonLista_cursos(@ViewData["Mostrar"].Equals("añadir_cursos"));
+
+            @ViewData["IMG_Perfil"] = formador.IMG_Perfil;
+            formador.GetCursos();
+            ViewData["cursos"] = formador.Cursos;
             return View("FormadorPerfilPublicada");
         }
-        public ActionResult FormadorPerfilPublicada()
+
+
+        public ActionResult FormadorPerfilPublicada(int? IdFormador)
         {
-            if (!FormadorIsLoged())
-                return View("../Home/Index");
-            DAL_Curso dal_curso = new DAL_Curso();
+            @ViewData["anadir_cursos"] = "normal";
+            @ViewData["lista_cursos"] = "none";
+
+            Formador formador = null;
+            DAL_Formador dal_Formador = new DAL_Formador();
             List<Filtro> filtros = new List<Filtro>();
-            filtros.Add(new Filtro("Rid_Formador", ((Usuario)Session["User"]).Id_User.ToString(), ECondicionNum.Ig));
-            List<Curso> cursos = dal_curso.Select_Curso(filtros, null);
-            DAL_Centro dal_centro = new DAL_Centro();
-            DAL_Horario dal_horario = new DAL_Horario();
-            DAL_Modalidad dal_modalidad = new DAL_Modalidad();
+            filtros.Add(new Filtro("Id_User", IdFormador.ToString(), ECondicionNum.Ig));
 
-            List<Filtro> filtros2 = new List<Filtro>();
-            List<Centro> centros = new List<Centro>();
-            foreach (Curso curso in cursos)
+            if (IdFormador == null)
+                if (!FormadorIsLoged())
+                    return View("../Home/Index");
+                else
+                    formador = (Formador)Session["User"];
+            else
             {
-                if (curso.Centro != null)
-                    filtros2.Add(new Filtro("Rid_Centro", curso.Centro.Id_centro.ToString(), ECondicionNum.Ig));
-                else 
-                    filtros2 = null;
-                centros = dal_centro.Select_Centro(filtros2, null);
+                formador = dal_Formador.Select_Formador(filtros, null).First();
+                filtros.Clear();
+                DAL_Curso dal_curso = new DAL_Curso();
+                filtros.Add(new Filtro("Rid_Formador", ((Usuario)Session["User"]).Id_User.ToString(), ECondicionNum.Ig));
+                List<Curso> cursos = dal_curso.Select_Curso(filtros, null);
+                DAL_Centro dal_centro = new DAL_Centro();
+                DAL_Horario dal_horario = new DAL_Horario();
+                DAL_Modalidad dal_modalidad = new DAL_Modalidad();
 
+                List<Filtro> filtros2 = new List<Filtro>();
+                List<Centro> centros = new List<Centro>();
+                foreach (Curso curso in cursos)
+                {
+                    if (curso.Centro != null)
+                        filtros2.Add(new Filtro("Rid_Centro", curso.Centro.Id_centro.ToString(), ECondicionNum.Ig));
+                    else
+                        filtros2 = null;
+                    centros = dal_centro.Select_Centro(filtros2, null);
+
+                }
+                List<Horario> horarios = dal_horario.Select_Horarios(null, null);
+                List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
+
+                @ViewData["centros"] = centros;
+                @ViewData["horarios"] = horarios;
+                @ViewData["modalidades"] = modalidades;
             }
-            List<Horario> horarios = dal_horario.Select_Horarios(null, null);
-            List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
 
-            @ViewData["centros"] = centros;
-            @ViewData["horarios"] = horarios;
-            @ViewData["modalidades"] = modalidades;
 
-            return View();
+            return RellenarListaCurso(formador);
         }
 
 
