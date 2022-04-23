@@ -12305,6 +12305,32 @@ html {
     margin-bottom: 10px;
     font-size: 20px;
 }
+
+#foto1 {
+    margin-left:-400px;
+    height: 510px;
+    width: 440px;
+}
+
+#foto2 {
+    margin-left: -300px;
+    height: 510px;
+    width: 440px;
+}
+
+#foto3 {
+    margin-left: -200px;
+    height: 510px;
+    width: 440px;
+}
+
+#foto4 {
+    margin-top:-630px;
+    margin-left:800px;
+    height: 510px;
+    width: 440px;
+}
+
 .copyright {
     background-color: #1a252f;
 }
