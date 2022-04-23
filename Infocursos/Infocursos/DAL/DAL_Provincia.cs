@@ -13,8 +13,11 @@ namespace Infocursos.DAL
 
         public DAL_Provincia()
         {
-            this.cnx = new CNX();
+            Cnx = new CNX();
         }
+
+
+        public CNX Cnx { get => cnx; set => cnx = value; }
 
         public List<Provincia> Select_Provincia(List<Filtro> filtros, string orderBy)
         {
@@ -37,7 +40,7 @@ namespace Infocursos.DAL
             try
             {
                 string sql = "select * from Provincia" + sentenciaFiltros + " " + orderBy + ";";
-                SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
+                SqlCommand cmd = new SqlCommand(sql, Cnx.Connection);
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {

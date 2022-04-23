@@ -16,7 +16,8 @@ namespace Infocursos.DAL
             this.cnx = new CNX();
         }
 
-        public List<Modalidad> Select_Modalidades(List<Filtro> filtros, string orderBy)
+    public CNX Cnx { get => cnx; set => cnx = value; }
+    public List<Modalidad> Select_Modalidades(List<Filtro> filtros, string orderBy)
         {
             List<Modalidad> modalidades = new List<Modalidad>();
             string sentenciaFiltros = "";

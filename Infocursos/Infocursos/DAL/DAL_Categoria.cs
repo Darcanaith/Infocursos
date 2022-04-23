@@ -13,8 +13,11 @@ namespace Infocursos.DAL
 
         public DAL_Categoria()
         {
-            cnx = new CNX();
+            Cnx = new CNX();
         }
+
+
+        public CNX Cnx { get => cnx; set => cnx = value; }
 
         public IDictionary<int, Categoria> Select_Categoria(List<Filtro> filtros, string orderBy)
         {
@@ -38,7 +41,7 @@ namespace Infocursos.DAL
             try
             {
                 string sql = "select * from Categoria" + sentenciaFiltros + " " + orderBy + ";";
-                SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
+                SqlCommand cmd = new SqlCommand(sql, Cnx.Connection);
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                     if (reader.GetValue(2) == DBNull.Value)

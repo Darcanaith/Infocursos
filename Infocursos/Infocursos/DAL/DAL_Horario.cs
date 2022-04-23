@@ -18,7 +18,9 @@ namespace Infocursos.DAL
             this.cnx = new CNX();
         }
 
-        public List<Horario> Select_Horarios(List<Filtro> filtros, string orderBy)
+
+    public CNX Cnx { get => cnx; set => cnx = value; }
+    public List<Horario> Select_Horarios(List<Filtro> filtros, string orderBy)
         {
             List<Horario> horarios = new List<Horario>();
             string sentenciaFiltros = "";

@@ -1,4 +1,5 @@
-﻿
+﻿@using Infocursos.Models
+ 
 @{
     ViewBag.Title = "FormadorPerfil";
 }
@@ -9,7 +10,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex flex-column align-items-left text-left" style="padding:0.5em;background-image: url(/Content/assets/img/Banners/jaggerBanner.png); background-repeat: no-repeat; background-size: 100% 80%;;">
+                        <div class="d-flex flex-column align-items-left text-left" style="padding:0.5em;background-image: url(/Content/assets/img/Banners/jaggerBanner.png); background-repeat: no-repeat; background-size: 100% 80%;">
                             @using (Html.BeginForm("FormadorEditarPerfil", "Formador", FormMethod.Post))
                             {
                                 <div class="mt-3 align-items-right text-right" style="text-align:right;">
@@ -32,14 +33,27 @@
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <div class="card-header">
-                        @using (Html.BeginForm("Info_Cursos", "Formador", FormMethod.Post))
+                    <!--<div class="card-header">
+                        using (Html.BeginForm("Info_Cursos", "Formador", FormMethod.Post))
                         {
-                            <input id="IsVisible" name="WhoIsVisible" style="display:none" value="@ViewData["Mostrar"]" />
-                            <button class="btn @ViewData["BTNInfo"]" data-bs-toggle="modal" data-bs-target="#portfolioModal6">Info</button>
+                            <input id="IsVisible" name="WhoIsVisible" style="display:none" value="ViewData["Mostrar"]" />
+                            <button class="btn ViewData["BTNInfo"]" data-bs-toggle="modal" data-bs-target="#portfolioModal6">Info</button>
 
-                            <button class="btn @ViewData["BTNCursos"]">Cursos</button>
+                            <button class="btn ViewData["BTNCursos"]">Cursos</button>
                         }
+                                    <button href="../Home/Index" class="btn @ViewData["BTNInfo"]" data-bs-toggle="modal" data-bs-target="#portfolioModal6">Info</button>
+
+                                    <button href="../Home/Index" class="btn @ViewData["BTNCursos"]">Cursos</button>
+                    </div>-->
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="../Home/Index">Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Cursos</a>
+                            </li>
+                        </ul>
                     </div>
                     <div class="card-body" id="divDescripcion" style="display:@ViewData["DisplayInfo"]">
                         <button class="btn btn-outline-primary float-end" style="width:fit-content()">Editar</button>
@@ -115,17 +129,17 @@
                             <div class="row">
                                 <p class="text-secondary mb-1" style="font-weight:bold">Categorias</p>
                             </div>
-                            @for (int i = 0; i < (((List<string>)@ViewData["Categorias"]).Count) / 4 + (((List<string>)@ViewData["Categorias"]).Count) % 4; i++)
+                            @for (int i = 0; i < (((List<Categoria>)@ViewData["Categorias"]).Count) / 4 + (((List<Categoria>)@ViewData["Categorias"]).Count) % 4; i++)
                             {
                                 int cat = 4 * i;
                                 <div class="row">
 
-                                    @for (int y = 0; y < 4 && cat < ((List<string>)@ViewData["Categorias"]).Count; y++, cat++)
+                                    @for (int y = 0; y < 4 && cat < ((List<Categoria>)@ViewData["Categorias"]).Count; y++, cat++)
                                     {
                                         <div class="col-md-3 align-items-center text-center">
                                             <div class="card" style="margin:0.3em; width:fit-content; min-width:10em">
                                                 <div class="card-body">
-                                                    @(((List<string>)@ViewData["Categorias"])[cat])
+                                                    @(((List<Categoria>)@ViewData["Categorias"])[cat].Categoria_nombre)
                                                 </div>
                                             </div>
                                         </div>
@@ -145,28 +159,55 @@
                     <div class="card-body" style="display:@ViewData["DisplayCursos"]" id="divCurso">
                         <div class="d-flex flex-column align-items-left text-left">
 
-                            <div class="mt-3">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">
-                                            <img src="~/Content/assets/img/Formador/defaultImg.png" alt="Admin" width="100">
-                                        </h6>
-                                    </div>
-                                    <div class="col-sm-2 text-secondary">
-                                        Nombre curso.
-                                    </div>
-                                    <div class="col-sm-2 text-secondary">
-                                        Nombre formador.
-                                    </div>
-                                    <div class="col-sm-2 text-secondary">
-                                        Horas.
-                                    </div>
-                                    <div class="col-sm-2 text-secondary">
-                                        Fecha Inicio-Fecha Final.
-                                    </div>
+                            @foreach (Curso curso in (List<Curso>)ViewData["Cursos"])
+                            {
+                                <div class="card m-2">
+                                    <a href="/Curso/Curso?IdCurso=@curso.Id_curso" style="text-decoration:none">
+                                        <div class="card-body" id="divCurso">
+                                            <div class="float-end">
+                                                @if (DateTime.Compare(curso.Fecha_final, DateTime.Now) < 0)
+                                                {
+                                                    <p class="text-danger">Curso finalizado</p>
+                                                }
+                                                else if (DateTime.Compare(curso.Fecha_inicio, DateTime.Now) < 0)
+                                                {
+                                                    <p class="text-success">Disponible</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="text-warning">Curso en proceso</p>
+                                                }
+
+                                            </div>
+                                            <div class="d-flex flex-column align-items-left text-left">
+                                                <div class="mt-2">
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                            <h6 class="mb-2">
+                                                                <img src="~/Content/assets/img/Formador/defaultImg.png" alt="Admin" width="100">
+                                                            </h6>
+                                                        </div>
+
+                                                        <div class="col-sm-9">
+                                                            <h5>@curso.Curso_nombre</h5>
+                                                            <div class="text-secondary">
+                                                                Nombre empresa
+                                                            </div>
+                                                            <div class="text-secondary">
+                                                                Horas totales: @curso.Horas_totales
+                                                            </div>
+                                                            <div class="text-secondary">
+                                                                Fecha de inicio: @curso.Fecha_inicio - Fecha de finalicacion: @curso.Fecha_final
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                                <hr>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>

@@ -19,7 +19,8 @@ namespace Infocursos.DAL
         }
 
 
-        public List<Curso> Select_Curso(List<Filtro> filtros, string orderBy)
+    public CNX Cnx { get => cnx; set => cnx = value; }
+    public List<Curso> Select_Curso(List<Filtro> filtros, string orderBy)
         {
             List<Curso> cursos = new List<Curso>();
             string sentenciaFiltros = "";
@@ -54,9 +55,10 @@ namespace Infocursos.DAL
 
                 while (reader.Read())
                 {
-                    Horario horario = null;
-                    Formador formador = null;
-                    Modalidad modalidad = null;
+                    List<Filtro> filtros_Curso = new List<Filtro>();
+                    Horario horario;
+                    Formador formador;
+                    Modalidad modalidad;
                     Centro centro = null;
                     List<Categoria> categorias_Curso = new List<Categoria>();
                 
@@ -64,29 +66,25 @@ namespace Infocursos.DAL
                     foreach (KeyValuePair<int[], int> kp in idAlumno_Idcategorias)
                         if (reader.GetInt32(0) == kp.Key[0])
                             categorias_Curso.Add(categorias[kp.Value]);
-          
-                    List<Horario> horarios = dal_horario.Select_Horarios(null, null);
-                    foreach (Horario horario_de_lista in horarios)
-                        if (reader.GetInt32(7) == horario_de_lista.Id_horario)
-                            horario = horario_de_lista;
-  
-                    List<Formador> formadores = dal_formador.Select_Formador(null, null);
-                    foreach (Formador formador_de_lista in formadores)
-                        if (reader.GetInt32(8) == formador_de_lista.Id_User)
-                            formador = formador_de_lista;
-                
-                    List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
-                    foreach (Modalidad modalidad_de_lista in modalidades)
-                        if(reader.GetInt32(9) == modalidad_de_lista.Id_modalidad)
-                            modalidad = modalidad_de_lista;
+
+                    filtros.Clear();
+                    filtros.Add(new Filtro("Id_Horario", reader.GetInt32(7).ToString(),ECondicionNum.Ig));
+                    horario= dal_horario.Select_Horarios(filtros, null).First();
+
+                    filtros.Clear();
+                    filtros.Add(new Filtro("RId_User", reader.GetInt32(8).ToString(), ECondicionNum.Ig));
+                    formador = dal_formador.Select_Formador(filtros,null).First();
+
+                    filtros.Clear();
+                    filtros.Add(new Filtro("Id_Modalidad", reader.GetInt32(9).ToString(), ECondicionNum.Ig));
+                    modalidad = dal_modalidad.Select_Modalidades(filtros, null).First();
 
 
                     if (reader.GetValue(10)!= DBNull.Value)
                     {
-                        List<Centro> centros = dal_centro.Select_Centro(null, null);
-                        foreach (Centro centro_de_lista in centros)
-                            if (reader.GetInt32(9) == centro_de_lista.Id_centro)
-                                centro = centro_de_lista;
+                        filtros.Clear();
+                        filtros.Add(new Filtro("Id_Centro", reader.GetInt32(10).ToString(), ECondicionNum.Ig));
+                        centro = dal_centro.Select_Centro(filtros, null).First();
                     }
                     Curso curso = new Curso(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetDateTime(5), reader.GetDateTime(6), horario, formador, modalidad, centro, categorias_Curso);
                     cursos.Add(curso);

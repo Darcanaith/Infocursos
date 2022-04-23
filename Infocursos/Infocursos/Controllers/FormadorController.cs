@@ -118,16 +118,27 @@ namespace Infocursos.Controllers
         }
 
         
-        public ActionResult FormadorPerfil()
+        public ActionResult FormadorPerfil(int? IdFormador)
         {
             @ViewData["DisplayAddButton"] = "normal";
             @ViewData["DisplayAddDescripcion"] = "none";
-            if (!FormadorIsLoged())
-                return View("../Home/Index");
+
+            Formador formador=null;
+            DAL_Formador dal_Formador = new DAL_Formador();
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(new Filtro("Id_User", IdFormador.ToString(), ECondicionNum.Ig));
+
+            if (IdFormador == null)
+                if (!FormadorIsLoged())
+                    return View("../Home/Index");
+                else
+                    formador = (Formador)Session["User"];
+            else
+                formador = dal_Formador.Select_Formador(filtros, null).First();
             
 
             
-            return RellenarFormadorPerfil();
+            return RellenarFormadorPerfil(formador);
         }
         public void SetButtonsInfo_Curso(bool infoIsSelected)
         {
@@ -148,7 +159,7 @@ namespace Infocursos.Controllers
         }
 
         [HttpPost]
-        public ActionResult Info_Cursos()
+        public ActionResult Info_Cursos(Formador formador)
         {
             string IsVisible = Request["WhoIsVisible"];
             if(IsVisible.Equals("Info"))
@@ -157,20 +168,17 @@ namespace Infocursos.Controllers
                 @ViewData["Mostrar"] = "Info";
 
 
-            return RellenarFormadorPerfil();
+            return RellenarFormadorPerfil(formador);
         }
 
         [HttpPost]
-        public ActionResult RellenarFormadorPerfil()
+        public ActionResult RellenarFormadorPerfil(Formador formador)
         {
-            Formador formador = (Formador)Session["User"];
 
             if (@ViewData["Mostrar"] == null)
                 @ViewData["Mostrar"] = "Info";
             SetButtonsInfo_Curso(@ViewData["Mostrar"].Equals("Info"));
 
-            List<Filtro> filtros = new List<Filtro>();
-            List<Filtro> filtrosCurso = new List<Filtro>();
 
             ViewData["IMG_Perfil"] = formador.IMG_Perfil;
             @ViewData["Nombre_Entidad"] = formador.Nombre_Entidad;
@@ -178,29 +186,12 @@ namespace Infocursos.Controllers
 
             @ViewData["Descripcion"] = formador.User_Descripcion;
 
-            DAL_Curso dal_Curso = new DAL_Curso();
-            
-            filtros.Add(new Filtro("RId_Formador",formador.Id_User.ToString(), ECondicionNum.Ig));
+            formador.GetCursos();
+            @ViewData["Cursos"] = formador.Cursos;
 
-            List<Curso> cursos = dal_Curso.Select_Curso(filtrosCurso, null);
-            List<string> horarios = new List<string>();
-            List<string> modalidades = new List<string>();
-            List<string> categorias = new List<string>();
-
-            foreach (Curso curso in cursos)
-            {
-                horarios.Add(curso.Horario.Tipo_horario);
-                modalidades.Add(curso.Modalidad.Tipo_modalidad);
-                foreach (Categoria cat in curso.Categorias)
-                    categorias.Add(cat.Categoria_nombre);
-            }
-            horarios = horarios.Distinct().ToList();
-            modalidades = modalidades.Distinct().ToList();
-            categorias = categorias.Distinct().ToList();
-
-            @ViewData["Horarios"] = horarios;
-            @ViewData["Modalidades"] = modalidades;
-            @ViewData["Categorias"] = categorias;
+            @ViewData["Horarios"] = formador.Horarios;
+            @ViewData["Modalidades"] = formador.Modalidades;
+            @ViewData["Categorias"] = formador.Categorias;
 
             return View("FormadorPerfil");
         }
@@ -226,7 +217,7 @@ namespace Infocursos.Controllers
             dal_Formador.Update_Formador(formador);
 
             
-            return RellenarFormadorPerfil();
+            return RellenarFormadorPerfil(null);
         }
         [HttpPost]
         public ActionResult GuardarDescripcion()
@@ -247,7 +238,7 @@ namespace Infocursos.Controllers
                 dal_Formador.Update_Formador(formador);
             }
 
-            return RellenarFormadorPerfil();
+            return RellenarFormadorPerfil(null);
         }
 
         [HttpPost]
@@ -265,7 +256,7 @@ namespace Infocursos.Controllers
                 @ViewData["DisplayAddDescripcion"] = "none";
             }
 
-            return RellenarFormadorPerfil();
+            return RellenarFormadorPerfil(null);
         }
 
         [HttpPost]
@@ -283,7 +274,7 @@ namespace Infocursos.Controllers
                 @ViewData["DisplayAddDescripcion"] = "normal";
             }
 
-            return RellenarFormadorPerfil();
+            return RellenarFormadorPerfil(null);
         }
 
         public ActionResult PaginaFormador()

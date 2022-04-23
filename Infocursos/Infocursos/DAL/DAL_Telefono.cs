@@ -13,8 +13,10 @@ namespace Infocursos.DAL
 
         public DAL_Telefono()
         {
-            this.cnx = new CNX();
+            this.Cnx = new CNX();
         }
+
+        public CNX Cnx { get => cnx; set => cnx = value; }
 
         public IDictionary<int, string> Select_Telefono(List<Filtro> filtros, string orderBy)
         {
@@ -37,7 +39,7 @@ namespace Infocursos.DAL
             try
             {
                 string sql = "SELECT * FROM Telefono" + sentenciaFiltros + " " + orderBy + ";";
-                SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
+                SqlCommand cmd = new SqlCommand(sql, Cnx.Connection);
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {

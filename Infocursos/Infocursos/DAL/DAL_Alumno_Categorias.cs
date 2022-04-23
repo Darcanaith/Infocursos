@@ -16,7 +16,9 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
-        public IDictionary<int[], int> Select_Alumno_Categorias(List<Filtro> filtros, string orderBy)
+
+    public CNX Cnx { get => cnx; set => cnx = value; }
+    public IDictionary<int[], int> Select_Alumno_Categorias(List<Filtro> filtros, string orderBy)
         {
             IDictionary<int[], int> alumno_Categoria = new Dictionary<int[], int>();
 

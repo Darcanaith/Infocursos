@@ -13,7 +13,7 @@ namespace Infocursos
         public CNX()
         {
             Connection = new SqlConnection("Data Source=217.71.207.123,54321;Initial Catalog=INFOCURSOS_DB;" +
-                "Persist Security Info=True;User ID=sa;Password=123456789");
+                "Min Pool Size=0;Max Pool Size=10024;Persist Security Info=True;User ID=sa;Password=123456789");
             Connection.Open();
         }
     }

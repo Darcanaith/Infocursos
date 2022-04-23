@@ -17,7 +17,8 @@ namespace Infocursos.DAL
             this.cnx = new CNX();
         }
 
-        public List<Centro> Select_Centro(List<Filtro> filtros, string orderBy)
+    public CNX Cnx { get => cnx; set => cnx = value; }
+    public List<Centro> Select_Centro(List<Filtro> filtros, string orderBy)
         {
             List<Centro> centros = new List<Centro>();
             string sentenciaFiltros = "";
