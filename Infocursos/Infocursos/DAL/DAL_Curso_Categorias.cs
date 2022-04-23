@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infocursos.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
-        public IDictionary<int[], int> Select_Curso_Categorias(List<string> filtros, string orderBy)
+        public IDictionary<int[], int> Select_Curso_Categorias(List<Filtro> filtros, string orderBy)
         {
             IDictionary<int[], int> curso_Categoria = new Dictionary<int[], int>();
 

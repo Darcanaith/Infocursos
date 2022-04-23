@@ -12,8 +12,17 @@ namespace Infocursos.Controllers
     public class CursoController : Controller
     {
         // GET: Curso
-        public ActionResult Curso()
+        public ActionResult Curso(int? IdCurso)
         {
+            if (IdCurso == null)
+                return View("../Home/Index");
+
+            DAL_Curso dal_Curso = new DAL_Curso();
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(new Filtro("Id_Curso", IdCurso.ToString(), ECondicionNum.Ig));
+            @ViewData["Curso"] = dal_Curso.Select_Curso(filtros, null).First();
+
+
             return View();
         }
 

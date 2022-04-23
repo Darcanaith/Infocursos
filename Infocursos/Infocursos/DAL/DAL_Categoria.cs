@@ -16,7 +16,7 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
-        public IDictionary<int, Categoria> Select_Categoria(List<string> filtros, string orderBy)
+        public IDictionary<int, Categoria> Select_Categoria(List<Filtro> filtros, string orderBy)
         {
             List<Categoria> categorias_sinCatMay = new List<Categoria>();
 

@@ -1,4 +1,4 @@
-﻿
+﻿@using Infocursos.Models
 @{
     ViewBag.Title = "Curso";
 }
@@ -33,7 +33,7 @@
                                     {
                                         <select class="form-select" id="floatingSelectGrid" name="provincia">
                                             <option selected value="0">España</option>
-                                            @foreach (var provincia in ViewData["Provincia"] as List<Infocursos.Models.Provincia>)
+                                            @foreach (var provincia in (List<Provincia>)ViewData["Provincia"])
                                             {
                                                 <option value="@provincia.Nombre_provincia">@provincia.Nombre_provincia</option>
                                             }
@@ -91,39 +91,40 @@
                 @if (Session["Cursos"] != null)
                 {
 
-                    foreach (var curso in Session["Cursos"] as List<Infocursos.Models.Curso>)
+                    foreach (Curso curso in (List<Curso>)Session["Cursos"])
                     {
-                        <div class="card m-2">
-                            <div class="card-body" id="divCurso">
-                                <div class="d-flex flex-column align-items-left text-left">
-                                    <div class="mt-2">
-                                        <div class="row">
-                                            <div class="col-sm-2">
-                                                <h6 class="mb-2">
-                                                    <img src="~/Content/assets/img/Formador/defaultImg.png" alt="Admin" width="100">
-                                                </h6>
-                                            </div>
+                            <div class="card m-2">
+                            <a href="/Curso/Curso?IdCurso=@curso.Id_curso" style="text-decoration:none">
+                                <div class="card-body" id="divCurso">
+                                    <div class="d-flex flex-column align-items-left text-left">
+                                        <div class="mt-2">
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <h6 class="mb-2">
+                                                        <img src="~/Content/assets/img/Formador/defaultImg.png" alt="Admin" width="100">
+                                                    </h6>
+                                                </div>
 
-                                            <div class="col-sm-9">
-                                                <h5>@curso.Curso_nombre</h5>
-                                                <div class="text-secondary">
-                                                    Nombre empresa
-                                                </div>
-                                                <div class="text-secondary">
-                                                    Horas totales: @curso.Horas_totales
-                                                </div>
-                                                <div class="text-secondary">
-                                                    Fecha de inicio: @curso.Fecha_inicio - Fecha de finalicacion: @curso.Fecha_final
+                                                <div class="col-sm-9">
+                                                    <h5>@curso.Curso_nombre</h5>
+                                                    <div class="text-secondary">
+                                                        Nombre empresa
+                                                    </div>
+                                                    <div class="text-secondary">
+                                                        Horas totales: @curso.Horas_totales
+                                                    </div>
+                                                    <div class="text-secondary">
+                                                        Fecha de inicio: @curso.Fecha_inicio - Fecha de finalicacion: @curso.Fecha_final
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
+                            </a>
                             </div>
-                        </div>
 
-                    }
+                        }
 
                 }
                 else

@@ -29,7 +29,7 @@ namespace Infocursos.Models
         public DateTime Fecha_inicio { get => fecha_inicio; set => fecha_inicio = value; }
         public DateTime Fecha_final { get => fecha_final; set => fecha_final = value; }
         public Horario Horario { get => horario; set => horario = value; }
-        internal Formador Formador { get => formador; set => formador = value; }
+        public Formador Formador { get => formador; set => formador = value; }
         public Modalidad Modalidad { get => modalidad; set => modalidad = value; }
         public Centro Centro { get => centro; set => centro = value; }
         public List<Categoria> Categorias { get => categorias; set => categorias = value; }
