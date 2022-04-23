@@ -317,10 +317,11 @@ namespace Infocursos.Controllers
         }
 
         [HttpPost]
-        public ActionResult MostrarLista_cursos(Formador formador)
+        public ActionResult MostrarLista_cursos()
         {
+            Formador formador = (Formador)Session["User"];
             string botonListaCursos = Request["boton_lista"];
-             if (botonListaCursos.Equals("boton_lista"))
+             if (!String.IsNullOrEmpty(botonListaCursos))
                 @ViewData["Mostrar"] = "lista_cursos";
             else
                 @ViewData["Mostrar"] = "añadir_cursos";
