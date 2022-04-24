@@ -67,24 +67,24 @@ namespace Infocursos.DAL
                         if (reader.GetInt32(0) == kp.Key[0])
                             categorias_Curso.Add(categorias[kp.Value]);
 
-                    filtros.Clear();
-                    filtros.Add(new Filtro("Id_Horario", reader.GetInt32(7).ToString(),ECondicionNum.Ig));
-                    horario= dal_horario.Select_Horarios(filtros, null).First();
+                    filtros_Curso.Clear();
+                    filtros_Curso.Add(new Filtro("Id_Horario", reader.GetInt32(7).ToString(),ECondicionNum.Ig));
+                    horario= dal_horario.Select_Horarios(filtros_Curso, null).First();
 
-                    filtros.Clear();
-                    filtros.Add(new Filtro("RId_User", reader.GetInt32(8).ToString(), ECondicionNum.Ig));
-                    formador = dal_formador.Select_Formador(filtros,null).First();
+                    filtros_Curso.Clear();
+                    filtros_Curso.Add(new Filtro("RId_User", reader.GetInt32(8).ToString(), ECondicionNum.Ig));
+                    formador = dal_formador.Select_Formador(filtros_Curso, null).First();
 
-                    filtros.Clear();
-                    filtros.Add(new Filtro("Id_Modalidad", reader.GetInt32(9).ToString(), ECondicionNum.Ig));
-                    modalidad = dal_modalidad.Select_Modalidades(filtros, null).First();
+                    filtros_Curso.Clear();
+                    filtros_Curso.Add(new Filtro("Id_Modalidad", reader.GetInt32(9).ToString(), ECondicionNum.Ig));
+                    modalidad = dal_modalidad.Select_Modalidades(filtros_Curso, null).First();
 
 
                     if (reader.GetValue(10)!= DBNull.Value)
                     {
-                        filtros.Clear();
-                        filtros.Add(new Filtro("Id_Centro", reader.GetInt32(10).ToString(), ECondicionNum.Ig));
-                        centro = dal_centro.Select_Centro(filtros, null).First();
+                        filtros_Curso.Clear();
+                        filtros_Curso.Add(new Filtro("Id_Centro", reader.GetInt32(10).ToString(), ECondicionNum.Ig));
+                        centro = dal_centro.Select_Centro(filtros_Curso, null).First();
                     }
                     Curso curso = new Curso(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetDateTime(5), reader.GetDateTime(6), horario, formador, modalidad, centro, categorias_Curso);
                     cursos.Add(curso);

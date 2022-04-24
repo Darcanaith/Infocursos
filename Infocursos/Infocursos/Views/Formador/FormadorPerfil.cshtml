@@ -48,10 +48,10 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" href="../Home/Index">Info</a>
+                                <a class="nav-link active" href="@(Url.Action("Info_Cursos?Id_Formador="+@ViewData["IdFormador"], null, new { area = string.Empty, controller = "Formador" }, Request.Url.Scheme))">Info</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Cursos</a>
+                                <a class="nav-link" href="@(Url.Action("Info_Cursos", null, new { area = string.Empty,IdFormador= @ViewData["IdFormador"],View="Cursos", controller = "Formador" }, Request.Url.Scheme))">Cursos</a>
                             </li>
                         </ul>
                     </div>

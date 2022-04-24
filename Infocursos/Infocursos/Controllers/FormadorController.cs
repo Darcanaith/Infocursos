@@ -140,45 +140,40 @@ namespace Infocursos.Controllers
             
             return RellenarFormadorPerfil(formador);
         }
-        public void SetButtonsInfo_Curso(bool infoIsSelected)
+
+        [HttpPost]
+        public ActionResult SetButtonsInfo_Curso(bool infoIsSelected,Formador formador)
         {
             if (!infoIsSelected)
             {
                 @ViewData["DisplayInfo"] = "none";
                 @ViewData["DisplayCursos"] = "normal";
-                @ViewData["BTNInfo"] = "btn-outline-primary";
-                @ViewData["BTNCursos"] = "btn-primary disabled";
             }
             else
             {
                 @ViewData["DisplayInfo"] = "normal";
                 @ViewData["DisplayCursos"] = "none";
-                @ViewData["BTNInfo"] = "btn-primary disabled";
-                @ViewData["BTNCursos"] = "btn-outline-primary";
             }
+            return RellenarFormadorPerfil(formador);
         }
 
-        [HttpPost]
-        public ActionResult Info_Cursos(Formador formador)
+        public ActionResult Info_Cursos(int IdFormador,string requestedView)
         {
-            string IsVisible = Request["WhoIsVisible"];
-            if(IsVisible.Equals("Info"))
-                @ViewData["Mostrar"] = "Curso";
-            else
-                @ViewData["Mostrar"] = "Info";
+            Formador formador = null;
+            DAL_Formador dal_Formador = new DAL_Formador();
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(new Filtro("Id_User", IdFormador.ToString(), ECondicionNum.Ig));
 
-
-            return RellenarFormadorPerfil(formador);
+            return SetButtonsInfo_Curso(requestedView.Equals("Info"),formador);
         }
 
         [HttpPost]
         public ActionResult RellenarFormadorPerfil(Formador formador)
         {
 
-            if (@ViewData["Mostrar"] == null)
-                @ViewData["Mostrar"] = "Info";
-            SetButtonsInfo_Curso(@ViewData["Mostrar"].Equals("Info"));
+            SetButtonsInfo_Curso(true, formador);
 
+            @ViewData["IdFormador"] = formador.Id_User;
 
             ViewData["IMG_Perfil"] = formador.IMG_Perfil;
             @ViewData["Nombre_Entidad"] = formador.Nombre_Entidad;
