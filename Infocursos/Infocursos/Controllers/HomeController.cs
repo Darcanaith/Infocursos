@@ -162,12 +162,12 @@ namespace Infocursos.Controllers
                     municipios = dAL_Municipio.Select_Municipio(filtrosMunicipio, null);
 
                     foreach (Municipio mun in municipios)
-                        filtrosCentro.Add(new Filtro("RId_Municipio", mun.Id_municipio.ToString(), ECondicionNum.Ig));
+                        filtrosCentro.Add(new Filtro("RId_Municipio", mun.Id_municipio.ToString(), ECondicionNum.Ig,EConector.OR));
                     
                     centros = dal_centro.Select_Centro(filtrosCentro, null);
 
                     foreach (Centro cen in centros)
-                        filtrosCurso.Add(new Filtro("RId_Centro", cen.Id_centro.ToString(), ECondicionNum.Ig));
+                        filtrosCurso.Add(new Filtro("RId_Centro", cen.Id_centro.ToString(), ECondicionNum.Ig,EConector.OR));
                     
                     cursos = dal_curso.Select_Curso(filtrosCurso, null);
 
