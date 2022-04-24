@@ -18,15 +18,15 @@
                         </div>
 
                         <div class="flex-column align-items-left text-left" style="display:@ViewData["lista_cursos"]" id="divCursos">
-                            <div class="mt-3 align-items-right text-right" style="text-align:right;">
-                                <button class="btn btn-outline-primary">Editar</button>
-                            </div>
                             <div class="mt-3">
                                 <h4>Cursos</h4>
                                 @if (@ViewData["cursos"] != null)
                                 {
                                     foreach (Curso curso in (List<Curso>)@ViewData["cursos"])
                                     {
+                                        <div class="mt-3 align-items-right text-right" style="text-align:right;">
+                                            <a class="btn btn-outline-primary">Editar</a>
+                                        </div>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0">
@@ -39,7 +39,7 @@
                                             </div>
                                             <div class="col-sm-2 text-secondary">
                                                 <p>Nombre formador.</p>
-                                                <p>@ViewData["formador_nombre"]</p>
+                                                <p>@(((Formador)ViewData["Formador"]).User_Nombre)</p>
                                             </div>
                                             <div class="col-sm-2 text-secondary">
                                                 <p>Horas.</p>

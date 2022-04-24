@@ -384,6 +384,7 @@ namespace Infocursos.Controllers
                 return View("../Home/Index");
             else
                 formador = (Formador)Session["User"];
+            ViewData["Formador"] = formador;
             GenerarSelects();
             return RellenarListaCurso(formador);
         }
