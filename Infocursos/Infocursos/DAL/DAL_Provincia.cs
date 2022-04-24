@@ -39,7 +39,7 @@ namespace Infocursos.DAL
             SqlDataReader reader = null;
             try
             {
-                string sql = "select * from Provincia" + sentenciaFiltros + " " + orderBy + ";";
+                string sql = "select * from Provincia " + sentenciaFiltros + " " + orderBy + ";";
                 SqlCommand cmd = new SqlCommand(sql, Cnx.Connection);
                 reader = cmd.ExecuteReader();
                 while (reader.Read())

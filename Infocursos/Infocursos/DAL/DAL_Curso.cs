@@ -82,9 +82,9 @@ namespace Infocursos.DAL
 
                     if (reader.GetValue(10)!= DBNull.Value)
                     {
-                        filtros.Clear();
-                        filtros.Add(new Filtro("Id_Centro", reader.GetInt32(10).ToString(), ECondicionNum.Ig));
-                        centro = dal_centro.Select_Centro(filtros, null).First();
+                        filtros_Curso.Clear();
+                        filtros_Curso.Add(new Filtro("Id_Centro", reader.GetInt32(10).ToString(), ECondicionNum.Ig));
+                        centro = dal_centro.Select_Centro(filtros_Curso, null).First();
                     }
                     Curso curso = new Curso(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetDateTime(5), reader.GetDateTime(6), horario, formador, modalidad, centro, categorias_Curso);
                     cursos.Add(curso);
