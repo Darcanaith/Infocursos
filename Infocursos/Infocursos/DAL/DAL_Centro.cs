@@ -39,7 +39,7 @@ namespace Infocursos.DAL
             SqlDataReader reader = null;
             try
             {
-                string sql = "Select * from Centro" + sentenciaFiltros + " " + orderBy + ";";
+                string sql = "Select * from Centro " + sentenciaFiltros + " " + orderBy + ";";
                 Municipio municipio = null;
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
                 reader = cmd.ExecuteReader();
@@ -77,7 +77,7 @@ namespace Infocursos.DAL
         {
             try
             {
-                string sql = "select into Centro values(@centro_direccion, @Rid_municipio)";
+                string sql = "insert into Centro values(@centro_direccion, @Rid_municipio)";
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
 
                 SqlParameter pCentro_direccion = new SqlParameter("@centro_direccion", System.Data.SqlDbType.NVarChar, 150);

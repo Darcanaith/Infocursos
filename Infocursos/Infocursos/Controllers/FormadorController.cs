@@ -318,11 +318,17 @@ namespace Infocursos.Controllers
             Formador formador = (Formador)Session["User"];
             string botonListaCursos = Request["boton_lista"];
              if (!String.IsNullOrEmpty(botonListaCursos))
+             {
                 @ViewData["Mostrar"] = "lista_cursos";
+                FormadorPerfilPublicada();
+             }
+
             else
+            {
                 @ViewData["Mostrar"] = "añadir_cursos";
+                FormadorPerfilPublicada();
 
-
+            }
             return RellenarListaCurso(formador);
          }
 
@@ -338,53 +344,49 @@ namespace Infocursos.Controllers
             return View("FormadorPerfilPublicada");
         }
 
+        private ActionResult GenerarSelects()
+        {
+            List<Filtro> filtros = new List<Filtro>();
+            DAL_Curso dal_curso = new DAL_Curso();
+            filtros.Add(new Filtro("Rid_Formador", ((Usuario)Session["User"]).Id_User.ToString(), ECondicionNum.Ig));
+            List<Curso> cursos = dal_curso.Select_Curso(filtros, null);
+            DAL_Centro dal_centro = new DAL_Centro();
+            DAL_Horario dal_horario = new DAL_Horario();
+            DAL_Modalidad dal_modalidad = new DAL_Modalidad();
+            DAL_Municipio dal_municipio = new DAL_Municipio();
+            List<Centro> centros = new List<Centro>();
+            filtros.Clear();
+            filtros = null;
+            centros = dal_centro.Select_Centro(filtros, null);
+            List<Horario> horarios = dal_horario.Select_Horarios(null, null);
+            List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
+            List<Municipio> municipios = dal_municipio.Select_Municipio(null, null);
+            @ViewData["centros"] = centros;
+            @ViewData["horarios"] = horarios;
+            @ViewData["modalidades"] = modalidades;
+            ViewData["municipios"] = municipios;
+            return View("FormadorPerfilPublicada");
 
-        public ActionResult FormadorPerfilPublicada(int? IdFormador)
+        }
+        public ActionResult FormadorPerfilPublicada()
         {
             @ViewData["anadir_cursos"] = "normal";
             @ViewData["lista_cursos"] = "none";
+            if (ViewData["centro_escogido"] == null)
+                ViewData["centro_escogido"] = "Escoja uno de sus centros si se hace en alguno";
 
+            if (ViewData["horario_escogido"] == null)
+                ViewData["horario_escogido"] = "Selecciona un horario";
+
+            if (ViewData["modalidad_escogido"] == null)
+                ViewData["modalidad_escogido"] = "Selecciona una modalidad";
             Formador formador = null;
-            DAL_Formador dal_Formador = new DAL_Formador();
-            List<Filtro> filtros = new List<Filtro>();
-            filtros.Add(new Filtro("Id_User", IdFormador.ToString(), ECondicionNum.Ig));
-
-            if (IdFormador == null)
-                if (!FormadorIsLoged())
-                    return View("../Home/Index");
-                else
-                    formador = (Formador)Session["User"];
+            if (!FormadorIsLoged())
+                return View("../Home/Index");
             else
-            {
-                formador = dal_Formador.Select_Formador(filtros, null).First();
-                filtros.Clear();
-                DAL_Curso dal_curso = new DAL_Curso();
-                filtros.Add(new Filtro("Rid_Formador", ((Usuario)Session["User"]).Id_User.ToString(), ECondicionNum.Ig));
-                List<Curso> cursos = dal_curso.Select_Curso(filtros, null);
-                DAL_Centro dal_centro = new DAL_Centro();
-                DAL_Horario dal_horario = new DAL_Horario();
-                DAL_Modalidad dal_modalidad = new DAL_Modalidad();
-
-                List<Filtro> filtros2 = new List<Filtro>();
-                List<Centro> centros = new List<Centro>();
-                foreach (Curso curso in cursos)
-                {
-                    if (curso.Centro != null)
-                        filtros2.Add(new Filtro("Rid_Centro", curso.Centro.Id_centro.ToString(), ECondicionNum.Ig));
-                    else
-                        filtros2 = null;
-                    centros = dal_centro.Select_Centro(filtros2, null);
-
-                }
-                List<Horario> horarios = dal_horario.Select_Horarios(null, null);
-                List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
-
-                @ViewData["centros"] = centros;
-                @ViewData["horarios"] = horarios;
-                @ViewData["modalidades"] = modalidades;
-            }
-
-
+                formador = (Formador)Session["User"];
+            ViewData["Formador"] = formador;
+            GenerarSelects();
             return RellenarListaCurso(formador);
         }
 
@@ -412,7 +414,7 @@ namespace Infocursos.Controllers
                 horario = null;
             ViewBag.ErrorModalidad = null;
             string modalidad = Request["modalidad"];
-            if (modalidad.Equals("Seleccione una modalidad"))
+            if (modalidad.Equals("Selecciona una modalidad"))
                 modalidad = null;
             ViewBag.ErrorDescripcion = null;
             string descripcion = Request["curso_descripcion"];
@@ -447,11 +449,20 @@ namespace Infocursos.Controllers
             else
                 ViewData["fecha_finalText"] = fecha_final;
 
+            if (String.IsNullOrEmpty(centro))
+                ViewBag.ErrorCentro = "*Este campo es obligatorio";
+            else
+                ViewData["centro_escogido"] = centro;
+
             if (String.IsNullOrEmpty(horario))
                 ViewBag.ErrorHorario = "*Este campo es obligatorio";
+            else
+                ViewData["horario_escogido"] = horario;
 
             if (String.IsNullOrEmpty(modalidad))
                 ViewBag.ErrorModalidad = "*Este campo es obligatorio";
+            else
+                ViewData["modalidad_escogido"] = modalidad;
 
             if (String.IsNullOrEmpty(descripcion))
                 ViewBag.ErrorDescripcion = "*Este campo es obligatorio";
@@ -484,7 +495,189 @@ namespace Infocursos.Controllers
                 DAL_Curso dal_curso = new DAL_Curso();
                 dal_curso.Insert_Cursos(curso);
             }
+            MostrarLista_cursos();
             return View("FormadorPerfilPublicada");
+        }
+        [HttpPost]
+        public ActionResult AnadirCentro()
+        {
+            string centro_direccion = Request["centro_direccion"];
+            ViewBag.ErrorCentroDireccion = null;
+            string municipio = Request["municipio"];
+            if (municipio.Equals("Selecciona un municipio"))
+                municipio = null;
+            ViewBag.ErrorMunicipio = null;
+
+            if (String.IsNullOrEmpty(centro_direccion))
+                ViewBag.ErrorCentroDireccion = "*Este campo es obligatorio";
+            else
+                ViewData["centro_direccion"] = centro_direccion;
+            if (String.IsNullOrEmpty(municipio))
+                ViewBag.ErrorMunicipio = "*Este campo es obligatorio";
+            else
+                ViewData["municipio"] = municipio;
+            if (String.IsNullOrEmpty("" + ViewBag.ErrorCentroDireccion + ViewBag.ErrorMunicipio))
+            {
+                DAL_Municipio dal_municipio = new DAL_Municipio();
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(new Filtro("Nombre_municipio", municipio, ECondicionText.Igual));
+                Municipio municipio1 = dal_municipio.Select_Municipio(filtros,null).First();
+                Centro centro = new Centro(centro_direccion, municipio1);
+                DAL_Centro dal_centro = new DAL_Centro();
+                dal_centro.Insert_Centro(centro);
+            }
+            FormadorPerfilPublicada();
+            return View("FormadorPerfilPublicada");
+        }
+
+        [HttpPost]
+        public ActionResult RellenarEditarCursos()
+        {
+            if (!FormadorIsLoged())
+                return View("../Home/Index");
+            string id_curso = Request["editar_curso"];
+            DAL_Curso dal_curso = new DAL_Curso();
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(new Filtro("Id_Curso", id_curso, ECondicionNum.Ig));
+            Curso curso = dal_curso.Select_Curso(filtros,null).First();
+            Session["Curso_elegido"] = curso;
+            DAL_Centro dal_centro = new DAL_Centro();
+            DAL_Horario dal_horario = new DAL_Horario();
+            DAL_Modalidad dal_modalidad = new DAL_Modalidad();
+            List<Centro> centros = new List<Centro>();
+            filtros.Clear();
+            filtros = null;
+            centros = dal_centro.Select_Centro(filtros, null);
+            List<Horario> horarios = dal_horario.Select_Horarios(null, null);
+            List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
+            @ViewData["centros"] = centros;
+            @ViewData["horarios"] = horarios;
+            @ViewData["modalidades"] = modalidades;
+            return View("FormadorEditarCurso");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateCurso()
+        {
+            
+            ViewBag.ErrorCursoNombre = null;
+            string curso_nombre = Request["curso_nombre"];
+            ViewBag.ErrorNumPlaza = null;
+            string num_plaza = Request["num_plaza"];
+            ViewBag.ErrorHorasTotales = null;
+            string horas_totales = Request["horas_totales"];
+            ViewBag.ErrorFechaInicio = null;
+            string fecha_inicio = Request["fecha_inicio"];
+            ViewBag.ErrorFechaFinal = null;
+            string fecha_final = Request["fecha_final"];
+            ViewBag.ErrorCentro = null;
+            string centro = Request["centro"];
+            if (centro.Equals("Escoja uno de sus centros si se hace en alguno"))
+                centro = null;
+            ViewBag.ErrorHorario = null;
+            string horario = Request["horario"];
+            if (horario.Equals("Selecciona un horario"))
+                horario = null;
+            ViewBag.ErrorModalidad = null;
+            string modalidad = Request["modalidad"];
+            if (modalidad.Equals("Selecciona una modalidad"))
+                modalidad = null;
+            ViewBag.ErrorDescripcion = null;
+            string descripcion = Request["curso_descripcion"];
+
+            if (String.IsNullOrEmpty(curso_nombre))
+                ViewBag.ErrorCursoNombre = "*Este campo es obligatorio";
+            else
+                ViewData["curso_nombreText"] = curso_nombre;
+
+
+            if (String.IsNullOrEmpty(num_plaza))
+                ViewBag.ErrorNumPlaza = "*Este campo es obligatorio";
+            else
+                ViewData["num_plazaText"] = num_plaza;
+
+            if (String.IsNullOrEmpty(horas_totales))
+                ViewBag.ErrorHorasTotales = "*Este campo es obligatorio";
+            else
+                ViewData["horas_totalesText"] = horas_totales;
+
+            if (String.IsNullOrEmpty(fecha_inicio))
+                ViewBag.ErrorFechaInicio = "*Este campo es obligatorio";
+            else
+                ViewData["fecha_inicioText"] = fecha_inicio;
+
+            if (String.IsNullOrEmpty(fecha_final))
+                ViewBag.ErrorFechaFinal = "*Este campo es obligatorio";
+
+            else if (int.Parse(fecha_final.Replace("-", "")) < int.Parse(fecha_inicio.Replace("-", "")))
+                ViewBag.ErrorFechaFinal = "*La fecha final es menor a la inicial";
+
+            else
+                ViewData["fecha_finalText"] = fecha_final;
+
+            if (String.IsNullOrEmpty(centro))
+                ViewBag.ErrorCentro = "*Este campo es obligatorio";
+            else
+                ViewData["centro_escogido"] = centro;
+
+            if (String.IsNullOrEmpty(horario))
+                ViewBag.ErrorHorario = "*Este campo es obligatorio";
+            else
+                ViewData["horario_escogido"] = horario;
+
+            if (String.IsNullOrEmpty(modalidad))
+                ViewBag.ErrorModalidad = "*Este campo es obligatorio";
+            else
+                ViewData["modalidad_escogido"] = modalidad;
+
+            if (String.IsNullOrEmpty(descripcion))
+                ViewBag.ErrorDescripcion = "*Este campo es obligatorio";
+            else
+                ViewData["DescripcionText"] = descripcion;
+            if (String.IsNullOrEmpty("" + ViewBag.ErrorCursoNombre + ViewBag.ErrorNumPlaza + ViewBag.ErrorHorasTotales + ViewBag.ErrorFechaInicio + ViewBag.ErrorFechaFinal + ViewBag.ErrorHorario + ViewBag.ErrorModalidad + ViewBag.ErrorDescripcion))
+            {
+                Curso curso = (Curso)Session["Curso_elegido"];
+                DAL_Formador dal_Formador = new DAL_Formador();
+                List<Filtro> filtros = new List<Filtro>();
+                filtros.Add(new Filtro("Email", ((Usuario)Session["User"]).Email, ECondicionText.Igual));
+                Formador formador = dal_Formador.Select_Formador(filtros, null).First();
+                DAL_Horario dal_horario = new DAL_Horario();
+                filtros.Clear();
+                filtros.Add(new Filtro("Tipo_Horario", horario, ECondicionText.Igual));
+                Horario horario1 = dal_horario.Select_Horarios(filtros, null).First();
+                DAL_Modalidad dal_modalidad = new DAL_Modalidad();
+                filtros.Clear();
+                filtros.Add(new Filtro("Modalidad", modalidad, ECondicionText.Igual));
+                Modalidad modalidad1 = dal_modalidad.Select_Modalidades(filtros, null).First();
+                Centro centro1 = null;
+                if (centro != null)
+                {
+                    DAL_Centro dal_centro = new DAL_Centro();
+                    filtros.Clear();
+                    filtros.Add(new Filtro("Centro_direccion", centro, ECondicionText.Igual));
+                    centro1 = dal_centro.Select_Centro(filtros, null).First();
+                }
+                curso.Curso_nombre = curso_nombre;
+                curso.Curso_descripcion = descripcion;
+                curso.Num_plaza = int.Parse(num_plaza);
+                curso.Horas_totales = int.Parse(horas_totales);
+                curso.Fecha_inicio = DateTime.Parse(fecha_inicio);
+                curso.Fecha_final = DateTime.Parse(fecha_final);
+                curso.Horario = horario1;
+                curso.Formador = formador;
+                curso.Modalidad = modalidad1;
+                curso.Centro = centro1;
+                DAL_Curso dal_curso = new DAL_Curso();
+                dal_curso.Update_Curso(curso);
+
+            }
+            RellenarEditarCursos();
+            return View("FormadorEditarCurso");
+        }
+
+        public ActionResult FormadorEditarCurso()
+        {
+            return View();
         }
         public ActionResult ListaAlumnos()
         {

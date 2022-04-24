@@ -103,43 +103,82 @@ namespace Infocursos.Controllers
         {
             //Inicializo los recursos necesarios.
             DAL_Curso dal_curso = new DAL_Curso();
+            DAL_Centro dal_centro = new DAL_Centro();
+            DAL_Provincia dal_provincia = new DAL_Provincia();
+            DAL_Municipio dAL_Municipio = new DAL_Municipio();
+
             List<Curso> cursos = new List<Curso>();
+            List<Centro> centros = new List<Centro>();
+            List<Municipio> municipios = new List<Municipio>();
+            List<Provincia> provincias = new List<Provincia>();
+
+            List<Filtro> filtrosCurso = new List<Filtro>();
+            List<Filtro> filtrosProvincia = new List<Filtro>();
+            List<Filtro> filtrosMunicipio = new List<Filtro>();
+            List<Filtro> filtrosCentro = new List<Filtro>();
 
             //Recojo las variables que necesitaremos.
             string busquedaCurso = Request["nombreCurso"];
             string provincia = Request["provincia"];
 
-            //Borro mensajes previos.
-            ViewBag.NombreCursoError = "hola";
+            //Busco si hay resultados segun el filtro aplicado
+            if (provincia != null && provincia != "0")
+            {
+                //Creo los filtros de municipio necesarios.
+                filtrosProvincia.Add(new Filtro("Nombre_provincia", provincia, ECondicionText.Igual));
+            }
+            else if (busquedaCurso != null && busquedaCurso != "")
+            {
+                //Creo los filtros de curso necesarios..
+                filtrosCurso.Add(new Filtro("Curso_Nombre", busquedaCurso, ECondicionText.Cont));
+            }
 
-            //Busco si hay resultados segun el filtro aplicado.
-            // if ((dal_curso.Select_Curso(null, null)).Count > 0)
-            //{
-            //Si hay, enseño un listado de lo buscado.
+
+
+            if (filtrosProvincia.Count > 0 && filtrosCurso.Count > 0)
+            {
+                //Caso de que hayan ambos filtros
+            }
+            else if (filtrosCurso.Count > 0)
+            {
+                //Casos de que solo haya filtro de nombreCurso
+                if (dal_curso.Select_Curso(filtrosCurso, null).Count > 0)
+                {
+                    cursos = dal_curso.Select_Curso(filtrosCurso, null);
+                    Session["Cursos"] = cursos;
+                    return RedirectToAction("CursoBusqueda", "Curso");
+                }
+            }
+            else if (filtrosProvincia.Count > 0)
+            {
+                //Casos de que solo haya filtro de provincia.
+                if (dal_provincia.Select_Provincia(filtrosProvincia, null).Count > 0)
+                {
+                    provincias = dal_provincia.Select_Provincia(filtrosProvincia, null);
+
+                    foreach (Provincia prov in provincias)
+                        filtrosMunicipio.Add(new Filtro("RId_Provincia", prov.Id_provincia.ToString(), ECondicionNum.Ig));
+                    
+                    municipios = dAL_Municipio.Select_Municipio(filtrosMunicipio, null);
+
+                    foreach (Municipio mun in municipios)
+                        filtrosCentro.Add(new Filtro("RId_Municipio", mun.Id_municipio.ToString(), ECondicionNum.Ig,EConector.OR));
+                    
+                    centros = dal_centro.Select_Centro(filtrosCentro, null);
+
+                    foreach (Centro cen in centros)
+                        filtrosCurso.Add(new Filtro("RId_Centro", cen.Id_centro.ToString(), ECondicionNum.Ig,EConector.OR));
+                    
+                    cursos = dal_curso.Select_Curso(filtrosCurso, null);
+
+                    Session["Cursos"] = cursos;
+                    return RedirectToAction("CursoBusqueda", "Curso");
+                }
+            }
+
             cursos = dal_curso.Select_Curso(null, null);
             Session["Cursos"] = cursos;
-
-
             return RedirectToAction("CursoBusqueda", "Curso");
-            //}
-            /*
-            else
-            {
-                List<Filtro> filtros = new List<Filtro>();
-                if (busquedaCurso != null && busquedaCurso != "")
-                {
-                    //Creo los filtros necesarios.
-                    filtros.Add(new Filtro("Curso_Nombre", busquedaCurso, ECondicionText.Cont));
-                    //filtros.Add(new Filtro("Nombre_provincia", busquedaCurso, ECondicionText.Cont));
-                }
-                //Si no hay enseño listado de todos los cursos.
-                cursos = dal_curso.Select_Curso(filtros, null);
-                ViewData["cursos"] = cursos;
-
-                return RedirectToAction("CursoBusqueda", "Curso");
-            }
-            */
         }
-
     }
-} 
+}
