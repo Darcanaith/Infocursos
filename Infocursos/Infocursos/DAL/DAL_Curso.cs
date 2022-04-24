@@ -177,8 +177,8 @@ namespace Infocursos.DAL
                                 RId_Horario = @rid_horario,
                                 RId_Formador = @rid_formador,
                                 RId_Modalidad = @rid_modalidad,
-                                RId_Centro = @rid_centro,
-                                where Id_Curso = " + curso.Id_curso + "";
+                                RId_Centro = @rid_centro
+                                where Id_Curso = " + curso.Id_curso + "; ";
                 SqlCommand cmd = new SqlCommand(sql, cnx.Connection);
 
                 SqlParameter pcurso_nombre = new SqlParameter("@curso_nombre", System.Data.SqlDbType.NVarChar, 50);
