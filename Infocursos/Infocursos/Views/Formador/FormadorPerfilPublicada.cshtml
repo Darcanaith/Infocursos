@@ -17,183 +17,237 @@
                             <button class="btn @ViewData["style_button_lista"]" name="boton_lista" value="boton_lista">Listado curso</button>
                         </div>
 
-                     <div class="flex-column align-items-left text-left" style="display:@ViewData["lista_cursos"]" id="divCursos">
-                         <div class="mt-3 align-items-right text-right" style="text-align:right;">
-                             <button class="btn btn-outline-primary">Editar</button>
-                         </div>
-                         <div class="mt-3">
-                             <h4>Cursos</h4>
-                             @foreach (Curso curso in (List<Curso>)@ViewData["cursos"])
-                             {
-                                 <div class="row">
-                                     <div class="col-sm-3">
-                                         <h6 class="mb-0">
-                                             <img src="~/ImagenPerfilFormador/@ViewData["IMG_Perfil"]" alt="Admin" width="100">
-                                         </h6>
-                                     </div>
-                                     <div class="col-sm-2 text-secondary">
-                                         <p>Nombre curso.</p>
-                                         <p>@curso.Curso_nombre</p>
-                                     </div>
-                                     <div class="col-sm-2 text-secondary">
-                                         <p>Nombre formador.</p>
-                                         <p>@ViewData["formador_nombre"]</p>
-                                     </div>
-                                     <div class="col-sm-2 text-secondary">
-                                         <p>Horas.</p>
-                                         <p>@curso.Horas_totales</p>
-                                     </div>
-                                     <div class="col-sm-2 text-secondary">
-                                         <p>Fecha Inicio-Fecha Final.</p>
-                                         <p>@curso.Fecha_inicio - @curso.Fecha_final</p>
-                                     </div>
-                                 </div>
-                                 <hr>
-                             }
-                         </div>
-                     </div>
+                        <div class="flex-column align-items-left text-left" style="display:@ViewData["lista_cursos"]" id="divCursos">
+                            <div class="mt-3 align-items-right text-right" style="text-align:right;">
+                                <button class="btn btn-outline-primary">Editar</button>
+                            </div>
+                            <div class="mt-3">
+                                <h4>Cursos</h4>
+                                @if (@ViewData["cursos"] != null)
+                                {
+                                    foreach (Curso curso in (List<Curso>)@ViewData["cursos"])
+                                    {
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">
+                                                    <img src="~/ImagenPerfilFormador/@ViewData["IMG_Perfil"]" alt="Admin" width="100">
+                                                </h6>
+                                            </div>
+                                            <div class="col-sm-2 text-secondary">
+                                                <p>Nombre curso.</p>
+                                                <p>@curso.Curso_nombre</p>
+                                            </div>
+                                            <div class="col-sm-2 text-secondary">
+                                                <p>Nombre formador.</p>
+                                                <p>@ViewData["formador_nombre"]</p>
+                                            </div>
+                                            <div class="col-sm-2 text-secondary">
+                                                <p>Horas.</p>
+                                                <p>@curso.Horas_totales</p>
+                                            </div>
+                                            <div class="col-sm-2 text-secondary">
+                                                <p>Fecha Inicio-Fecha Final.</p>
+                                                <p>@curso.Fecha_inicio - @curso.Fecha_final</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    }
+                                }
+                            </div>
+                        </div>
 
 
                     }
-                <div class="card-body" style="display:@ViewData["anadir_cursos"]">
-                    @using (Html.BeginForm("InsertFormadorCurso", "Formador", FormMethod.Post))
-                    {
+                    <div class="card-body" style="display:@ViewData["anadir_cursos"]">
+                        @using (Html.BeginForm("InsertFormadorCurso", "Formador", FormMethod.Post))
+                        {
 
-                        <!-- Parte Formulario añadir curso. -->
-                        <form id="crearCursoForm" style="display: block;">
-                            <div class="row g-2">
-                                <div class="col-md">
-                                    <!-- Input para curso_nombre -->
-                                    <div class="form-floating mb-2">
-                                        <input class="form-control" id="curso_nombre" type="text" placeholder="Introduzca el nombre del curso" name="curso_nombre" value="@ViewData["curso_nombreText"]" data-sb-validations="required" />
-                                        <label for="curso_nombre">Nombre del curso</label>
-                                        <p>@ViewBag.ErrorCursoNombre</p>
-                                        <div class="invalid-feedback" data-sb-feedback="curso_nombre:required">Nombre del curso es obligatorio</div>
+                            <!-- Parte Formulario añadir curso. -->
+                            <form id="crearCursoForm" style="display: block;">
+                                <div class="row g-2">
+                                    <div class="col-md">
+                                        <!-- Input para curso_nombre -->
+                                        <div class="form-floating mb-2">
+                                            <input class="form-control" id="curso_nombre" type="text" placeholder="Introduzca el nombre del curso" name="curso_nombre" value="@ViewData["curso_nombreText"]" data-sb-validations="required" />
+                                            <label for="curso_nombre">Nombre del curso</label>
+                                            <p>@ViewBag.ErrorCursoNombre</p>
+                                            <div class="invalid-feedback" data-sb-feedback="curso_nombre:required">Nombre del curso es obligatorio</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <!-- Input para num_plaza -->
+                                        <div class="form-floating mb-2">
+                                            <input class="form-control" id="num_plaza" type="number" name="num_plaza" value="@ViewData["num_plazaText"]" placeholder="Numero de plazas" data-sb-validations="required" />
+                                            <label for="num_plaza">Numero de plazas</label>
+                                            <p>@ViewBag.ErrorNumPlaza</p>
+                                            <div class="invalid-feedback" data-sb-feedback="num_plaza:required">Numerode plaza es obligatorio.</div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md">
-                                    <!-- Input para num_plaza -->
-                                    <div class="form-floating mb-2">
-                                        <input class="form-control" id="num_plaza" type="number" name="num_plaza" value="@ViewData["num_plazaText"]" placeholder="Numero de plazas" data-sb-validations="required" />
-                                        <label for="num_plaza">Numero de plazas</label>
-                                        <p>@ViewBag.ErrorNumPlaza</p>
-                                        <div class="invalid-feedback" data-sb-feedback="num_plaza:required">Numerode plaza es obligatorio.</div>
+                                <div class="row g-2">
+                                    <div class="col-md">
+                                        <!-- Input para horas_totales -->
+                                        <div class="form-floating mb-2">
+                                            <input class="form-control" id="horas_totales" type="number" name="horas_totales" value="@ViewData["horas_totalesText"]" placeholder="Horas totales" data-sb-validations="required" />
+                                            <label for="horas_totales">Horas totales</label>
+                                            <p>@ViewBag.ErrorHorasTotales</p>
+                                            <div class="invalid-feedback" data-sb-feedback="horas_totales:required">Horas totales es obligatorio.</div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row g-2">
-                                <div class="col-md">
-                                    <!-- Input para horas_totales -->
-                                    <div class="form-floating mb-2">
-                                        <input class="form-control" id="horas_totales" type="number" name="horas_totales" value="@ViewData["horas_totalesText"]" placeholder="Horas totales" data-sb-validations="required" />
-                                        <label for="horas_totales">Horas totales</label>
-                                        <p>@ViewBag.ErrorHorasTotales</p>
-                                        <div class="invalid-feedback" data-sb-feedback="horas_totales:required">Horas totales es obligatorio.</div>
-                                    </div>
-                                </div>
 
-                            </div>
-                            <div class="row g-2">
-                                <div class="col-md">
-                                    <!-- Input para fecha_inicio -->
-                                    <div class="form-floating mb-2">
-                                        <input class="form-control" id="fecha_inicio" type="date" name="fecha_inicio" value="@ViewData["fecha_inicioText"]" placeholder="Introduzca la fecha de inicio" data-sb-validations="required" />
-                                        <label for="fecha_inicio">Introduzca la fecha de inicio</label>
-                                        <p>@ViewBag.ErrorFechaInicio</p>
-                                        <div class="invalid-feedback" data-sb-feedback="fecha_inicio:required">Fecha de inicio es obligatoria.</div>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-md">
+                                        <!-- Input para fecha_inicio -->
+                                        <div class="form-floating mb-2">
+                                            <input class="form-control" id="fecha_inicio" type="date" name="fecha_inicio" value="@ViewData["fecha_inicioText"]" placeholder="Introduzca la fecha de inicio" data-sb-validations="required" />
+                                            <label for="fecha_inicio">Introduzca la fecha de inicio</label>
+                                            <p>@ViewBag.ErrorFechaInicio</p>
+                                            <div class="invalid-feedback" data-sb-feedback="fecha_inicio:required">Fecha de inicio es obligatoria.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <!-- Input para fecha_final -->
+                                        <div class="form-floating mb-2">
+                                            <input class="form-control" id="fecha_final" type="date" name="fecha_final" value="@ViewData["fecha_finalText"]" placeholder="Introduzca la fecha de final" data-sb-validations="required" />
+                                            <label for="fecha_final">Introduzca la fecha de inicio</label>
+                                            <p>@ViewBag.ErrorFechaFinal</p>
+                                            <div class="invalid-feedback" data-sb-feedback="fecha_final:required">Fecha final es obligatoria.</div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md">
-                                    <!-- Input para fecha_final -->
-                                    <div class="form-floating mb-2">
-                                        <input class="form-control" id="fecha_final" type="date" name="fecha_final" value="@ViewData["fecha_finalText"]" placeholder="Introduzca la fecha de final" data-sb-validations="required" />
-                                        <label for="fecha_final">Introduzca la fecha de inicio</label>
-                                        <p>@ViewBag.ErrorFechaFinal</p>
-                                        <div class="invalid-feedback" data-sb-feedback="fecha_final:required">Fecha final es obligatoria.</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row g-3">
-                                <div class="col-md">
-                                    <!-- Input para Centro -->
-                                    <div class="form-floating mb-2">
-                                        <select class="form-select" id="centro" name="centro">
-                                            <option selected>Escoja uno de sus centros si se hace en alguno</option>
-                                            @using (Html.BeginForm("FormadorPerfilPublicada", "Formador", FormMethod.Post))
-                                            {
-                                                if (ViewData["centro"] != null)
+                                <div class="row g-3">
+                                    <div class="col-md">
+                                        <!-- Input para Centro -->
+                                        <div class="form-floating mb-2">
+                                            <select class="form-select" id="centro" name="centro">
+                                                <option selected>@ViewData["centro_escogido"]</option>
+                                                @using (Html.BeginForm("GenerarSelects", "Formador", FormMethod.Post))
                                                 {
-                                                    foreach (Centro centro in (List<Centro>)ViewData["centros"])
+                                                    if (ViewData["centros"] != null)
                                                     {
-                                                        <option value="@centro.Id_centro">@centro.Id_centro</option>
-                                                    }
-                                                }
-
-                                            }
-                                        </select>
-                                        <label for="centro">Centro</label>
-                                        <button class="btn btn-outline-primary" name="Añadir_Centro" value="Añadir_Centero" >Añadir centro</button>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <!-- Input para Horario -->
-                                    <div class="form-floating mb-2">
-                                        <select class="form-select" id="horario" name="horario">
-                                            <option selected>Selecciona un horario</option>
-                                            @using (Html.BeginForm("FormadorPerfilPublicada", "Formador", FormMethod.Post))
-                                            {
-                                                if (ViewData["horarios"] != null)
-                                                {
-                                                    foreach (Horario horario in (List<Horario>)ViewData["horarios"])
-                                                    {
-                                                        <option value="@horario.Tipo_horario">@horario.Tipo_horario</option>
-                                                    }
-                                                }
-
-                                            }
-                                        </select>
-                                        <label for="horario">Horario</label>
-                                        <p>@ViewBag.ErrorHorario</p>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <!-- Input para modalidad -->
-                                    <div class="form-floating mb-2">
-                                        <select class="form-select" id="modalidad" name="modalidad">
-                                            <option selected>Seleccione una modalidad</option>
-                                            @using (Html.BeginForm("FormadorPerfilPublicada", "Formador", FormMethod.Post))
-                                            {
-                                                if (ViewData["modalidades"] != null)
-                                                {
-                                                    foreach (Modalidad modalidad in (List<Modalidad>)ViewData["modalidades"])
-                                                    {
-                                                        <option value="@modalidad.Tipo_modalidad">@modalidad.Tipo_modalidad</option>
+                                                        foreach (Centro centro in (List<Centro>)ViewData["centros"])
+                                                        {
+                                                            <option value="@centro.Centro_direccion">@centro.Centro_direccion</option>
+                                                        }
                                                     }
 
                                                 }
+                                            </select>
+                                            <label for="centro">Centro</label>
+                                            <br />
+                                            <div class="col-md-6 col-lg-4 mb-5">
+                                                <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
+                                                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                                        <a class="btn btn-outline-primary" name="Añadir_Centro" value="Añadir_Centro" >Añadir centro</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <!-- Input para Horario -->
+                                        <div class="form-floating mb-2">
+                                            <select class="form-select" id="horario" name="horario">
+                                                <option selected>@ViewData["horario_escogido"]</option>
+                                                @using (Html.BeginForm("GenerarSelects", "Formador", FormMethod.Post))
+                                                {
+                                                    if (ViewData["horarios"] != null)
+                                                    {
+                                                        foreach (Horario horario in (List<Horario>)ViewData["horarios"])
+                                                        {
+                                                            <option value="@horario.Tipo_horario">@horario.Tipo_horario</option>
+                                                        }
+                                                    }
 
-                                            }
-                                        </select>
-                                        <label for="modalidad">Modalidad</label>
-                                        <p>@ViewBag.ErrorModalidad</p>
+                                                }
+                                            </select>
+                                            <label for="horario">Horario</label>
+                                            <p>@ViewBag.ErrorHorario</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <!-- Input para modalidad -->
+                                        <div class="form-floating mb-2">
+                                            <select class="form-select" id="modalidad" name="modalidad">
+                                                <option selected>@ViewData["modalidad_escogido"]</option>
+                                                @using (Html.BeginForm("GenerarSelects", "Formador", FormMethod.Post))
+                                                {
+                                                    if (ViewData["modalidades"] != null)
+                                                    {
+                                                        foreach (Modalidad modalidad in (List<Modalidad>)ViewData["modalidades"])
+                                                        {
+                                                            <option value="@modalidad.Tipo_modalidad">@modalidad.Tipo_modalidad</option>
+                                                        }
+
+                                                    }
+
+                                                }
+                                            </select>
+                                            <label for="modalidad">Modalidad</label>
+                                            <p>@ViewBag.ErrorModalidad</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Input para curso_descripcion -->
+                                <div class="form-group mb-2" style="font-size: 1.5rem; color: #6c757d;">
+                                    <label for="curso_descripcion">Descripcion</label>
+                                    <textarea class="form-control" id="curso_descripcion" rows="8" name="curso_descripcion">@ViewData["DescripcionText"]</textarea>
+                                    <p>@ViewBag.ErrorDescripcion</p>
+                                </div>
+                                <!-- Submit error message-->
+                                <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-2">Error sending message!</div></div>
+                                <!-- Submit Button-->
+
+                                <button class="btn btn-primary btn-xl " id="InsertFormadorCurso" name="InsertFormadorCurso" type="submit">Crear Curso</button>
+
+                            </form>
+                        }
+                    </div>
+                    <!-- Portfolio Modal 1-->
+                    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                                <div class="modal-body text-center pb-5">
+                                    <div class="container">
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-8">
+                                                <!-- Portfolio Modal - Title-->
+                                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Añadir Centro</h2>
+                                                @using (Html.BeginForm("AnadirCentro", "Formador", FormMethod.Post))
+                                                 {
+                                                    <!--input Direccion del centro-->
+                                                    <div class="form-floating mb-2">
+                                                        <input class="form-control" id="centro_direccion" type="text" name="centro_direccion" placeholder="Introduzca la direccion del centro" data-sb-validations="required" />
+                                                        <label for="centro_direcicon">Direccion del centro</label>
+                                                        <p></p>
+                                                        <div class="invalid-feedback" data-sb-feedback="fecha_final:required">Fecha final es obligatoria.</div>
+                                                    </div>
+
+                                                    <!--Select Provincia del centro-->
+                                                    <div class="col-md">
+                                                        <div class="form-floating mb-2">
+                                                            <select class="form-select" id="municipio" name="municipio">
+                                                                <option selected>Selecciona un municipio</option>
+                                                                @foreach (Municipio municipio in (List<Municipio>)ViewData["municipios"])
+                                                                {
+                                                                    <option value="@municipio.Nombre_municipio">@municipio.Nombre_municipio</option>
+                                                                }
+                                                            </select>
+                                                            <label for="municipio">municipio</label>
+                                                            <p></p>
+                                                        </div>
+                                                        <button class="btn btn-primary" data-bs-dismiss="modal">Añadir</button>
+                                                    </div>
+                                                 }
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Input para curso_descripcion -->
-                            <div class="form-group mb-2" style="font-size: 1.5rem; color: #6c757d;">
-                                <label for="curso_descripcion">Descripcion</label>
-                                <textarea class="form-control" id="curso_descripcion" rows="8" name="curso_descripcion">@ViewData["DescripcionText"]</textarea>
-                                <p>@ViewBag.ErrorDescripcion</p>
-                            </div>
-                            <!-- Submit error message-->
-                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-2">Error sending message!</div></div>
-                            <!-- Submit Button-->
-
-                            <button class="btn btn-primary btn-xl " id="InsertFormadorCurso" name="InsertFormadorCurso" type="submit">Crear Curso</button>
-
-                        </form>
-                    }
-                </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
