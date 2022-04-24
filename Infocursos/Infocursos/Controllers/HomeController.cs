@@ -85,10 +85,10 @@ namespace Infocursos.Controllers
                 else if ((dal_Formador.Select_Formador(filtros, null)).Count() > 0)
                     Session["User"] = (dal_Formador.Select_Formador(filtros, null)).First();
 
-                return View("Index");
+                return RedirectToAction("Index", "Home");
             }
 
-            return View("IniciarSesion");
+            return RedirectToAction("IniciarSesion", "Home");
         }
 
         public ActionResult BuscadorAlumno()
@@ -99,7 +99,7 @@ namespace Infocursos.Controllers
         }
 
         [HttpPost]
-        public ActionResult buscarCurso()
+        public ActionResult BuscarCurso()
         {
             //Inicializo los recursos necesarios.
             DAL_Curso dal_curso = new DAL_Curso();
