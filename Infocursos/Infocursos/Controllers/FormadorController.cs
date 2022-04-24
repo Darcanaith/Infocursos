@@ -123,7 +123,7 @@ namespace Infocursos.Controllers
             @ViewData["DisplayAddButton"] = "normal";
             @ViewData["DisplayAddDescripcion"] = "none";
 
-            Formador formador=null;
+
             DAL_Formador dal_Formador = new DAL_Formador();
             List<Filtro> filtros = new List<Filtro>();
             filtros.Add(new Filtro("Id_User", IdFormador.ToString(), ECondicionNum.Ig));
@@ -132,46 +132,74 @@ namespace Infocursos.Controllers
                 if (!FormadorIsLoged())
                     return View("../Home/Index");
                 else
-                    formador = (Formador)Session["User"];
+                {
+                    Session["FormadorAMostrar"] = (Formador)Session["User"];
+                    Session["ShowEditOptions"] = "normal";
+                    if (((Formador)Session["User"]).User_Descripcion == null)
+                        Session["ShowEditOptionsDescripccion"] = "none";
+                    else
+                        Session["ShowEditOptionsDescripccion"] = "normal";
+                }
             else
-                formador = dal_Formador.Select_Formador(filtros, null).First();
-            
+            {
+                Session["FormadorAMostrar"] = dal_Formador.Select_Formador(filtros, null).First();
+                Session["ShowEditOptions"] = "none";
+            }
 
-            
-            return RellenarFormadorPerfil(formador);
+            Session["View_Info_Cursos"] = "Info";
+            Session["ShowAddDescription"] = "EsconderAnadir";
+
+            return RellenarFormadorPerfil();
+        }
+
+
+        public ActionResult Info_Cursos(string requestedView)
+        {
+            Session["View_Info_Cursos"] = requestedView;
+
+            return RellenarFormadorPerfil();
         }
 
         [HttpPost]
-        public ActionResult SetButtonsInfo_Curso(bool infoIsSelected,Formador formador)
+        public ActionResult RellenarFormadorPerfil()
         {
-            if (!infoIsSelected)
+            Formador formador = (Formador)Session["FormadorAMostrar"];
+
+
+            if (!Session["View_Info_Cursos"].Equals("Info"))
             {
                 @ViewData["DisplayInfo"] = "none";
                 @ViewData["DisplayCursos"] = "normal";
+                @ViewData["ActiveCursos"] = "active disabled";
             }
             else
             {
                 @ViewData["DisplayInfo"] = "normal";
                 @ViewData["DisplayCursos"] = "none";
+                @ViewData["ActiveInfo"] = "active disabled";
             }
-            return RellenarFormadorPerfil(formador);
-        }
 
-        public ActionResult Info_Cursos(int IdFormador,string requestedView)
-        {
-            Formador formador = null;
-            DAL_Formador dal_Formador = new DAL_Formador();
-            List<Filtro> filtros = new List<Filtro>();
-            filtros.Add(new Filtro("Id_User", IdFormador.ToString(), ECondicionNum.Ig));
+            if (Session["ShowAddDescription"].Equals("VerAnadir"))
+            {
+                @ViewData["DisplayAddButton"] = "none";
+                @ViewData["DisplayAddDescripcion"] = "normal";
+                if (Session["ShowEditOptionsDescripccion"].Equals("normal"))
+                {
+                    Session["ShowEditOptionsDescripccion"] = "none";
+                    @ViewData["DescripcionActual"] = formador.User_Descripcion;
+                }
+                
+            }
+            else
+            {
+                @ViewData["DisplayAddButton"] = "normal";
+                @ViewData["DisplayAddDescripcion"] = "none";
 
-            return SetButtonsInfo_Curso(requestedView.Equals("Info"),formador);
-        }
-
-        [HttpPost]
-        public ActionResult RellenarFormadorPerfil(Formador formador)
-        {
-
-            SetButtonsInfo_Curso(true, formador);
+                if (Session["ShowEditOptionsDescripccion"].Equals("none") && formador.User_Descripcion!= null)
+                {
+                    Session["ShowEditOptionsDescripccion"] = "normal";
+                }
+            }
 
             @ViewData["IdFormador"] = formador.Id_User;
 
@@ -212,7 +240,7 @@ namespace Infocursos.Controllers
             dal_Formador.Update_Formador(formador);
 
             
-            return RellenarFormadorPerfil(null);
+            return RellenarFormadorPerfil();
         }
         [HttpPost]
         public ActionResult GuardarDescripcion()
@@ -231,45 +259,18 @@ namespace Infocursos.Controllers
                 Formador formador = (Formador)Session["User"];
                 formador.User_Descripcion = description;
                 dal_Formador.Update_Formador(formador);
+                Session["ShowEditOptionsDescripccion"] = "normal";
+                Session["ShowAddDescription"] = "EsconderAnadir";
             }
 
-            return RellenarFormadorPerfil(null);
+            return RellenarFormadorPerfil();
         }
 
-        [HttpPost]
-        public ActionResult Descripcion_VerAnadir()
+        public ActionResult Descripcion_VerAnadir_Cancelar(string verOcancelar)
         {
-            string IsVisible = Request["IsVisible"];
-            if (IsVisible.Equals("normal"))
-            {
-                @ViewData["DisplayAddButton"] = "none";
-                @ViewData["DisplayAddDescripcion"] = "normal";
-            }
-            else
-            {
-                @ViewData["DisplayAddButton"] = "normal";
-                @ViewData["DisplayAddDescripcion"] = "none";
-            }
+            Session["ShowAddDescription"] = verOcancelar;
 
-            return RellenarFormadorPerfil(null);
-        }
-
-        [HttpPost]
-        public ActionResult Descripcion_Cancelar()
-        {
-            string IsVisible = Request["IsVisible"];
-            if (IsVisible.Equals("normal"))
-            {
-                @ViewData["DisplayAddButton"] = "normal";
-                @ViewData["DisplayAddDescripcion"] = "none";
-            }
-            else
-            {
-                @ViewData["DisplayAddButton"] = "none";
-                @ViewData["DisplayAddDescripcion"] = "normal";
-            }
-
-            return RellenarFormadorPerfil(null);
+            return RellenarFormadorPerfil();
         }
 
         public ActionResult PaginaFormador()
