@@ -16,48 +16,55 @@
 
                             <button class="btn @ViewData["style_button_lista"]" name="boton_lista" value="boton_lista">Listado curso</button>
                         </div>
-
-                        <div class="flex-column align-items-left text-left" style="display:@ViewData["lista_cursos"]" id="divCursos">
-                            <div class="mt-3">
-                                <h4>Cursos</h4>
-                                @if (@ViewData["cursos"] != null)
-                                {
-                                    foreach (Curso curso in (List<Curso>)@ViewData["cursos"])
-                                    {
-                                        <div class="mt-3 align-items-right text-right" style="text-align:right;">
-                                            <a class="btn btn-outline-primary">Editar</a>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">
-                                                    <img src="~/ImagenPerfilFormador/@ViewData["IMG_Perfil"]" alt="Admin" width="100">
-                                                </h6>
-                                            </div>
-                                            <div class="col-sm-2 text-secondary">
-                                                <p>Nombre curso.</p>
-                                                <p>@curso.Curso_nombre</p>
-                                            </div>
-                                            <div class="col-sm-2 text-secondary">
-                                                <p>Nombre formador.</p>
-                                                <p>@(((Formador)ViewData["Formador"]).User_Nombre)</p>
-                                            </div>
-                                            <div class="col-sm-2 text-secondary">
-                                                <p>Horas.</p>
-                                                <p>@curso.Horas_totales</p>
-                                            </div>
-                                            <div class="col-sm-2 text-secondary">
-                                                <p>Fecha Inicio-Fecha Final.</p>
-                                                <p>@curso.Fecha_inicio - @curso.Fecha_final</p>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                    }
-                                }
-                            </div>
-                        </div>
-
-
                     }
+
+                    <div class="flex-column align-items-left text-left" style="display:@ViewData["lista_cursos"]" id="divCursos">
+                        <div class="mt-3">
+                            <h4>Cursos</h4>
+                            @if (@ViewData["cursos"] != null)
+                            {
+                                foreach (Curso curso in (List<Curso>)@ViewData["cursos"])
+                                {
+                                    <div class="mt-3 align-items-right text-right" style="text-align:right;">
+                                        <div class="col-md-6 col-lg-4 mb-5">
+                                            <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal2">
+                                                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                                    @using (Html.BeginForm("RellenarEditarCursos", "Formador", FormMethod.Post))
+                                                    {
+                                                        <button class="btn btn-outline-primary" name="editar_curso" value="@curso.Id_curso">Editar curso</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">
+                                                <img src="~/ImagenPerfilFormador/@ViewData["IMG_Perfil"]" alt="Admin" width="100">
+                                            </h6>
+                                        </div>
+                                        <div class="col-sm-2 text-secondary">
+                                            <p>Nombre curso.</p>
+                                            <p>@curso.Curso_nombre</p>
+                                        </div>
+                                        <div class="col-sm-2 text-secondary">
+                                            <p>Nombre formador.</p>
+                                            <p>@(((Formador)ViewData["Formador"]).User_Nombre)</p>
+                                        </div>
+                                        <div class="col-sm-2 text-secondary">
+                                            <p>Horas.</p>
+                                            <p>@curso.Horas_totales</p>
+                                        </div>
+                                        <div class="col-sm-2 text-secondary">
+                                            <p>Fecha Inicio-Fecha Final.</p>
+                                            <p>@curso.Fecha_inicio - @curso.Fecha_final</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                }
+                            }
+                        </div>
+                    </div>
                     <div class="card-body" style="display:@ViewData["anadir_cursos"]">
                         @using (Html.BeginForm("InsertFormadorCurso", "Formador", FormMethod.Post))
                         {
@@ -139,7 +146,7 @@
                                             <div class="col-md-6 col-lg-4 mb-5">
                                                 <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
                                                     <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                                        <a class="btn btn-outline-primary" name="Añadir_Centro" value="Añadir_Centro" >Añadir centro</a>
+                                                        <a class="btn btn-outline-primary" name="Añadir_Centro" value="Añadir_Centro">Añadir centro</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -216,7 +223,7 @@
                                                 <!-- Portfolio Modal - Title-->
                                                 <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Añadir Centro</h2>
                                                 @using (Html.BeginForm("AnadirCentro", "Formador", FormMethod.Post))
-                                                 {
+                                                {
                                                     <!--input Direccion del centro-->
                                                     <div class="form-floating mb-2">
                                                         <input class="form-control" id="centro_direccion" type="text" name="centro_direccion" placeholder="Introduzca la direccion del centro" data-sb-validations="required" />
@@ -240,7 +247,7 @@
                                                         </div>
                                                         <button class="btn btn-primary" data-bs-dismiss="modal">Añadir</button>
                                                     </div>
-                                                 }
+                                                }
                                             </div>
                                         </div>
                                     </div>
