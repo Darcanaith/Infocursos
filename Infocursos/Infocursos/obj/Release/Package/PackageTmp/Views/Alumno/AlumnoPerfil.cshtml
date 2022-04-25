@@ -1,0 +1,207 @@
+﻿@using Infocursos.Models
+@{
+    ViewBag.Title = "AlumnoPerfil";
+}
+<div class="container" style="margin:5em;">
+    <div class="main-body">
+
+
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="~/ImagenPerfilAlumno/@ViewData["Alumno_IMG_Perfil"]" alt="Admin" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>@ViewData["Alumno_Nombre"] @ViewData["Alumno_Apellidos"]</h4>
+                                <p class="text-muted mb-1">@ViewData["Alumno_FechaNac"]</p>
+                                <p class="text-secondary mb-1">@ViewData["Alumno_Resumen"]</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h6 class="mb-0">E-Mail</h6>
+                            <span class="text-secondary">@ViewData["Alumno_Email"]</span>
+                        </li>
+
+                        @foreach (string telefono in (List<string>)@ViewData["Alumno_Telefonos"])
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">Telefono</h6>
+                                <span class="text-secondary">@telefono</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8">
+                 <div class="card mt-3">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link @ViewData["Alumno_ActiveInfo"]" href="@(Url.Action("Info_Cursos", null, new { area = string.Empty,requestedView="Info", controller = "Alumno" }, Request.Url.Scheme))">Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @ViewData["Alumno_ActiveCursos"]" href="@(Url.Action("Info_Cursos", null, new { area = string.Empty,requestedView="Cursos", controller = "Alumno" }, Request.Url.Scheme))">Historial Cursos</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Descripcion</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @if ((ViewData["Alumno_Descripcion"] == null && Session["Alumno_ShowEditOptions"].Equals("normal")) || (ViewData["Alumno_Descripcion"] != null && @Session["Alumno_ShowEditOptionsDescripccion"].Equals("none")))
+                                    {
+                                        <div class="flex-column align-items-center text-center" name="Button" style="display:@ViewData["Alumno_DisplayAddButton"]; width: 40%;">
+                                            <a class="nav-link" href="@(Url.Action("Descripcion_VerAnadir_Cancelar", null, new { area = string.Empty,verOcancelar="VerAnadir", controller = "Alumno" }, Request.Url.Scheme))">
+                                                <img type="image" src="~/Content/assets/img/Formador/anyadir.png" value="Descripcion_VerAnadir" class="rounded-circle" style="padding: 0.2em" width="50" />
+                                            </a>
+                                            <p class="text-muted font-size-sm">Añadir Descripción</p>
+                                        </div>
+
+                                        <div id="addDescripcion" class="flex-column align-items-left text-left" style="width: 80%;display: @ViewData["Alumno_DisplayAddDescripcion"]">
+                                            @using (Html.BeginForm("GuardarDescripcion", "Alumno", FormMethod.Post))
+                                            {
+                                                <textarea name="DescriptionTextArea" style="width:100%" rows="10">@ViewData["Alumno_DescripcionActual"]</textarea>
+                                                <div class="align-items-center text-center">
+                                                    @ViewBag.ErrorDescription
+                                                </div>
+                                                <button class="btn btn-primary" style="float:right" value="GuardarDescripcion">Aceptar</button>
+                                            }
+                                            <button class="btn btn-outline-primary" style="float:left"
+                                                    onclick="window.location.href='@(Url.Action("Descripcion_VerAnadir_Cancelar", null, new { area = string.Empty,verOcancelar="EsconcerAnadir", controller = "Alumno" }, Request.Url.Scheme))';">
+                                                Cancelar
+                                            </button>
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-secondary mb-1">@ViewData["Alumno_Descripcion"]</p>
+                                    }
+                                </div>
+                                <hr>
+                                @if (ViewData["Alumno_Provincia"] != null)
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Provincia</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            @ViewData["Alumno_Provincia"]
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Dirección</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            @ViewData["Alumno_Direccion"] @ViewData["Alumno_Municipio"]
+                                        </div>
+                                    </div>
+                                    <hr>
+                                }
+                                else if (ViewData["Alumno_Direccion"] != null)
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Dirección</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            @ViewData["Alumno_Direccion"]
+                                        </div>
+                                    </div>
+                                    <hr>
+                                }
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a class="btn btn-primary " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Editar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row gutters-sm">
+                            <div class="col-sm-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h6 class="d-flex align-items-center mb-3">Categorias Preferidas</h6>
+                                        @for (int i = 0; i < (((List<Categoria>)@ViewData["Alumno_Categorias"]).Count) / 2 + (((List<Categoria>)@ViewData["Alumno_Categorias"]).Count) % 2; i++)
+                                        {
+                                            int cat = 2 * i;
+                                            <div class="row">
+
+                                                @for (int y = 0; y < 2 && cat < ((List<Categoria>)@ViewData["Alumno_Categorias"]).Count; y++, cat++)
+                                                {
+                                                    <div class="col-md-6 align-items-center text-center">
+                                                        <div class="card" style="margin:0.3em;">
+                                                            <div class="card-body" style="text-overflow:'-'">
+                                                                @(((List<Categoria>)@ViewData["Alumno_Categorias"])[cat].Categoria_nombre)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-12 text-center">
+                                                <a class="btn btn-primary " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Añadir</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h6 class="d-flex align-items-center mb-3">Idiomas</h6>
+                                            @for (int i = 0; i < ((List<Object[]>)@ViewData["IdomaYNivel"]).Count; i++)
+                                            {
+                                                <div class="row">
+                                                    <div class="col-md-12 align-items-center text-center">
+                                                        <div class="card" style="margin:0.3em">
+                                                            <div class="card-body" >
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <h6 class="mb-0">
+                                                                            @(((Idioma)((((List<Object[]>)ViewData["IdomaYNivel"])[i])[0])).Nombre_idioma)
+                                                                        </h6>
+                                                                    </div>
+                                                                    <div class="col-sm-6 text-secondary">
+                                                                        @(((Nivel_Idioma)((((List<Object[]>)ViewData["IdomaYNivel"])[i])[1])).Nivel)
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-12 text-center">
+                                                <a class="btn btn-primary " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Añadir</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
