@@ -11,10 +11,142 @@ namespace Infocursos.Controllers
 {
     public class AlumnoController : Controller
     {
-        // GET: Alumno
-        public ActionResult AlumnoPerfil()
+        public bool AlumnoIsLoged()
         {
-            return View();
+            if (Session["User"] == null || ((Usuario)Session["User"] as Alumno) == null)
+                return false;
+            else
+                return true;
+        }
+        // GET: Alumno
+        public ActionResult AlumnoPerfil(int? IdAlumno)
+        {
+            DAL_Alumno dal_Alumno = new DAL_Alumno();
+            List<Filtro> filtros = new List<Filtro>();
+            filtros.Add(new Filtro("Id_User", IdAlumno.ToString(), ECondicionNum.Ig));
+
+            if (IdAlumno == null)
+                if (!AlumnoIsLoged())
+                    return View("../Home/Index");
+                else
+                {
+                    Session["AlumnoAMostrar"] = (Alumno)Session["User"];
+                    Session["Alumno_ShowEditOptions"] = "normal";
+                    if (((Alumno)Session["User"]).User_Descripcion == null)
+                        Session["Alumno_ShowEditOptionsDescripccion"] = "none";
+                    else
+                        Session["Alumno_ShowEditOptionsDescripccion"] = "normal";
+                }
+            else
+            {
+                Session["AlumnoAMostrar"] = dal_Alumno.Select_Alumno(filtros, null).First();
+                Session["Alumno_ShowEditOptions"] = "none";
+            }
+
+            Session["Alumno_View_Info_Cursos"] = "Info";
+            Session["Alumno_ShowAddDescription"] = "EsconderAnadir";
+            @ViewData["Alumno_DisplayAddButton"] = "normal";
+            @ViewData["Alumno_DisplayAddDescripcion"] = "none";
+
+            return RellenarAlumnoPerfil();
+        }
+
+        [HttpPost]
+        public ActionResult RellenarAlumnoPerfil()
+        {
+            Alumno alumno = (Alumno)Session["AlumnoAMostrar"];
+
+
+            if (!Session["Alumno_View_Info_Cursos"].Equals("Info"))
+            {
+                @ViewData["Alumno_DisplayInfo"] = "none";
+                @ViewData["Alumno_DisplayCursos"] = "normal";
+                @ViewData["Alumno_ActiveCursos"] = "active disabled";
+            }
+            else
+            {
+                @ViewData["Alumno_DisplayInfo"] = "normal";
+                @ViewData["Alumno_DisplayCursos"] = "none";
+                @ViewData["Alumno_ActiveInfo"] = "active disabled";
+            }
+
+            if (Session["Alumno_ShowAddDescription"].Equals("VerAnadir"))
+            {
+                @ViewData["Alumno_DisplayAddButton"] = "none";
+                @ViewData["Alumno_DisplayAddDescripcion"] = "normal";
+                if (Session["Alumno_ShowEditOptionsDescripccion"].Equals("normal"))
+                {
+                    Session["Alumno_ShowEditOptionsDescripccion"] = "none";
+                    @ViewData["Alumno_DescripcionActual"] = alumno.User_Descripcion;
+                }
+
+            }
+            else
+            {
+                @ViewData["Alumno_DisplayAddButton"] = "normal";
+                @ViewData["Alumno_DisplayAddDescripcion"] = "none";
+
+                if (Session["Alumno_ShowEditOptionsDescripccion"].Equals("none") && alumno.User_Descripcion != null)
+                {
+                    Session["Alumno_ShowEditOptionsDescripccion"] = "normal";
+                }
+            }
+
+            @ViewData["Alumno_Nombre"] = alumno.User_Nombre;
+            @ViewData["Alumno_Apellidos"] = alumno.User_Apellidos;
+            @ViewData["Alumno_FechaNac"] = alumno.Alumno_FechaNac;
+            @ViewData["Alumno_Email"] = alumno.Email;
+            @ViewData["Alumno_Telefonos"] = alumno.Telefonos;
+            @ViewData["Alumno_IMG_Perfil"] = alumno.IMG_Perfil;
+            @ViewData["Alumno_Resumen"] = alumno.User_Resumen;
+            if(alumno.Alumno_Direccion!=null)
+                @ViewData["Alumno_Direccion"] = alumno.Alumno_Direccion+",";
+            if (alumno.Municipio != null)
+            {
+                @ViewData["Alumno_Provincia"] = alumno.Municipio.Provincia.Nombre_provincia;
+                @ViewData["Alumno_Municipio"] = alumno.Municipio.Nombre_municipio;
+            }
+            @ViewData["Alumno_Descripcion"] = alumno.User_Descripcion;
+            @ViewData["Alumno_Categorias"] = alumno.Categorias;
+            ViewData["IdomaYNivel"] = alumno.Idioma_Nivel;
+
+            return View("AlumnoPerfil");
+        }
+
+        public ActionResult GuardarDescripcion()
+        {
+            var description = Request["DescriptionTextArea"];
+            if (String.IsNullOrEmpty(description) || String.IsNullOrWhiteSpace(description))
+            {
+                ViewBag.ErrorDescription = "*No puede guardarse una descripcion vacia";
+                @ViewData["Alumno_DisplayAddButton"] = "none";
+                @ViewData["Alumno_DisplayAddDescripcion"] = "normal";
+            }
+            else
+            {
+                DAL_Alumno dal_Alumno = new DAL_Alumno();
+
+                Alumno alumno = (Alumno)Session["User"];
+                alumno.User_Descripcion = description;
+                dal_Alumno.Update_Alumno(alumno);
+                Session["Alumno_ShowEditOptionsDescripccion"] = "normal";
+                Session["Alumno_ShowAddDescription"] = "EsconderAnadir";
+            }
+
+            return RellenarAlumnoPerfil();
+        }
+
+        public ActionResult Descripcion_VerAnadir_Cancelar(string verOcancelar)
+        {
+            Session["Alumno_ShowAddDescription"] = verOcancelar;
+
+            return RellenarAlumnoPerfil();
+        }
+        public ActionResult Info_Cursos(string requestedView)
+        {
+            Session["Alumno_View_Info_Cursos"] = requestedView;
+
+            return RellenarAlumnoPerfil();
         }
         public ActionResult AlumnoMisCursos()
         {
