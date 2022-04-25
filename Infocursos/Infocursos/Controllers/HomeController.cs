@@ -103,19 +103,16 @@ namespace Infocursos.Controllers
         {
             //Inicializo los recursos necesarios.
             DAL_Curso dal_curso = new DAL_Curso();
-            DAL_Centro dal_centro = new DAL_Centro();
             DAL_Provincia dal_provincia = new DAL_Provincia();
-            DAL_Municipio dAL_Municipio = new DAL_Municipio();
+
 
             List<Curso> cursos = new List<Curso>();
-            List<Centro> centros = new List<Centro>();
-            List<Municipio> municipios = new List<Municipio>();
             List<Provincia> provincias = new List<Provincia>();
 
             List<Filtro> filtrosCurso = new List<Filtro>();
             List<Filtro> filtrosProvincia = new List<Filtro>();
-            List<Filtro> filtrosMunicipio = new List<Filtro>();
-            List<Filtro> filtrosCentro = new List<Filtro>();
+            
+            
 
             //Recojo las variables que necesitaremos.
             string busquedaCurso = Request["nombreCurso"];
@@ -138,6 +135,14 @@ namespace Infocursos.Controllers
             if (filtrosProvincia.Count > 0 && filtrosCurso.Count > 0)
             {
                 //Caso de que hayan ambos filtros
+                if (dal_provincia.Select_Provincia(filtrosProvincia, null).Count > 0)
+                {
+                    provincias = dal_provincia.Select_Provincia(filtrosProvincia, null);
+                    cursos = BuscarCursosByProvincia(provincias,filtrosCurso);
+
+                    Session["Cursos"] = cursos;
+                    return RedirectToAction("CursoBusqueda", "Curso");
+                }
             }
             else if (filtrosCurso.Count > 0)
             {
@@ -155,21 +160,7 @@ namespace Infocursos.Controllers
                 if (dal_provincia.Select_Provincia(filtrosProvincia, null).Count > 0)
                 {
                     provincias = dal_provincia.Select_Provincia(filtrosProvincia, null);
-
-                    foreach (Provincia prov in provincias)
-                        filtrosMunicipio.Add(new Filtro("RId_Provincia", prov.Id_provincia.ToString(), ECondicionNum.Ig));
-                    
-                    municipios = dAL_Municipio.Select_Municipio(filtrosMunicipio, null);
-
-                    foreach (Municipio mun in municipios)
-                        filtrosCentro.Add(new Filtro("RId_Municipio", mun.Id_municipio.ToString(), ECondicionNum.Ig,EConector.OR));
-                    
-                    centros = dal_centro.Select_Centro(filtrosCentro, null);
-
-                    foreach (Centro cen in centros)
-                        filtrosCurso.Add(new Filtro("RId_Centro", cen.Id_centro.ToString(), ECondicionNum.Ig,EConector.OR));
-                    
-                    cursos = dal_curso.Select_Curso(filtrosCurso, null);
+                    cursos = BuscarCursosByProvincia(provincias, filtrosCurso);
 
                     Session["Cursos"] = cursos;
                     return RedirectToAction("CursoBusqueda", "Curso");
@@ -179,6 +170,38 @@ namespace Infocursos.Controllers
             cursos = dal_curso.Select_Curso(null, null);
             Session["Cursos"] = cursos;
             return RedirectToAction("CursoBusqueda", "Curso");
+        }
+
+        private List<Curso> BuscarCursosByProvincia(List<Provincia> provincias, List<Filtro> filtrosCurso)
+        {
+            DAL_Curso dal_curso = new DAL_Curso();
+            DAL_Municipio dAL_Municipio = new DAL_Municipio();
+            DAL_Centro dal_centro = new DAL_Centro();
+
+            List<Filtro> filtrosMunicipio = new List<Filtro>();
+            List<Filtro> filtrosCentro = new List<Filtro>();
+
+
+            List<Municipio> municipios = new List<Municipio>();
+            List<Centro> centros = new List<Centro>();
+            List<Curso> cursos = new List<Curso>();
+
+            foreach (Provincia prov in provincias)
+                filtrosMunicipio.Add(new Filtro("RId_Provincia", prov.Id_provincia.ToString(), ECondicionNum.Ig));
+
+            municipios = dAL_Municipio.Select_Municipio(filtrosMunicipio, null);
+
+            foreach (Municipio mun in municipios)
+                filtrosCentro.Add(new Filtro("RId_Municipio", mun.Id_municipio.ToString(), ECondicionNum.Ig, EConector.OR));
+
+            centros = dal_centro.Select_Centro(filtrosCentro, null);
+
+            foreach (Centro cen in centros)
+                filtrosCurso.Add(new Filtro("RId_Centro", cen.Id_centro.ToString(), ECondicionNum.Ig, EConector.OR));
+
+            cursos = dal_curso.Select_Curso(filtrosCurso, null);
+
+            return cursos;
         }
     }
 }
