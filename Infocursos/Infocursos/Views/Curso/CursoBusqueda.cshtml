@@ -10,44 +10,48 @@
             <!-- Buscador Section Form-->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
-                    <form id="buscadorForm">
-                        <div class="row g-3">
-                            <!-- Name input-->
-                            <div class="col-md-8">
-                                <div class="form-control">
-                                    <label for="name">Buscar cursos de...</label>
-                                    <input class="form-control" id="name" type="text" placeholder="Modalidad, Horario o palabra clave">
+                    @using (Html.BeginForm("BuscarCurso", "Curso", FormMethod.Post))
+                    {
+                        <form id="buscadorForm">
+                            <div class="row g-3">
+                                <!-- Name input-->
+                                <div class="col-md-6">
+                                    <div class="form-control">
+                                        <label for="name">Buscar cursos de...</label>
+                                        <input class="form-control" id="nombreCurso" type="text" name="nombreCurso" placeholder="Modalidad, Horario o palabra clave" value=@ViewData["buscadorFormNombreCurso"]>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-control">
+                                        <label for="floatingSelectGrid">En...</label>
+                                        @if (@ViewData["Provincia"] == null)
+                                        {
+                                            <div class="form-control">
+                                                <p>@ViewBag.ErrorProvincias</p>
+                                            </div>
+
+                                        }
+                                        @if (@ViewData["Provincia"] != null)
+                                        {
+                                            <select class="form-select" id="floatingSelectGrid" name="provincia">
+                                                <option selected value="0">España</option>
+                                                @foreach (var provincia in ViewData["Provincia"] as List<Infocursos.Models.Provincia>)
+                                                {
+                                                    <option value="@provincia.Nombre_provincia">@provincia.Nombre_provincia</option>
+                                                }
+
+                                            </select>
+                                        }
+
+                                    </div>
+                                </div>
+                                <!-- Submit Button-->
+                                <div class="col-md-3">
+                                    <button class="btn btn-primary btn-xl" id="submitButton" type="submit" value="BuscarCurso">buscar</button>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-control">
-                                    <label for="floatingSelectGrid">En...</label>
-                                    @if (@ViewData["Provincia"] == null)
-                                    {
-                                        <div class="form-control">
-                                            <p>@ViewBag.ErrorProvincias</p>
-                                        </div>
-
-                                    }
-                                    @if (@ViewData["Provincia"] != null)
-                                    {
-                                        <select class="form-select" id="floatingSelectGrid" name="provincia">
-                                            <option selected value="0">España</option>
-                                            @foreach (var provincia in (List<Provincia>)ViewData["Provincia"])
-                                            {
-                                                <option value="@provincia.Nombre_provincia">@provincia.Nombre_provincia</option>
-                                            }
-
-                                        </select>
-                                    }
-                                </div>
-                            </div>
-                            <!-- Submit Button-->
-                            <div class="col-md-1">
-                                <button class="btn btn-primary btn-xl" id="submitButton" type="submit">buscar</button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    }
                 </div>
             </div>
         </div>

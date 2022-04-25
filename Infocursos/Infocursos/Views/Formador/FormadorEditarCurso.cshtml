@@ -1,1 +1,149 @@
-﻿
+﻿@using Infocursos.Models
+@{
+    ViewBag.Title = "Editar cursos";
+}
+<div class="container" style="margin: 5em;">
+    @using (Html.BeginForm("UpdateCurso", "Formador", FormMethod.Post))
+    {
+        <!-- Parte Formulario añadir curso. -->
+        <form id="crearCursoForm" style="display: block">
+            <div class="row g-2">
+                <div class="col-md">
+                    <!-- Input para curso_nombre -->
+                    <div class="form-floating mb-2">
+                        <input class="form-control" id="curso_nombre" type="text" placeholder="Introduzca el nombre del curso" name="curso_nombre" value="@(((Curso)Session["Curso_elegido"]).Curso_nombre)" data-sb-validations="required" />
+                        <label for="curso_nombre">Nombre del curso</label>
+                        <p>@ViewBag.ErrorCursoNombre</p>
+                        <div class="invalid-feedback" data-sb-feedback="curso_nombre:required">Nombre del curso es obligatorio</div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <!-- Input para num_plaza -->
+                    <div class="form-floating mb-2">
+                        <input class="form-control" id="num_plaza" type="number" name="num_plaza" value="@(((Curso)Session["Curso_elegido"]).Num_plaza)" placeholder="Numero de plazas" data-sb-validations="required" />
+                        <label for="num_plaza">Numero de plazas</label>
+                        <p>@ViewBag.ErrorNumPlaza</p>
+                        <div class="invalid-feedback" data-sb-feedback="num_plaza:required">Numerode plaza es obligatorio.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-2">
+                <div class="col-md">
+                    <!-- Input para horas_totales -->
+                    <div class="form-floating mb-2">
+                        <input class="form-control" id="horas_totales" type="number" name="horas_totales" value="@(((Curso)Session["Curso_elegido"]).Horas_totales)" placeholder="Horas totales" data-sb-validations="required" />
+                        <label for="horas_totales">Horas totales</label>
+                        <p>@ViewBag.ErrorHorasTotales</p>
+                        <div class="invalid-feedback" data-sb-feedback="horas_totales:required">Horas totales es obligatorio.</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row g-2">
+                <div class="col-md">
+                    <!-- Input para fecha_inicio -->
+                    <div class="form-floating mb-2">
+                        <input class="form-control" id="fecha_inicio" type="date" name="fecha_inicio" value="@(((Curso)Session["Curso_elegido"]).Fecha_inicio)" placeholder="Introduzca la fecha de inicio" data-sb-validations="required" />
+                        <label for="fecha_inicio">Introduzca la fecha de inicio</label>
+                        <p>@ViewBag.ErrorFechaInicio</p>
+                        <div class="invalid-feedback" data-sb-feedback="fecha_inicio:required">Fecha de inicio es obligatoria.</div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <!-- Input para fecha_final -->
+                    <div class="form-floating mb-2">
+                        <input class="form-control" id="fecha_final" type="date" name="fecha_final" value="@(((Curso)Session["Curso_elegido"]).Fecha_final)" placeholder="Introduzca la fecha de final" data-sb-validations="required" />
+                        <label for="fecha_final">Introduzca la fecha de inicio</label>
+                        <p>@ViewBag.ErrorFechaFinal</p>
+                        <div class="invalid-feedback" data-sb-feedback="fecha_final:required">Fecha final es obligatoria.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-md">
+                    <!-- Input para Centro -->
+                    <div class="form-floating mb-2">
+                        <select class="form-select" id="centro" name="centro">
+                            @if (((Curso)Session["Curso_elegido"]).Centro != null)
+                            {
+                                <option selected>@(((Curso)Session["Curso_elegido"]).Centro.Centro_direccion)</option>
+                            }
+                            else
+                            {
+                                <option selected>Escoja un centro si se realiza en uno</option>
+                            }
+                            
+                            @if (ViewData["centros"] != null)
+                            {
+                                foreach (Centro centro in (List<Centro>)ViewData["centros"])
+                                {
+                                    <option value="@centro.Centro_direccion">@centro.Centro_direccion</option>
+                                }
+                            }
+                        </select>
+                        <label for="centro">Centro</label>
+                        <br />
+                        <div class="col-md-6 col-lg-4 mb-5">
+                            <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
+                                <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                    <a class="btn btn-outline-primary" name="Añadir_Centro" value="Añadir_Centro">Añadir centro</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <!-- Input para Horario -->
+                    <div class="form-floating mb-2">
+                        <select class="form-select" id="horario" name="horario">
+                            <option selected>@(((Curso)Session["Curso_elegido"]).Horario.Tipo_horario)</option>
+
+
+                            @if (ViewData["horarios"] != null)
+                            {
+                                foreach (Horario horario in (List<Horario>)ViewData["horarios"])
+                                {
+                                    <option value="@horario.Tipo_horario">@horario.Tipo_horario</option>
+                                }
+                            }
+                        </select>
+                        <label for="horario">Horario</label>
+                        <p>@ViewBag.ErrorHorario</p>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <!-- Input para modalidad -->
+                    <div class="form-floating mb-2">
+                        <select class="form-select" id="modalidad" name="modalidad">
+                            <option selected>@(((Curso)Session["Curso_elegido"]).Modalidad.Tipo_modalidad)</option>
+
+                            @if (ViewData["modalidades"] != null)
+                            {
+                                foreach (Modalidad modalidad in (List<Modalidad>)ViewData["modalidades"])
+                                {
+                                    <option value="@modalidad.Tipo_modalidad">@modalidad.Tipo_modalidad</option>
+                                }
+
+                            }
+                        </select>
+                        <label for="modalidad">Modalidad</label>
+                        <p>@ViewBag.ErrorModalidad</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Input para curso_descripcion -->
+            <div class="form-group mb-2" style="font-size: 1.5rem; color: #6c757d;">
+                <label for="curso_descripcion">Descripcion</label>
+                <textarea class="form-control" id="curso_descripcion" rows="8" name="curso_descripcion">@(((Curso)Session["Curso_elegido"]).Curso_descripcion)</textarea>
+                <p>@ViewBag.ErrorDescripcion</p>
+            </div>
+            <!-- Submit error message-->
+            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-2">Error sending message!</div></div>
+            <!-- Submit Button-->
+
+            <button class="btn btn-primary btn-xl " id="InsertFormadorCurso" name="InsertFormadorCurso" type="submit">Crear Curso</button>
+
+        </form>
+    }
+
+</div>
