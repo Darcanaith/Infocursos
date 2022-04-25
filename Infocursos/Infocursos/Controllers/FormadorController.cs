@@ -345,25 +345,20 @@ namespace Infocursos.Controllers
 
         private ActionResult GenerarSelects()
         {
-            List<Filtro> filtros = new List<Filtro>();
-            DAL_Curso dal_curso = new DAL_Curso();
-            filtros.Add(new Filtro("Rid_Formador", ((Usuario)Session["User"]).Id_User.ToString(), ECondicionNum.Ig));
-            List<Curso> cursos = dal_curso.Select_Curso(filtros, null);
-            DAL_Centro dal_centro = new DAL_Centro();
+            Formador formador = (Formador)Session["User"];
+            formador.GetCursos();
             DAL_Horario dal_horario = new DAL_Horario();
             DAL_Modalidad dal_modalidad = new DAL_Modalidad();
             DAL_Municipio dal_municipio = new DAL_Municipio();
-            List<Centro> centros = new List<Centro>();
-            filtros.Clear();
-            filtros = null;
-            centros = dal_centro.Select_Centro(filtros, null);
+
             List<Horario> horarios = dal_horario.Select_Horarios(null, null);
             List<Modalidad> modalidades = dal_modalidad.Select_Modalidades(null, null);
             List<Municipio> municipios = dal_municipio.Select_Municipio(null, null);
-            @ViewData["centros"] = centros;
+            @ViewData["centros"] = formador.Centros;
             @ViewData["horarios"] = horarios;
             @ViewData["modalidades"] = modalidades;
             ViewData["municipios"] = municipios;
+
             return View("FormadorPerfilPublicada");
 
         }
