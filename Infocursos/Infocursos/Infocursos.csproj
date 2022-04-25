@@ -132,6 +132,7 @@
     <Compile Include="Controllers\FormadorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\DAL_Alumno.cs" />
+    <Compile Include="DAL\DAL_Alumno_Curso.cs" />
     <Compile Include="DAL\DAL_Curso_Categorias.cs" />
     <Compile Include="DAL\DAL_Alumno_Categorias.cs" />
     <Compile Include="DAL\DAL_Alumno_Idioma.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="DAL\DAL_Curso.cs" />
     <Compile Include="DAL\DAL_Formador.cs" />
     <Compile Include="DAL\DAL_Horario.cs" />
+    <Compile Include="DAL\DAL_Estado_Curso.cs" />
     <Compile Include="DAL\DAL_Idioma.cs" />
     <Compile Include="DAL\DAL_Modalidad.cs" />
     <Compile Include="DAL\DAL_Municipio.cs" />
@@ -161,6 +163,7 @@
     <Compile Include="Models\Idioma.cs" />
     <Compile Include="Models\Modalidad.cs" />
     <Compile Include="Models\Municipio.cs" />
+    <Compile Include="Models\Estado_Curso.cs" />
     <Compile Include="Models\Nivel_Idioma.cs" />
     <Compile Include="Models\Provincia.cs" />
     <Compile Include="Models\Usuario.cs" />

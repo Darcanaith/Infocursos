@@ -177,27 +177,36 @@ namespace Infocursos.Controllers
                 @ViewData["ActiveInfo"] = "active disabled";
             }
 
-            if (Session["ShowAddDescription"].Equals("VerAnadir"))
-            {
+            if (Session["ShowEditOptions"].Equals("none")){
                 @ViewData["DisplayAddButton"] = "none";
-                @ViewData["DisplayAddDescripcion"] = "normal";
-                if (Session["ShowEditOptionsDescripccion"].Equals("normal"))
-                {
-                    Session["ShowEditOptionsDescripccion"] = "none";
-                    @ViewData["DescripcionActual"] = formador.User_Descripcion;
-                }
-                
+                @ViewData["DisplayAddDescripcion"] = "none";
+                Session["ShowEditOptionsDescripccion"] = "none";
             }
             else
             {
-                @ViewData["DisplayAddButton"] = "normal";
-                @ViewData["DisplayAddDescripcion"] = "none";
-
-                if (Session["ShowEditOptionsDescripccion"].Equals("none") && formador.User_Descripcion!= null)
+                if (Session["ShowAddDescription"].Equals("VerAnadir"))
                 {
-                    Session["ShowEditOptionsDescripccion"] = "normal";
+                    @ViewData["DisplayAddButton"] = "none";
+                    @ViewData["DisplayAddDescripcion"] = "normal";
+                    if (Session["ShowEditOptionsDescripccion"].Equals("normal"))
+                    {
+                        Session["ShowEditOptionsDescripccion"] = "none";
+                        @ViewData["DescripcionActual"] = formador.User_Descripcion;
+                    }
+
+                }
+                else
+                {
+                    @ViewData["DisplayAddButton"] = "normal";
+                    @ViewData["DisplayAddDescripcion"] = "none";
+
+                    if (Session["ShowEditOptionsDescripccion"].Equals("none") && formador.User_Descripcion != null)
+                    {
+                        Session["ShowEditOptionsDescripccion"] = "normal";
+                    }
                 }
             }
+            
 
             @ViewData["IdFormador"] = formador.Id_User;
 
@@ -272,70 +281,31 @@ namespace Infocursos.Controllers
             return RellenarFormadorPerfil();
         }
 
-        public ActionResult PaginaFormador()
-        {
-            ViewBag.Message = "Your Formador page.";
 
-            return View();
-        }
-       
-        public ActionResult FormadorPerfilCurso()
-        {
-            ViewBag.Message = "Your Formador profile Course page.";
 
-            return View();
-        }
-        public ActionResult FormadorPerfilInfo()
+        public ActionResult MostrarLista_cursos(string AgregarOListaCursos)
         {
-            ViewBag.Message = "Your Formador profile Info page.";
+            Session["View_agregar_ListaCursos"] = AgregarOListaCursos;
+            
+            return RellenarListaCurso();
+         }
 
-            return View();
-        }
-
-        public void SetButtonLista_cursos(bool cursoIsSelected)
+        public ActionResult RellenarListaCurso()
         {
-            if (!cursoIsSelected)
+            Formador formador = (Formador)Session["User"];
+            if (!Session["View_agregar_ListaCursos"].Equals("Agregar"))
             {
                 @ViewData["anadir_cursos"] = "none";
                 @ViewData["lista_cursos"] = "normal";
-                @ViewData["style_button_lista"] = "btn-outline-primary";
-                @ViewData["style_button_añadir"] = "btn-primary";
+                @ViewData["ActiveLista"] = "active disabled";
             }
             else
             {
                 @ViewData["anadir_cursos"] = "normal";
                 @ViewData["lista_cursos"] = "none";
-                @ViewData["style_button_lista"] = "btn-primary";
-                @ViewData["style_button_añadir"] = "btn-outline-primary";
-
+                @ViewData["ActiveAgregar"] = "active disabled";
+                GenerarSelects();
             }
-        }
-
-        [HttpPost]
-        public ActionResult MostrarLista_cursos()
-        {
-            Formador formador = (Formador)Session["User"];
-            string botonListaCursos = Request["boton_lista"];
-             if (!String.IsNullOrEmpty(botonListaCursos))
-             {
-                @ViewData["Mostrar"] = "lista_cursos";
-                FormadorPerfilPublicada();
-             }
-
-            else
-            {
-                @ViewData["Mostrar"] = "añadir_cursos";
-                FormadorPerfilPublicada();
-
-            }
-            return RellenarListaCurso(formador);
-         }
-
-        public ActionResult RellenarListaCurso(Formador formador)
-        {
-            if (ViewData["Mostrar"] == null)
-                @ViewData["Mostrar"] = "añadir_cursos";
-            SetButtonLista_cursos(@ViewData["Mostrar"].Equals("añadir_cursos"));
 
             @ViewData["IMG_Perfil"] = formador.IMG_Perfil;
             formador.GetCursos();
@@ -345,6 +315,15 @@ namespace Infocursos.Controllers
 
         private ActionResult GenerarSelects()
         {
+            if (ViewData["centro_escogido"] == null)
+                ViewData["centro_escogido"] = "Escoja uno de sus centros si se hace en alguno";
+
+            if (ViewData["horario_escogido"] == null)
+                ViewData["horario_escogido"] = "Selecciona un horario";
+
+            if (ViewData["modalidad_escogido"] == null)
+                ViewData["modalidad_escogido"] = "Selecciona una modalidad";
+
             Formador formador = (Formador)Session["User"];
             formador.GetCursos();
             DAL_Horario dal_horario = new DAL_Horario();
@@ -364,24 +343,18 @@ namespace Infocursos.Controllers
         }
         public ActionResult FormadorPerfilPublicada()
         {
-            @ViewData["anadir_cursos"] = "normal";
-            @ViewData["lista_cursos"] = "none";
-            if (ViewData["centro_escogido"] == null)
-                ViewData["centro_escogido"] = "Escoja uno de sus centros si se hace en alguno";
-
-            if (ViewData["horario_escogido"] == null)
-                ViewData["horario_escogido"] = "Selecciona un horario";
-
-            if (ViewData["modalidad_escogido"] == null)
-                ViewData["modalidad_escogido"] = "Selecciona una modalidad";
             Formador formador = null;
             if (!FormadorIsLoged())
                 return View("../Home/Index");
             else
                 formador = (Formador)Session["User"];
-            ViewData["Formador"] = formador;
+
+            Session["View_agregar_ListaCursos"] = "Agregar";
+
+            
+            
             GenerarSelects();
-            return RellenarListaCurso(formador);
+            return RellenarListaCurso();
         }
 
 
@@ -489,8 +462,7 @@ namespace Infocursos.Controllers
                 DAL_Curso dal_curso = new DAL_Curso();
                 dal_curso.Insert_Cursos(curso);
             }
-            MostrarLista_cursos();
-            return View("FormadorPerfilPublicada");
+            return RellenarListaCurso(); 
         }
         [HttpPost]
         public ActionResult AnadirCentro()

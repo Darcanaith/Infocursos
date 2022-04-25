@@ -50,6 +50,11 @@ namespace Infocursos.DAL
                 DAL_Alumno_Idioma dal_Alumno_Idioma = new DAL_Alumno_Idioma();
                 DAL_Nivel_Idioma dal_Nivel_Idioma = new DAL_Nivel_Idioma();
                 DAL_Telefono dat_telefono = new DAL_Telefono();
+                DAL_Municipio dal_municipio = new DAL_Municipio();
+
+                DAL_Curso dal_curso = new DAL_Curso();
+                DAL_Alumno_Curso dal_Alumno_Curso = new DAL_Alumno_Curso();
+                DAL_Estado_Curso dal_Estado_Curso = new DAL_Estado_Curso();
 
 
                 while (reader.Read())
@@ -59,9 +64,13 @@ namespace Infocursos.DAL
                     DateTime? alumno_FechaNac = null;
                     Municipio municipio=null;
                     List<Object[]> idiomas_Nivel = new List<object[]>();
+                    List<Object[]> cursos_Estado = new List<object[]>();
                     List<string> telefonos_Alumno = new List<string>();
+                    List<Curso> cursos = new List<Curso>();
+                    List<Filtro> filtros_Alumno = new List<Filtro>();
+                    List<Filtro> filtros_Curso = new List<Filtro>();
 
-                    
+
                     IDictionary<int[], int> idAlumno_Idcategorias = dal_Alumno_Categorias.Select_Alumno_Categorias(null,null);
                     foreach (KeyValuePair<int[],int> kp in idAlumno_Idcategorias)
                         if (reader.GetInt32(0) == kp.Key[0])
@@ -84,7 +93,7 @@ namespace Infocursos.DAL
 
                     if (reader.GetValue(11) != DBNull.Value)
                     {
-                        DAL_Municipio dal_municipio = new DAL_Municipio();
+                        
                         List<Municipio> municipios = dal_municipio.Select_Municipio(null, null);
                         foreach (Municipio municipio_de_lista in municipios)
                             if (reader.GetInt32(11) == municipio_de_lista.Id_municipio)
@@ -93,7 +102,6 @@ namespace Infocursos.DAL
                     
                     IDictionary<int, Idioma> idiomas = dal_Idioma.Select_Idioma(null, null);   
                     IDictionary<int, Nivel_Idioma> niveles_Idioma = dal_Nivel_Idioma.Select_Nivel_Idioma(null, null);
-
                     
                     IDictionary<int[], int> alumno_Idioma = dal_Alumno_Idioma.Select_Alumno_Idioma(null, null);
                     foreach (KeyValuePair<int[], int> alumno_Idioma_Nivel in alumno_Idioma)
@@ -101,12 +109,24 @@ namespace Infocursos.DAL
                             idiomas_Nivel.Add(new object[] { idiomas[alumno_Idioma_Nivel.Key[1]], niveles_Idioma[alumno_Idioma_Nivel.Value] });
 
                     
+                    IDictionary<int, Estado_Curso> estado_curso = dal_Estado_Curso.Select_Estado_Curso(null, null);
+
+                    filtros_Alumno.Add(new Filtro("RId_Alumno", reader.GetInt32(0).ToString(), ECondicionNum.Ig));
+                    IDictionary<int[], int> alumno_Curso = dal_Alumno_Curso.Select_Alumno_Curso(filtros_Alumno, null);
+
+                    foreach (KeyValuePair<int[], int> alumno_Curso_Estado in alumno_Curso)
+                    {
+                        filtros_Curso.Clear();
+                        filtros_Curso.Add(new Filtro("Id_Curso", alumno_Curso_Estado.Key[1].ToString(),ECondicionNum.Ig));
+                        cursos_Estado.Add(new object[] { dal_curso.Select_Curso(filtros_Curso, null).First(), estado_curso[alumno_Curso_Estado.Value]  });
+                    }
+
                     IDictionary<int, string> telefonos = dat_telefono.Select_Telefono(null, null);
                     foreach (KeyValuePair<int, string> telefono in telefonos)
                         if (telefono.Key == reader.GetInt32(0))
                             telefonos_Alumno.Add(telefono.Value);
 
-                    alumnos.Add(new Alumno(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4),user_Descripcion,user_Resumen,iMG_Perfil, telefonos_Alumno, alumno_FechaNac,alumno_Direccion,municipio,categorias_Alumno, idiomas_Nivel));
+                    alumnos.Add(new Alumno(reader.GetInt32(0),reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4),user_Descripcion,user_Resumen,iMG_Perfil, telefonos_Alumno, alumno_FechaNac,alumno_Direccion,municipio,categorias_Alumno, idiomas_Nivel, cursos_Estado));
                 }
                 
             }

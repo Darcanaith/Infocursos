@@ -14,7 +14,6 @@
                         <input class="form-control" id="curso_nombre" type="text" placeholder="Introduzca el nombre del curso" name="curso_nombre" value="@(((Curso)Session["Curso_elegido"]).Curso_nombre)" data-sb-validations="required" />
                         <label for="curso_nombre">Nombre del curso</label>
                         <p>@ViewBag.ErrorCursoNombre</p>
-                        <div class="invalid-feedback" data-sb-feedback="curso_nombre:required">Nombre del curso es obligatorio</div>
                     </div>
                 </div>
                 <div class="col-md">
@@ -23,7 +22,6 @@
                         <input class="form-control" id="num_plaza" type="number" name="num_plaza" value="@(((Curso)Session["Curso_elegido"]).Num_plaza)" placeholder="Numero de plazas" data-sb-validations="required" />
                         <label for="num_plaza">Numero de plazas</label>
                         <p>@ViewBag.ErrorNumPlaza</p>
-                        <div class="invalid-feedback" data-sb-feedback="num_plaza:required">Numerode plaza es obligatorio.</div>
                     </div>
                 </div>
             </div>
@@ -34,7 +32,6 @@
                         <input class="form-control" id="horas_totales" type="number" name="horas_totales" value="@(((Curso)Session["Curso_elegido"]).Horas_totales)" placeholder="Horas totales" data-sb-validations="required" />
                         <label for="horas_totales">Horas totales</label>
                         <p>@ViewBag.ErrorHorasTotales</p>
-                        <div class="invalid-feedback" data-sb-feedback="horas_totales:required">Horas totales es obligatorio.</div>
                     </div>
                 </div>
 
@@ -46,7 +43,6 @@
                         <input class="form-control" id="fecha_inicio" type="date" name="fecha_inicio" value="@(((Curso)Session["Curso_elegido"]).Fecha_inicio)" placeholder="Introduzca la fecha de inicio" data-sb-validations="required" />
                         <label for="fecha_inicio">Introduzca la fecha de inicio</label>
                         <p>@ViewBag.ErrorFechaInicio</p>
-                        <div class="invalid-feedback" data-sb-feedback="fecha_inicio:required">Fecha de inicio es obligatoria.</div>
                     </div>
                 </div>
                 <div class="col-md">
@@ -55,7 +51,6 @@
                         <input class="form-control" id="fecha_final" type="date" name="fecha_final" value="@(((Curso)Session["Curso_elegido"]).Fecha_final)" placeholder="Introduzca la fecha de final" data-sb-validations="required" />
                         <label for="fecha_final">Introduzca la fecha de inicio</label>
                         <p>@ViewBag.ErrorFechaFinal</p>
-                        <div class="invalid-feedback" data-sb-feedback="fecha_final:required">Fecha final es obligatoria.</div>
                     </div>
                 </div>
             </div>

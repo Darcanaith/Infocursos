@@ -108,7 +108,8 @@ namespace Infocursos.Controllers
             }
             @ViewData["Alumno_Descripcion"] = alumno.User_Descripcion;
             @ViewData["Alumno_Categorias"] = alumno.Categorias;
-            ViewData["IdomaYNivel"] = alumno.Idioma_Nivel;
+            @ViewData["IdomaYNivel"] = alumno.Idioma_Nivel;
+            ViewData["Cursos"] = alumno.Cursos_Estado;
 
             return View("AlumnoPerfil");
         }

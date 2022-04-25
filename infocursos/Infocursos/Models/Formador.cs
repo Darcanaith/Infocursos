@@ -75,13 +75,14 @@ namespace Infocursos.Models
             {
                 Modalidades.Add(curso.Modalidad);
                 Horarios.Add(curso.Horario);
-                Centros.Add(curso.Centro);
+                if(curso.Centro != null)
+                    Centros.Add(curso.Centro);
                 Categorias.AddRange(curso.Categorias);
 
             }
             Modalidades = Modalidades.DistinctBy(Modalidad => Modalidad.Tipo_modalidad).ToList();
             Horarios = Horarios.DistinctBy(Horario => Horario.Tipo_horario).ToList();
-            //Centros = Centros.DistinctBy(Centro => Centro.Centro_direccion).ToList();
+            Centros = Centros.DistinctBy(Centro => Centro.Centro_direccion).ToList();
             Categorias = Categorias.DistinctBy(Categoria => Categoria.Categoria_nombre).ToList();
         }
     }
