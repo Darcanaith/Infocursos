@@ -120,10 +120,6 @@ namespace Infocursos.Controllers
         
         public ActionResult FormadorPerfil(int? IdFormador)
         {
-            @ViewData["DisplayAddButton"] = "normal";
-            @ViewData["DisplayAddDescripcion"] = "none";
-
-
             DAL_Formador dal_Formador = new DAL_Formador();
             List<Filtro> filtros = new List<Filtro>();
             filtros.Add(new Filtro("Id_User", IdFormador.ToString(), ECondicionNum.Ig));
@@ -148,6 +144,8 @@ namespace Infocursos.Controllers
 
             Session["View_Info_Cursos"] = "Info";
             Session["ShowAddDescription"] = "EsconderAnadir";
+            @ViewData["DisplayAddButton"] = "normal";
+            @ViewData["DisplayAddDescripcion"] = "none";
 
             return RellenarFormadorPerfil();
         }
@@ -214,6 +212,7 @@ namespace Infocursos.Controllers
 
             @ViewData["Horarios"] = formador.Horarios;
             @ViewData["Modalidades"] = formador.Modalidades;
+
             @ViewData["Categorias"] = formador.Categorias;
 
             return View("FormadorPerfil");
