@@ -1,0 +1,67 @@
+﻿@model Infocursos.Models.Formador
+@{
+    ViewBag.Title = "FormadorEditarPerfil";
+}
+<!-- Masthead-->
+<header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Heading-->
+        <h1 class="masthead-heading text-uppercase mb-0">Editar perfil de formador</h1>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+
+    </div>
+</header>
+
+@using (Html.BeginForm("UpdateInfoFormadorPerfil", "Formador", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(file => file.file, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input class="form-control" name="Imagen" type="file" value=@ViewData["Imagen"] />
+            @Html.ValidationMessageFor(file => file.file, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group editar_perfil_formador">
+        <label for="Nombre">Nombre</label>
+        <div class="col-md-10">
+            <input class="form-control" , id="Nombre" name="Nombre" value="@ViewData["User_Nombre"]" />
+        </div>
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <label for="Apellidos">Apellidos</label>
+        <div class="col-md-10">
+            <input class="form-control" , id="Nombre" name="Apellidos" value="@ViewData["User_Apellidos"]" />
+        </div>
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <label for="Entidad">Entidad</label>
+        <div class="col-md-10">
+            <input class="form-control" , id="Nombre" name="Entidad" value="@ViewData["Nombre_Entidad"]" />
+        </div>
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <label for="Resumen">Resumen</label>
+        <div class="col-md-10">
+            <div class="col-md-10">
+                <input class="form-control" , id="Nombre" name="Resumen" value="@ViewData["Resumen"]" />
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group editar_perfil_formador">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary btn-md">Editar</button>
+        </div>
+    </div>
+}
+
