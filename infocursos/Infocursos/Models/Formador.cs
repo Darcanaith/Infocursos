@@ -1,5 +1,4 @@
 ﻿using Infocursos.DAL;
-using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,8 +16,8 @@ namespace Infocursos.Models
         private List<Curso> cursos;
 
         private List<Centro> centros = new List<Centro>();
-        private List<Horario> horarios = new List<Horario>();
-        private List<Modalidad> modalidades = new List<Modalidad>();
+        private List<string> horarios = new List<string>();
+        private List<string> modalidades = new List<string>();
         private List<Categoria> categorias = new List<Categoria>();
 
         [DataType(DataType.Upload)]
@@ -30,8 +29,8 @@ namespace Infocursos.Models
         public string Cod_Validacion { get => cod_Validacion; set => cod_Validacion = value; }
         public List<Centro> Centros { get => centros; set => centros = value; }
         public List<Curso> Cursos { get => cursos; set => cursos = value; }
-        public List<Horario> Horarios { get => horarios; set => horarios = value; }
-        public List<Modalidad> Modalidades { get => modalidades; set => modalidades = value; }
+        public List<string> Horarios { get => horarios; set => horarios = value; }
+        public List<string> Modalidades { get => modalidades; set => modalidades = value; }
         public List<Categoria> Categorias { get => categorias; set => categorias = value; }
 
         public Formador(string email, string password, string user_Nombre, string user_Apellidos, string nombre_Entidad)
@@ -73,16 +72,15 @@ namespace Infocursos.Models
 
             foreach (Curso curso in Cursos)
             {
-                Modalidades.Add(curso.Modalidad);
-                Horarios.Add(curso.Horario);
+                Modalidades.Add(curso.Modalidad.Tipo_modalidad);
+                Horarios.Add(curso.Horario.Tipo_horario);
                 Centros.Add(curso.Centro);
                 Categorias.AddRange(curso.Categorias);
-
             }
-            Modalidades = Modalidades.DistinctBy(Modalidad => Modalidad.Tipo_modalidad).ToList();
-            Horarios = Horarios.DistinctBy(Horario => Horario.Tipo_horario).ToList();
-            //Centros = Centros.DistinctBy(Centro => Centro.Centro_direccion).ToList();
-            Categorias = Categorias.DistinctBy(Categoria => Categoria.Categoria_nombre).ToList();
+            Modalidades = Modalidades.Distinct().ToList();
+            Horarios = Horarios.Distinct().ToList();
+            Centros = Centros.Distinct().ToList();
+            Categorias = Categorias.Distinct().ToList();
         }
     }
 }

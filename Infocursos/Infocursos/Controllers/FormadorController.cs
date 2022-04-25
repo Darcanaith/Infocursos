@@ -670,13 +670,17 @@ namespace Infocursos.Controllers
                 dal_curso.Update_Curso(curso);
 
             }
-            RellenarEditarCursos();
-            return View("FormadorEditarCurso");
+            
+            return RedirectToAction("FormadorPerfilPublicada", "Formador");
         }
 
         public ActionResult FormadorEditarCurso()
         {
-            return View();
+            if (!FormadorIsLoged())
+                return RedirectToAction("Index", "Home");
+            else
+
+                return View();
         }
         public ActionResult ListaAlumnos()
         {
