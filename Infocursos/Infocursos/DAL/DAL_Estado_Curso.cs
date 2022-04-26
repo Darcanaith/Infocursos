@@ -7,6 +7,10 @@ using System.Web;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Estado_Curso</c>
+    /// Se encarga de hacer el select de los datos relacionados con la tabla Estado-Curso.
+    /// </summary>
     public class DAL_Estado_Curso
     {
         CNX cnx = null;
@@ -16,6 +20,13 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
+        /// <summary>
+        /// Method <c>Select_Estado_Curso</c>
+        /// Este metodo se encarga de hacer un diccionario que relaciona el id de la fila con un objeto estado_curso.
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Un dicionario de id_estado_inscripcion-Estado_Curso.</returns>
         public IDictionary<int, Estado_Curso> Select_Estado_Curso(List<Filtro> filtros, string orderBy)
         {
             IDictionary<int, Estado_Curso> idiomas = new Dictionary<int, Estado_Curso>();

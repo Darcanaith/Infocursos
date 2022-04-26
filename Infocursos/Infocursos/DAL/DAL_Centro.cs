@@ -10,6 +10,10 @@ namespace Infocursos.DAL
 {
     public class DAL_Centro
     {
+        /// <summary>
+        /// Class <c>DAL_Centro</c>
+        /// Se encarga de hacer el CRUD de los datos relacionados con la tabla Centro.
+        /// </summary>
         CNX cnx = null;
 
         public DAL_Centro()
@@ -18,7 +22,16 @@ namespace Infocursos.DAL
         }
 
     public CNX Cnx { get => cnx; set => cnx = value; }
-    public List<Centro> Select_Centro(List<Filtro> filtros, string orderBy)
+
+        /// <summary>
+        /// Method <c>Select_Centro</c>
+        /// Este metodo genera una lista de centros, la cual es distinta dependiendo de los filtros 
+        /// y forma de ordenar que se pasen por parametros.
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Una lista de centros.</returns>
+        public List<Centro> Select_Centro(List<Filtro> filtros, string orderBy)
         {
             List<Centro> centros = new List<Centro>();
             string sentenciaFiltros = "";
@@ -73,6 +86,12 @@ namespace Infocursos.DAL
             return centros;
         }
 
+        /// <summary>
+        /// Method <c>Insert_Centro</c>
+        /// Este metodo genera una fila nueva en la tabla Centro en la base de datos, 
+        /// los datos que se rellenan en esa fila son los del objeto centro que recibe por parametros.
+        /// </summary>
+        /// <param name="centro">Objecto cnetro con los datos nuevos para subir a la base de datos.</param>
         public void Insert_Centro(Centro centro)
         {
             try
@@ -99,6 +118,12 @@ namespace Infocursos.DAL
 
         }
 
+        /// <summary>
+        /// Method <c>Delete_Centro</c>
+        /// Este metodo Elimina una fila en la tabla de centros, las filas a eliminar se determina por el id del objeto centro que se le pasa
+        /// por parametro.
+        /// </summary>
+        /// <param name="centro">Objeto centro con el id de la fila que hay que eliminar.</param>
         public void Delete_Centro(Centro centro)
         {
             try

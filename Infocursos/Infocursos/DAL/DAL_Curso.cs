@@ -9,6 +9,10 @@ using EnumsNET;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Curso</c>
+    /// Se encarga de hacer el CRUD de los datos relacionados con la tabla Curso.
+    /// </summary>
     public class DAL_Curso
     {
         CNX cnx = null;
@@ -20,7 +24,16 @@ namespace Infocursos.DAL
 
 
     public CNX Cnx { get => cnx; set => cnx = value; }
-    public List<Curso> Select_Curso(List<Filtro> filtros, string orderBy)
+
+        /// <summary>
+        /// Method <c>Select_Curso</c>
+        /// Este metodo genera una lista de cursos, la cual es distinta dependiendo de los filtros 
+        /// y forma de ordenar que se pasen por parametros.
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Una lista de cursos.</returns>
+        public List<Curso> Select_Curso(List<Filtro> filtros, string orderBy)
         {
             List<Curso> cursos = new List<Curso>();
             string sentenciaFiltros = "";
@@ -79,7 +92,6 @@ namespace Infocursos.DAL
                     filtros_Curso.Add(new Filtro("Id_Modalidad", reader.GetInt32(9).ToString(), ECondicionNum.Ig));
                     modalidad = dal_modalidad.Select_Modalidades(filtros_Curso, null).First();
 
-
                    if (reader.GetValue(10)!= DBNull.Value)
                     {
                         filtros_Curso.Clear();
@@ -103,7 +115,13 @@ namespace Infocursos.DAL
             return cursos;
         }
 
-        public void Insert_Cursos(Curso curso)
+        /// <summary>
+        /// Method <c>Insert_Curso</c>
+        /// Este metodo genera una fila nueva en la tabla Curso en la base de datos, los datos que se rellenan 
+        /// en esa fila son los del objeto curso que recibe por parametros.
+        /// </summary>
+        /// <param name="curso">Objecto curso con los datos nuevos para insertar en la tabla Curso.</param>
+        public void Insert_Curso(Curso curso)
         {
             try
             {
@@ -163,6 +181,12 @@ namespace Infocursos.DAL
             
         }
 
+        /// <summary>
+        /// Method <c>Update_Curso</c>
+        /// Este metodo actualiza la tabla Curso en la base de datos, la fila que se tiene que actualizar viene determinada 
+        /// por el id del objeto curso que se le pasa por parametros.
+        /// </summary>
+        /// <param name="curso">Objecto curso con los datos actualizados para subir a la base de datos.</param>
         public void Update_Curso(Curso curso)
         {
             try
@@ -234,6 +258,13 @@ namespace Infocursos.DAL
 
         }
 
+
+        /// <summary>
+        /// Method <c>Delete_Alumno</c>
+        /// Este metodo Elimina una fila en la tabla Curso, las filas a eliminar se determina por el id del objeto curso que se le pasa
+        /// por parametro.
+        /// </summary>
+        /// <param name="curso">Objeto curso con el id de las filas que hay que eliminar.</param>
         public void Delete_Curso(Curso curso)
         {
             try

@@ -7,10 +7,13 @@ using System.Web;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Curso_Categoria</c>
+    /// Se encarga de hacer el select de los datos relacionados con la tabla Curso-Categoria.
+    /// </summary>
     public class DAL_Curso_Categorias
     {
         CNX cnx = null;
-
         public DAL_Curso_Categorias()
         {
             Cnx = new CNX();
@@ -18,6 +21,14 @@ namespace Infocursos.DAL
 
         public CNX Cnx { get => cnx; set => cnx = value; }
 
+        /// <summary>
+        /// Method <c>Select_Curso_Categoria</c>
+        /// Este metodo se encarga de hacer un diccionario que relaciona una fila de la tabla de Curso-Categoria
+        /// con el id foranea de categoria que este guardado en esa fila.
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Un dicionario de curso_categoria-categoria.</returns>
         public IDictionary<int[], int> Select_Curso_Categorias(List<Filtro> filtros, string orderBy)
         {
             IDictionary<int[], int> curso_Categoria = new Dictionary<int[], int>();
@@ -49,7 +60,7 @@ namespace Infocursos.DAL
                 }
 
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }

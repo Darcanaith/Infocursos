@@ -7,6 +7,10 @@ using System.Web;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Categoria</c>
+    /// Se encarga de hacer el select de los datos relacionados con la tabla Categoria.
+    /// </summary>
     public class DAL_Categoria
     {
         CNX cnx = null;
@@ -18,6 +22,15 @@ namespace Infocursos.DAL
 
 
         public CNX Cnx { get => cnx; set => cnx = value; }
+
+        /// <summary>
+        /// Method <c>Select_Alumno</c>
+        /// Este metodo genera un diccionario que relaciona el id de una categoria mayor con el objecto categoria, esta relacion se basa en la id foranea
+        /// que este guardada en cada fila de la base de datos de Categoria.
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Un diccionaro id_categoria_mayor-categoria.</returns>
 
         public IDictionary<int, Categoria> Select_Categoria(List<Filtro> filtros, string orderBy)
         {
@@ -68,7 +81,7 @@ namespace Infocursos.DAL
 
 
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }

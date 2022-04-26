@@ -7,6 +7,10 @@ using System.Web;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Alumno_Idioma</c>
+    /// Se encarga de hacer el select de los datos relacionados con la tabla Alumnos-Idioma.
+    /// </summary>
     public class DAL_Alumno_Idioma
     {
         CNX cnx = null;
@@ -16,6 +20,14 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
+        /// <summary>
+        /// Method <c>Select_Alumno_Idioma</c>
+        /// Este metodo se encarga de hacer un diccionario que relaciona una fila de la tabla de alumno-idioma
+        /// con el id foranea del nivel_idioma que este guardado en esa fila.
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Un dicionario de alumno_curso-estado_inscripcion.</returns>
         public IDictionary<int[], int> Select_Alumno_Idioma(List<Filtro> filtros, string orderBy)
         {
             IDictionary<int[], int> alumno_Idioma = new Dictionary<int[], int>();
@@ -45,7 +57,7 @@ namespace Infocursos.DAL
                     alumno_Idioma.Add(clave, reader.GetInt32(2));
                 }
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }

@@ -12,6 +12,10 @@ namespace Infocursos.Controllers
 {
     public class FormadorController : Controller
     {
+        /// <summary>
+        /// Funcion que comprobara que la sesion de user este creada.
+        /// </summary>
+        /// <returns>True en caso de estar creada;False en otro caso.</returns>
         public bool FormadorIsLoged()
         {
             if (Session["User"] == null || ((Usuario)Session["User"] as Formador) == null)
@@ -20,11 +24,19 @@ namespace Infocursos.Controllers
                 return true;
         }
 
+        /// <summary>
+        /// Funcion que devolvera la vistra RegistroFormador
+        /// </summary>
+        /// <returns>Vista RegistroFormador</returns>
         public ActionResult RegistroFormador()
         {
             return View();
         }
 
+        /// <summary>
+        /// Funcion que modificara los datos del actual formador.
+        /// </summary>
+        /// <returns>Una vista con los datos modificados.</returns>
         public ActionResult FormadorEditarPerfil()
         {
             if (!FormadorIsLoged())
@@ -41,6 +53,10 @@ namespace Infocursos.Controllers
         }
 
         // POST: Formador/Create
+        /// <summary>
+        /// Funcion que validara y creara un nuevo formador en nuestra BBDD.
+        /// </summary>
+        /// <returns>La vista de iniciar sesion en caso exitoso.</returns>
         [HttpPost]
         public ActionResult Create()
         {
@@ -112,6 +128,10 @@ namespace Infocursos.Controllers
             return View("RegistroFormador");
         }
 
+        /// <summary>
+        /// Funcion que serviara para cambiar de vista a Alumno registro.
+        /// </summary>
+        /// <returns>Vista de alumnoRegistro.</returns>
         public ActionResult CambioARegistroAlumnor()
         {
             return View("../Alumno/RegistroAlumno");
@@ -150,7 +170,11 @@ namespace Infocursos.Controllers
             return RellenarFormadorPerfil();
         }
 
-
+        /// <summary>
+        /// Funcion que sirve para cambiar el div a salir.
+        /// </summary>
+        /// <param name="requestedView">Para seleccionar el div requerido por el usuario.</param>
+        /// <returns>Vista de formador perfil segun lo que haya clicado el formador.</returns>
         public ActionResult Info_Cursos(string requestedView)
         {
             Session["View_Info_Cursos"] = requestedView;
@@ -158,6 +182,10 @@ namespace Infocursos.Controllers
             return RellenarFormadorPerfil();
         }
 
+        /// <summary>
+        /// Funcion que rellenara la vista segun los datos del formador actual.
+        /// </summary>
+        /// <returns>Vista FormadorPerfil con los datos del actual formador.</returns>
         [HttpPost]
         public ActionResult RellenarFormadorPerfil()
         {
@@ -227,6 +255,11 @@ namespace Infocursos.Controllers
             return View("FormadorPerfil");
         }
 
+        /// <summary>
+        /// Actualizara los datos de nuestra BBDD del actual formador.
+        /// </summary>
+        /// <param name="Imagen">Valor en caso de que haya ingresado una image.</param>
+        /// <returns>Vista de formador con los datos actualizados.</returns>
         [HttpPost]
         public ActionResult UpdateInfoFormadorPerfil(HttpPostedFileBase Imagen)
         {
@@ -250,6 +283,11 @@ namespace Infocursos.Controllers
             
             return RellenarFormadorPerfil();
         }
+
+        /// <summary>
+        /// Guardara la descripcion del actual formador en nuestra BBDD.
+        /// </summary>
+        /// <returns>Vista de formador con los datos actualizados.</returns>
         [HttpPost]
         public ActionResult GuardarDescripcion()
         {
@@ -274,6 +312,11 @@ namespace Infocursos.Controllers
             return RellenarFormadorPerfil();
         }
 
+        /// <summary>
+        /// Cambiara el div el cual haya seleccionado el formador
+        /// </summary>
+        /// <param name="verOcancelar">Determinara el cambio de la vista</param>
+        /// <returns>Vista de formador con el div actualizado.</returns>
         public ActionResult Descripcion_VerAnadir_Cancelar(string verOcancelar)
         {
             Session["ShowAddDescription"] = verOcancelar;
@@ -281,15 +324,21 @@ namespace Infocursos.Controllers
             return RellenarFormadorPerfil();
         }
 
-
-
+        /// <summary>
+        /// Cambiara el div el cual haya seleccionado el formador
+        /// </summary>
+        /// <param name="AgregarOListaCursos">Determinara el cambio de la vista</param>
+        /// <returns>Vista de formador con el div actualizado.</returns>
         public ActionResult MostrarLista_cursos(string AgregarOListaCursos)
         {
             Session["View_agregar_ListaCursos"] = AgregarOListaCursos;
             
             return RellenarListaCurso();
          }
-
+        /// <summary>
+        /// Funcion que rellenara un listado con los datos de los cursos del actual formador.
+        /// </summary>
+        /// <returns>Vista FormadorPerfilPublicada con los cursos asignados.</returns>
         public ActionResult RellenarListaCurso()
         {
             Formador formador = (Formador)Session["User"];
@@ -313,6 +362,10 @@ namespace Infocursos.Controllers
             return View("FormadorPerfilPublicada");
         }
 
+        /// <summary>
+        /// Generara automaticamente los selects necesarios.
+        /// </summary>
+        /// <returns>Vista FormadorPerfilPublicada con los selects automatizados.</returns>
         private ActionResult GenerarSelects()
         {
             if (ViewData["centro_escogido"] == null)
@@ -341,6 +394,11 @@ namespace Infocursos.Controllers
             return View("FormadorPerfilPublicada");
 
         }
+
+        /// <summary>
+        /// Mostrara los datos del actual formador en su totalidad.
+        /// </summary>
+        /// <returns>Vista FormadorPerfilPublicada con los datos del formador.</returns>
         public ActionResult FormadorPerfilPublicada()
         {
             Formador formador = null;
@@ -357,7 +415,10 @@ namespace Infocursos.Controllers
             return RellenarListaCurso();
         }
 
-
+        /// <summary>
+        /// Introducira en la BBDD un nuevo Curso
+        /// </summary>
+        /// <returns>Lista de los cursos actualizada.</returns>
         [HttpPost]
         public ActionResult InsertFormadorCurso()
         {
@@ -460,10 +521,14 @@ namespace Infocursos.Controllers
 
                 Curso curso = new Curso(curso_nombre, descripcion, int.Parse(num_plaza), int.Parse(horas_totales), DateTime.Parse(fecha_inicio), DateTime.Parse(fecha_final), horario1, formador, modalidad1, centro1);
                 DAL_Curso dal_curso = new DAL_Curso();
-                dal_curso.Insert_Cursos(curso);
+                dal_curso.Insert_Curso(curso);
             }
             return RellenarListaCurso(); 
         }
+        /// <summary>
+        /// Añadira a la BBDD un nuevo centro asignado al actual formador.
+        /// </summary>
+        /// <returns>Vista FormadorPerfilPublicada</returns>
         [HttpPost]
         public ActionResult AnadirCentro()
         {
@@ -496,6 +561,10 @@ namespace Infocursos.Controllers
             return View("FormadorPerfilPublicada");
         }
 
+        /// <summary>
+        /// Funcion que relleanara el formulario de editar curso con los datos correspondientes.
+        /// </summary>
+        /// <returns> Vista FormadorEditarCurso con los datos del curso a editar.</returns>
         [HttpPost]
         public ActionResult RellenarEditarCursos()
         {
@@ -522,6 +591,10 @@ namespace Infocursos.Controllers
             return View("FormadorEditarCurso");
         }
 
+        /// <summary>
+        /// Validara y modificara los datos del curso en nuestra BBDD.
+        /// </summary>
+        /// <returns>Vista FormadorPerfilPublicada con los datos actualizados.</returns>
         [HttpPost]
         public ActionResult UpdateCurso()
         {
@@ -641,6 +714,10 @@ namespace Infocursos.Controllers
             return RedirectToAction("FormadorPerfilPublicada", "Formador");
         }
 
+        /// <summary>
+        /// Devolvera la vista asignada en caso de que el formador este logeado
+        /// </summary>
+        /// <returns>Vista de formador en caso exitoso.</returns>
         public ActionResult FormadorEditarCurso()
         {
             if (!FormadorIsLoged())
@@ -649,6 +726,11 @@ namespace Infocursos.Controllers
 
                 return View();
         }
+
+        /// <summary>
+        /// Devolvera la vista asignada.
+        /// </summary>
+        /// <returns>La vista ListaAlumnos.</returns>
         public ActionResult ListaAlumnos()
         {
             ViewBag.Message = "Your List Alumno page.";

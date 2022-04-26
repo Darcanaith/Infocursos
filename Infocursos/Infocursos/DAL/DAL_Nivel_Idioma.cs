@@ -7,6 +7,10 @@ using System.Web;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Nivel_Idioma</c>
+    /// Se encarga de hacer el select de los datos relacionados con la tabla Nivel_Idioma.
+    /// </summary>
     public class DAL_Nivel_Idioma
     {
         CNX cnx = null;
@@ -16,6 +20,13 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
+        /// <summary>
+        /// Method <c>Select_Nivel_Idioma</c>
+        /// Este metodo se encarga de hacer un diccionario que relaciona el id de la fila con un objeto nivel_idioma.
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Un dicionario de id_nivel_idioma-Nivel_Idioma.</returns>
         public IDictionary<int, Nivel_Idioma> Select_Nivel_Idioma(List<Filtro> filtros, string orderBy)
         {
             IDictionary<int, Nivel_Idioma> nivel_Idiomas = new Dictionary<int, Nivel_Idioma>();

@@ -11,6 +11,10 @@ namespace Infocursos.Controllers
 {
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Cargara las provincias y cargara la vista index a continuacion.
+        /// </summary>
+        /// <returns>La vista Index.</returns>
         public ActionResult Index()
         {
 
@@ -34,11 +38,20 @@ namespace Infocursos.Controllers
             return View("../Home/Index");
         }
 
+        /// <summary>
+        /// Cargara la vista iniciar sesion 
+        /// </summary>
+        /// <returns>La vista correspondiente</returns>
         public ActionResult IniciarSesion()
         {
             ViewBag.Message = "Your register page.";
             return View();
         }
+
+        /// <summary>
+        /// Cargara la vista RegistroAlumno.
+        /// </summary>
+        /// <returns>La vista correspondiente</returns>
         public ActionResult RegistroAlumno()
         {
             ViewBag.Message = "Your register alumno page.";
@@ -46,6 +59,11 @@ namespace Infocursos.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Iniciara sesion en caso de que email y contraseña coincidan con
+        /// algun usuario en nuestra BBDD
+        /// </summary>
+        /// <returns>Index en caso de ejecutarse correctamente.</returns>
         [HttpPost]
         public ActionResult Login()
         {
@@ -96,6 +114,10 @@ namespace Infocursos.Controllers
             return RedirectToAction("IniciarSesion", "Home");
         }
 
+        /// <summary>
+        /// Cargara la vista BuscadorAlumno.
+        /// </summary>
+        /// <returns>La vista correspondiente</returns>
         public ActionResult BuscadorAlumno()
         {
             ViewBag.Message = "Your Search alumno page.";
@@ -103,6 +125,10 @@ namespace Infocursos.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Realizara la busqueda de curso segun los filtros asignados.
+        /// </summary>
+        /// <returns>Vista BusquedaCurso con los filtros asignados.</returns>
         [HttpPost]
         public ActionResult BuscarCurso()
         {
@@ -177,6 +203,13 @@ namespace Infocursos.Controllers
             return RedirectToAction("CursoBusqueda", "Curso");
         }
 
+
+        /// <summary>
+        /// Funcion que sera llamada a la hora de buscar por una provincia en concreto.
+        /// </summary>
+        /// <param name="provincias">La provincia en la cual se filtrara.</param>
+        /// <param name="filtrosCurso">Filtros que se han de aplicar a la hora de buscar el curso.</param>
+        /// <returns>Un listado de cursos filtrados por los parametros.</returns>
         private List<Curso> BuscarCursosByProvincia(List<Provincia> provincias, List<Filtro> filtrosCurso)
         {
             DAL_Curso dal_curso = new DAL_Curso();

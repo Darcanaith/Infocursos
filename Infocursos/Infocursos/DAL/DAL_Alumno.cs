@@ -10,6 +10,10 @@ using static Infocursos.Models.Enums;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Alumno</c>
+    /// Se encarga de hacer el CRUD de los datos relacionados con la tabla Alumno.
+    /// </summary>
     class DAL_Alumno
     {
         CNX cnx = null;
@@ -19,6 +23,14 @@ namespace Infocursos.DAL
             cnx = new CNX();
         }
 
+        /// <summary>
+        /// Method <c>Select_Alumno</c>
+        /// Este metodo genera una lista de alumnos, la cual es distinta dependiendo de los filtros 
+        /// y forma de ordenar que se pasen por parametros.
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Una lista de alumnos</returns>
         public List<Alumno> Select_Alumno(List<Filtro> filtros, string orderBy)
         {
             List<Alumno> alumnos = new List<Alumno>();
@@ -130,7 +142,7 @@ namespace Infocursos.DAL
                 }
                 
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
@@ -142,6 +154,12 @@ namespace Infocursos.DAL
             return alumnos;
         }
 
+        /// <summary>
+        /// Method <c>Update_Alumno</c>
+        /// Este metodo actualiza la tabla de alumnos y usuarios en la base de datos, la fila que se tiene que actualizar viene determinada 
+        /// por el id del objeto alumno que se le pasa por parametros.
+        /// </summary>
+        /// <param name="alumno">Objecto alumno con los datos actualizados para subir a la base de datos.</param>
         public void Update_Alumno(Alumno alumno)
         {
             try
@@ -163,12 +181,12 @@ namespace Infocursos.DAL
 
                 SqlParameter pAlumno_Direccion = new SqlParameter("@Alumno_Direccion", System.Data.SqlDbType.NVarChar, 150);
                 pAlumno_Direccion.Value = DBNull.Value;
-                if (alumno.Alumno_Direccion != null)
+                if (alumno.Alumno_Direccion == null)
                     pAlumno_Direccion.Value = alumno.Alumno_Direccion;
 
                 SqlParameter pRId_Municipio = new SqlParameter("@RId_Municipio", System.Data.SqlDbType.Int);
                 pRId_Municipio.Value = DBNull.Value;
-                if (alumno.Municipio != null)
+                if (alumno.Municipio == null)
                     pRId_Municipio.Value = alumno.Municipio.Id_municipio;
 
                 cdm_Alumno.Parameters.Add(pAlumno_FechaNac);
@@ -176,11 +194,18 @@ namespace Infocursos.DAL
                 cdm_Alumno.Parameters.Add(pRId_Municipio);
                 cdm_Alumno.ExecuteNonQuery();
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
         }
+
+        /// <summary>
+        /// Method <c>Insert_Alumno</c>
+        /// Este metodo genera una fila nueva en la tabla alumno y usuario en la base de datos, 
+        /// los datos que se rellenan en esa fila son los del objeto alumno que recibe por parametros.
+        /// </summary>
+        /// <param name="alumno">Objecto alumno con los datos nuevos para insertar en la tabla alumnos.</param>
         public void Insert_Alumno(Alumno alumno)
         {
             try
@@ -205,11 +230,18 @@ namespace Infocursos.DAL
                 cdm.ExecuteNonQuery();
 
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
         }
+
+        /// <summary>
+        /// Method <c>Delete_Alumno</c>
+        /// Este metodo Elimina una fila en la tabla de alumnos y usuarios, las filas a eliminar se determina por el id del objeto alumno que se le pasa
+        /// por parametro.
+        /// </summary>
+        /// <param name="alumno">Objeto alumno con el id de la fila que hay que eliminar.</param>
         public void Delete_Alumno(Alumno alumno)
         {
             try
@@ -221,9 +253,9 @@ namespace Infocursos.DAL
                 DAL_Usuario dal_Usuario = new DAL_Usuario();
                 dal_Usuario.Delete_Usuario(alumno);
             }
-            catch (Exception er)
+            catch (Exception)
             {
-                //MessageBox.Show("Error eliminando: " + er.Message);
+                throw;
             }
         }
     }

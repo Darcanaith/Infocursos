@@ -9,6 +9,10 @@ using static Infocursos.Models.Enums;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Formador</c>
+    /// Se encarga de hacer el CRUD de los datos relacionados con la tabla Formador.
+    /// </summary>
     class DAL_Formador
     {
         CNX cnx = null;
@@ -21,7 +25,16 @@ namespace Infocursos.DAL
 
 
     public CNX Cnx { get => cnx; set => cnx = value; }
-    public List<Formador> Select_Formador(List<Filtro> filtros, string orderBy)
+
+        /// <summary>
+        /// Method <c>Select_Formador</c>
+        /// Este metodo genera una lista de formadores, la cual es distinta dependiendo de los filtros 
+        /// y forma de ordenar que se pasen por parametros. 
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Una lista de formadores</returns>
+        public List<Formador> Select_Formador(List<Filtro> filtros, string orderBy)
         {
             List<Formador> Formadores = new List<Formador>();
             string sentenciaFiltros = "";
@@ -74,7 +87,7 @@ namespace Infocursos.DAL
                     Formadores.Add(new Formador(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), user_Descripcion, user_Resumen, iMG_Perfil, telefonos_Formador, nombre_Entidad,reader.GetString(10),reader.GetBoolean(11)));
                 }
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
@@ -85,6 +98,13 @@ namespace Infocursos.DAL
             }
             return Formadores;
         }
+
+        /// <summary>
+        /// Method <c>Update_Formador</c>
+        /// Este metodo actualiza la tabla de formadores y usuarios en la base de datos, la fila que se tiene que actualizar viene determinada 
+        /// por el id del objeto formador que se le pasa por parametros. 
+        /// </summary>
+        /// <param name="formador">Objecto formador con los datos actualizados para subir a la base de datos.</param>
         public void Update_Formador(Formador formador)
         {
             try
@@ -103,11 +123,18 @@ namespace Infocursos.DAL
                 cdm_Formador.Parameters.Add(pNombre_Entidad);
                 cdm_Formador.ExecuteNonQuery();
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
         }
+
+        /// <summary>
+        /// Method <c>Insert_Formador</c>
+        /// Este metodo genera una fila nueva en la tabla formador y usuario en la base de datos, 
+        /// los datos que se rellenan en esa fila son los del objeto formador que recibe por parametros. 
+        /// </summary>
+        /// <param name="formador">Objecto alumno con los datos nuevos para insertar en la tabla Formador.</param>
         public void Insert_Formador(Formador formador)
         {
             try
@@ -143,11 +170,18 @@ namespace Infocursos.DAL
                 cdm.ExecuteNonQuery();
 
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
         }
+
+        /// <summary>
+        /// Method <c>Delete_Formador</c>
+        /// Este metodo Elimina una fila en la tabla de formadores y usuarios, las filas a eliminar se determina por el id del objeto formador que se le pasa
+        /// por parametro. 
+        /// </summary>
+        /// <param name="formador">Objeto formador con el id de las filas que hay que eliminar.</param>
         public void Delete_Formador(Formador formador)
         {
             try
@@ -159,12 +193,18 @@ namespace Infocursos.DAL
                 DAL_Usuario dal_Usuario = new DAL_Usuario();
                 dal_Usuario.Delete_Usuario(formador);
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
         }
 
+        /// <summary>
+        /// Method <c>Autorizar_Formador</c>
+        /// Este metodo actualiza el campo IsAutorizado de la tabla Formador de false a true, la fila se determina por el id del objeto formador
+        /// que recibe por parametro.;
+        /// </summary>
+        /// <param name="formador">Objeto formador con el id de formador que hay que autorizar</param>
         public void Autorizar_Formador(Formador formador)
         {
             try
@@ -181,7 +221,7 @@ namespace Infocursos.DAL
                 cdm_Formador.Parameters.Add(pIsAutorizado);
                 cdm_Formador.ExecuteNonQuery();
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
