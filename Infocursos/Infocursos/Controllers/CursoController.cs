@@ -12,6 +12,11 @@ namespace Infocursos.Controllers
     public class CursoController : Controller
     {
         // GET: Curso
+        /// <summary>
+        /// Funcion de mostrara un curso segun la id asignada.
+        /// </summary>
+        /// <param name="IdCurso">Filtrara los datos a buscar.</param>
+        /// <returns>Vista Curso con los datos del asignado.</returns>
         public ActionResult Curso(int? IdCurso)
         {
             if (IdCurso == null)
@@ -26,6 +31,10 @@ namespace Infocursos.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Funcion que se lanzara al buscar un curso, buscara todas las provincias dentro de nuestra BBDD.
+        /// </summary>
+        /// <returns>Retorna la vista de CursoBusqueda con todas las provincias de nuestra BBDD.</returns>
         public ActionResult CursoBusqueda()
         {
             DAL_Provincia dal_Provincia = new DAL_Provincia();
@@ -43,7 +52,11 @@ namespace Infocursos.Controllers
             }
             return View();
         }
-
+        
+        /// <summary>
+        /// Funcion que filtrara los cursos de nuestra base de datos segun los parametros provincia y nombre curso.
+        /// </summary>
+        /// <returns>Vista de busqueda de cursos con el filtrado aplicado.</returns>
         [HttpPost]
         public ActionResult BuscarCurso()
         {
@@ -118,6 +131,12 @@ namespace Infocursos.Controllers
             return RedirectToAction("CursoBusqueda", "Curso");
         }
 
+        /// <summary>
+        /// Funcion que sera llamada a la hora de buscar por una provincia en concreto.
+        /// </summary>
+        /// <param name="provincias">La provincia en la cual se filtrara.</param>
+        /// <param name="filtrosCurso">Filtros que se han de aplicar a la hora de buscar el curso.</param>
+        /// <returns>Un listado de cursos filtrados por los parametros.</returns>
         private List<Curso> BuscarCursosByProvincia(List<Provincia> provincias, List<Filtro> filtrosCurso)
         {
             DAL_Curso dal_curso = new DAL_Curso();
