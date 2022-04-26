@@ -7,6 +7,11 @@ using System.Data.SqlClient;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Provincia</c>
+    /// Se encarga de hacer el select de los datos relacionados con la tabla Provincia.
+    /// </summary>
+
     public class DAL_Provincia
     {
         CNX cnx = null;
@@ -19,6 +24,14 @@ namespace Infocursos.DAL
 
         public CNX Cnx { get => cnx; set => cnx = value; }
 
+        /// <summary>
+        /// Method <c>Select_Provincia</c>
+        /// Este metodo genera una lista de provincias, la cual es distinta dependiendo de los filtros 
+        /// y forma de ordenar que se pasen por parametros. 
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>>
+        /// <returns>Una lista de provincias</returns>
         public List<Provincia> Select_Provincia(List<Filtro> filtros, string orderBy)
         {
             List<Provincia> provincias = new List<Provincia>();

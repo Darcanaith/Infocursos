@@ -460,7 +460,7 @@ namespace Infocursos.Controllers
 
                 Curso curso = new Curso(curso_nombre, descripcion, int.Parse(num_plaza), int.Parse(horas_totales), DateTime.Parse(fecha_inicio), DateTime.Parse(fecha_final), horario1, formador, modalidad1, centro1);
                 DAL_Curso dal_curso = new DAL_Curso();
-                dal_curso.Insert_Cursos(curso);
+                dal_curso.Insert_Curso(curso);
             }
             return RellenarListaCurso(); 
         }

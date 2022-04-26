@@ -7,6 +7,10 @@ using System.Data.SqlClient;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Municipio</c>
+    /// Se encarga de hacer el select de los datos relacionados con la tabla Municipio.
+    /// </summary>
     public class DAL_Municipio
     {
         CNX cnx = null;
@@ -17,7 +21,16 @@ namespace Infocursos.DAL
         }
 
     public CNX Cnx { get => cnx; set => cnx = value; }
-    public List<Municipio> Select_Municipio(List<Filtro> filtros, string orderBy)
+
+        /// <summary>
+        /// Method <c>Select_Municipio</c>
+        /// Este metodo genera una lista de municipio, la cual es distinta dependiendo de los filtros 
+        /// y forma de ordenar que se pasen por parametros. 
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Una lista de municipios</returns>
+        public List<Municipio> Select_Municipio(List<Filtro> filtros, string orderBy)
         {
             List<Municipio> municipios = new List<Municipio>();
             string sentenciaFiltros = "";

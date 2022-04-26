@@ -7,6 +7,10 @@ using System.Web;
 
 namespace Infocursos.DAL
 {
+    /// <summary>
+    /// Class <c>DAL_Usuario</c>
+    /// Se encarga de hacer el CRUD de los datos relacionados con la tabla Usuario.
+    /// </summary>
     public class DAL_Usuario
     {
         CNX cnx = null;
@@ -15,7 +19,14 @@ namespace Infocursos.DAL
         {
             cnx = new CNX();
         }
-
+        /// <summary>
+        /// Method <c>Select_Usuario</c>
+        /// Este metodo genera una lista de alumnos, la cual es distinta dependiendo de los filtros 
+        /// y forma de ordenar que se pasen por parametros. 
+        /// </summary>
+        /// <param name="filtros">Es para filtrar los datos recibidos de la base de datos.</param>
+        /// <param name="orderBy">Es para ordenar los datos recibidos de la base de datos.</param>
+        /// <returns>Una lista de usuarios</returns>
         public List<Usuario> Select_Usuario(List<Filtro> filtros, string orderBy)
         {
             List<Usuario> Usuarios = new List<Usuario>();
@@ -65,7 +76,7 @@ namespace Infocursos.DAL
                     Usuarios.Add(new Usuario(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), user_Descripcion, user_Resumen, iMG_Perfil, telefonos_User));
                 }
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
@@ -76,6 +87,13 @@ namespace Infocursos.DAL
             }
             return Usuarios;
         }
+
+        /// <summary>
+        /// Method <c>Update_Usuario</c>
+        /// Este metodo actualiza la tabla Usuario en la base de datos, la fila que se tiene que actualizar viene determinada 
+        /// por el id del objeto usuario que se le pasa por parametros. 
+        /// </summary>
+        /// <param name="usuario">Objecto usuario con los datos actualizados para subir a la base de datos.</param>
         public void Update_Usuario(Usuario usuario)
         {
             try
@@ -129,11 +147,18 @@ namespace Infocursos.DAL
                 cdm_Usuario.Parameters.Add(pIMG_Perfil);
                 cdm_Usuario.ExecuteNonQuery();
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
         }
+
+        /// <summary>
+        /// Method <c>Insert_Usuario</c>
+        /// Este metodo genera una fila nueva en la tabla Usuario en la base de datos, 
+        /// los datos que se rellenan en esa fila son los del objeto alumno que recibe por parametros. 
+        /// </summary>
+        /// <param name="user">Objecto usuario con los datos nuevos para insertar en la tabla Usuario.</param>
         public void Insert_Usuario(Usuario user)
         {
             try
@@ -164,11 +189,18 @@ namespace Infocursos.DAL
                 cdm_Usuario.Parameters.Add(pIMG_Perfil);
                 cdm_Usuario.ExecuteNonQuery();
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
         }
+
+        /// <summary>
+        /// Method <c>Delete_Alumno</c>
+        /// Este metodo Elimina una fila en la tabla de Usuario, las filas a eliminar se determina por el id del objeto usuario que se le pasa
+        /// por parametro. 
+        /// </summary>
+        /// <param name="user">Objeto usuario con el id de las filas que hay que eliminar.</param>
         public void Delete_Usuario(Usuario user)
         {
             try
@@ -177,7 +209,7 @@ namespace Infocursos.DAL
                 SqlCommand cdm = new SqlCommand(sql, cnx.Connection);
                 cdm.ExecuteNonQuery();
             }
-            catch (Exception er)
+            catch (Exception)
             {
                 throw;
             }
