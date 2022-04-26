@@ -28,6 +28,11 @@ namespace Infocursos.Controllers
             }
             return View();
         }
+        public ActionResult CerrarSesion()
+        {
+            Session["User"]=null;
+            return View("../Home/Index");
+        }
 
         public ActionResult IniciarSesion()
         {

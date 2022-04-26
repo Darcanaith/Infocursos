@@ -47,12 +47,14 @@
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/Index">Inicio</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Alumno/AlumnoMisCursos">Mis Cursos</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Alumno/AlumnoPerfil">Perfil</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/CerrarSesion">Cerrar Sesión</a></li>
                     }
                     else if (((Usuario)Session["User"] as Formador) != null)
                     {
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Formador/FormadorPerfilPublicada">Gestionar Cursos</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Formador/ListaAlumnos">Buscar Alumnos</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Formador/FormadorPerfil">Perfil</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="/Home/CerrarSesion">Cerrar Sesión</a></li>
                     }
                 </ul>
             </div>
