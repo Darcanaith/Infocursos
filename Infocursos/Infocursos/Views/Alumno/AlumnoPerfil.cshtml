@@ -45,11 +45,12 @@
                             <li class="nav-item">
                                 <a class="nav-link @ViewData["Alumno_ActiveInfo"]" href="@(Url.Action("Info_Cursos", null, new { area = string.Empty,requestedView="Info", controller = "Alumno" }, Request.Url.Scheme))">Info</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" style="margin-right:2em">
                                 <a class="nav-link @ViewData["Alumno_ActiveCursos"]" href="@(Url.Action("Info_Cursos", null, new { area = string.Empty,requestedView="Cursos", controller = "Alumno" }, Request.Url.Scheme))">Historial Cursos</a>
                             </li>
                         </ul>
                     </div>
+
                     <div class="card-body" style="display:@ViewData["Alumno_DisplayInfo"]">
                         <div class="card mb-3">
                             <div class="card-body">
@@ -199,68 +200,77 @@
 
                         </div>
                     </div>  
-                     <div class="card-body" style="display:@ViewData["Alumno_DisplayCursos"]" id="divCurso">
+                        <div class="card-body" style="display:@ViewData["Alumno_DisplayCursos"]" id="divCurso">
                         <div class="d-flex flex-column align-items-left text-left">
 
                             @foreach (Object[] curso in (List<Object[]>)ViewData["Cursos"])
                             {
-                                <div class="card m-2">
-                                    <a href="/Curso/Curso?IdCurso=@(((Curso)curso[0]).Id_curso)" style="text-decoration:none">
-                                        <div class="card-body" id="divCurso">
-                                            <div class="float-end">
-                                                @if (DateTime.Compare(((Curso)curso[0]).Fecha_final, DateTime.Now) < 0)
-                                                {
-                                                    <p class="text-danger">Curso finalizado</p>
-                                                }
-                                                else if (DateTime.Compare(((Curso)curso[0]).Fecha_inicio, DateTime.Now) < 0)
-                                                {
-                                                    <p class="text-success">Disponible</p>
-                                                }
-                                                else
-                                                {
-                                                    <p class="text-warning">Curso en proceso</p>
-                                                }
+                                if (((Estado_Curso)curso[1]).Id_estado_curso == 4)
+                                {
+                                    <div class="card m-2">
+                                        <a href="/Curso/Curso?IdCurso=@(((Curso)curso[0]).Id_curso)" style="text-decoration:none">
+                                            <div class="card-body" id="divCurso">
+                                                <div class="float-end">
+                                                    @if (DateTime.Compare(((Curso)curso[0]).Fecha_final, DateTime.Now) < 0)
+                                                    {
+                                                        <p class="text-danger">Curso finalizado</p>
+                                                    }
+                                                    else if (DateTime.Compare(((Curso)curso[0]).Fecha_inicio, DateTime.Now) < 0)
+                                                    {
+                                                        <p class="text-success">Disponible</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="text-warning">Curso en proceso</p>
+                                                    }
 
-                                            </div>
-                                            <div class="d-flex flex-column align-items-left text-left">
-                                                <div class="mt-2">
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <h6 class="mb-2">
-                                                                <img src="~/Content/assets/img/Formador/defaultImg.png" alt="Admin" width="100" style="margin-right:0.5em">
-                                                            </h6>
-                                                        </div>
+                                                </div>
+                                                <div class="d-flex flex-column align-items-left text-left">
+                                                    <div class="mt-2">
+                                                        <div class="row">
+                                                            <div class="col-sm-3">
+                                                                <h6 class="mb-2">
+                                                                    <img src="~/Content/assets/img/Formador/defaultImg.png" alt="Admin" width="100" style="margin-right:0.5em">
+                                                                </h6>
+                                                            </div>
 
-                                                        <div class="col-sm-9">
-                                                            <h5>@(((Curso)curso[0]).Curso_nombre)</h5>
-                                                            <div class="text-secondary">
-                                                                Nombre empresa
-                                                            </div>
-                                                            <div class="text-secondary">
-                                                                Horas totales: @(((Curso)curso[0]).Horas_totales)
-                                                            </div>
-                                                            <div class="text-secondary">
-                                                                Fecha de inicio: @(((Curso)curso[0]).Fecha_inicio) - Fecha de finalicacion: @(((Curso)curso[0]).Fecha_final)
+                                                            <div class="col-sm-9">
+                                                                <h5>@(((Curso)curso[0]).Curso_nombre)</h5>
+                                                                <div class="text-secondary">
+                                                                    Nombre empresa
+                                                                </div>
+                                                                <div class="text-secondary">
+                                                                    Horas totales: @(((Curso)curso[0]).Horas_totales)
+                                                                </div>
+                                                                <div class="text-secondary">
+                                                                    Fecha de inicio: @(((Curso)curso[0]).Fecha_inicio) - Fecha de finalicacion: @(((Curso)curso[0]).Fecha_final)
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                    <div style="height:5em">
-                                        <div class="containerPB">
-                                            <ul class="progressbar">
-                                            <li class="active">Step 1</li>
-                                            <li>Step 2</li>
-                                            <li>Step 3</li>
-                                            <li>Step 4</li>
-                                            <li>Step 5</li>
-                                            </ul>
-                                        </div> 
+                                        </a>
+                                        <!-- <div style="height:6.5em">
+                                            <div class="containerPB">
+                                                <ul class="progressbar">
+                                                    for(int i=1; i<5;i++)
+                                                    {
+                                                        if(((Estado_Curso)curso[1]).Id_estado_curso >= i)
+                                                        {
+                                                            <li class="active">(((IDictionary<int, Estado_Curso>)ViewData["Estados"])[i].Estado)</li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li>(((IDictionary<int, Estado_Curso>)ViewData["Estados"])[i].Estado)</li>
+                                                        }
+                                                    }   
+                                                </ul>
+                                            </div> 
+                                        </div>-->
                                     </div>
-                                </div>
+                                }
                             }
                         </div>
                     </div>

@@ -109,7 +109,10 @@ namespace Infocursos.Controllers
             @ViewData["Alumno_Descripcion"] = alumno.User_Descripcion;
             @ViewData["Alumno_Categorias"] = alumno.Categorias;
             @ViewData["IdomaYNivel"] = alumno.Idioma_Nivel;
-            ViewData["Cursos"] = alumno.Cursos_Estado;
+            @ViewData["Cursos"] = alumno.Cursos_Estado;
+
+            DAL_Estado_Curso dal_Estado_Curso = new DAL_Estado_Curso();
+            ViewData["Estados"] = dal_Estado_Curso.Select_Estado_Curso(null, null);
 
             return View("AlumnoPerfil");
         }
@@ -149,11 +152,59 @@ namespace Infocursos.Controllers
 
             return RellenarAlumnoPerfil();
         }
+
         public ActionResult AlumnoMisCursos()
         {
-            ViewBag.Message = "Your Course Alumno Info page.";
+            if (!AlumnoIsLoged())
+                return View("../Home/Index");
+            else
+            {
+                Session["AlumnoCursos"] = (Alumno)Session["User"];
+                Session["Cursos_Mostrando"] = "Insctripciones";
+            }
 
-            return View();
+            return RellenarAlumnoMisCursos();
+        }
+        [HttpPost]
+        public ActionResult RellenarAlumnoMisCursos()
+        {
+            Alumno alumno = (Alumno)Session["AlumnoCursos"];
+            List<Object[]> cursosAMostrar = new List<object[]>();
+
+            if (Session["Cursos_Mostrando"].Equals("Insctripciones"))
+            {
+                @ViewData["Cursos_ActiveInscripciones"] = "active disabled";
+                foreach (Object[] curso_Estado in alumno.Cursos_Estado)
+                    if (((Estado_Curso)curso_Estado[1]).Id_estado_curso > 0 && DateTime.Compare(((Curso)curso_Estado[0]).Fecha_final, DateTime.Now) > 0)
+                        cursosAMostrar.Add(curso_Estado);
+            }
+            else if (Session["Cursos_Mostrando"].Equals("Guardados"))
+            {
+                @ViewData["Cursos_ActiveGuardados"] = "active disabled";
+                foreach (Object[] curso_Estado in alumno.Cursos_Estado)
+                    if (((Estado_Curso)curso_Estado[1]).Id_estado_curso == 0)
+                        cursosAMostrar.Add(curso_Estado);
+            }
+            else if (Session["Cursos_Mostrando"].Equals("Expirados"))
+            {
+                @ViewData["Cursos_ActiveExpirados"] = "active disabled";
+                foreach (Object[] curso_Estado in alumno.Cursos_Estado)
+                    if (((Estado_Curso)curso_Estado[1]).Id_estado_curso == -1 || DateTime.Compare(((Curso)curso_Estado[0]).Fecha_final, DateTime.Now) < 0)
+                        cursosAMostrar.Add(curso_Estado);
+            }
+
+            ViewData["Cursos"] = cursosAMostrar;
+            DAL_Estado_Curso dal_Estado_Curso = new DAL_Estado_Curso();
+            ViewData["Estados"] = dal_Estado_Curso.Select_Estado_Curso(null, null);
+
+            return View("AlumnoMisCursos");
+        }
+
+        public ActionResult CambiarCursosMostrando(string cursosMostrando)
+        {
+            Session["Cursos_Mostrando"] = cursosMostrando;
+
+            return RellenarAlumnoMisCursos();
         }
 
         public ActionResult RegistroAlumno()
