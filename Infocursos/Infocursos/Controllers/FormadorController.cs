@@ -246,6 +246,7 @@ namespace Infocursos.Controllers
 
             formador.GetCursos();
             @ViewData["Cursos"] = formador.Cursos;
+            @ViewData["Centros"] = formador.Centros;
 
             @ViewData["Horarios"] = formador.Horarios;
             @ViewData["Modalidades"] = formador.Modalidades;

@@ -63,7 +63,7 @@ namespace Infocursos.Models
 
             return new String(Codigo);
         }
-        
+
         public void GetCursos()
         {
             DAL_Curso dal_Curso = new DAL_Curso();
@@ -75,7 +75,7 @@ namespace Infocursos.Models
             {
                 Modalidades.Add(curso.Modalidad);
                 Horarios.Add(curso.Horario);
-                if(curso.Centro != null)
+                if (curso.Centro != null)
                     Centros.Add(curso.Centro);
                 Categorias.AddRange(curso.Categorias);
 
