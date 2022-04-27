@@ -181,12 +181,12 @@ namespace Infocursos.DAL
 
                 SqlParameter pAlumno_Direccion = new SqlParameter("@Alumno_Direccion", System.Data.SqlDbType.NVarChar, 150);
                 pAlumno_Direccion.Value = DBNull.Value;
-                if (alumno.Alumno_Direccion == null)
+                if (alumno.Alumno_Direccion != null)
                     pAlumno_Direccion.Value = alumno.Alumno_Direccion;
 
                 SqlParameter pRId_Municipio = new SqlParameter("@RId_Municipio", System.Data.SqlDbType.Int);
                 pRId_Municipio.Value = DBNull.Value;
-                if (alumno.Municipio == null)
+                if (alumno.Municipio != null)
                     pRId_Municipio.Value = alumno.Municipio.Id_municipio;
 
                 cdm_Alumno.Parameters.Add(pAlumno_FechaNac);

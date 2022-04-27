@@ -11,10 +11,10 @@ namespace Infocursos.Controllers
 {
     public class AlumnoController : Controller
     {
-        /// <summary>
-        /// Funcion que comprobara que el usuario alumno este con sesion iniciada.
-        /// </summary>
-        /// <returns>False en caso de que no este iniciado;True en caso de que si.</returns>
+    /// <summary>
+    /// Funcion que comprobara que el usuario alumno este con sesion iniciada.
+     /// </summary>
+     /// <returns>False en caso de que no este iniciado;True en caso de que si.</returns>
         public bool AlumnoIsLoged()
         {
             if (Session["User"] == null || ((Usuario)Session["User"] as Alumno) == null)
@@ -28,6 +28,7 @@ namespace Infocursos.Controllers
         /// </summary>
         /// <param name="IdAlumno">Filtrara los campos dentro de nuestra BBDD.</param>
         /// <returns>Vista del alumno perfil con sus datos.</returns>
+
         public ActionResult AlumnoPerfil(int? IdAlumno)
         {
             DAL_Alumno dal_Alumno = new DAL_Alumno();
@@ -59,10 +60,12 @@ namespace Infocursos.Controllers
 
             return RellenarAlumnoPerfil();
         }
+
         /// <summary>
         /// La siguiente funcion realizara la tarea de rellenar todo el perfil de alumno con datos recibidos desde la BBDD.
         /// </summary>
         /// <returns>Una vista rellenada con los datos del alumno actual.</returns>
+
         [HttpPost]
         public ActionResult RellenarAlumnoPerfil()
         {
@@ -111,8 +114,8 @@ namespace Infocursos.Controllers
             @ViewData["Alumno_Telefonos"] = alumno.Telefonos;
             @ViewData["Alumno_IMG_Perfil"] = alumno.IMG_Perfil;
             @ViewData["Alumno_Resumen"] = alumno.User_Resumen;
-            if(alumno.Alumno_Direccion!=null)
-                @ViewData["Alumno_Direccion"] = alumno.Alumno_Direccion+",";
+            if (alumno.Alumno_Direccion != null)
+                @ViewData["Alumno_Direccion"] = alumno.Alumno_Direccion + ",";
             if (alumno.Municipio != null)
             {
                 @ViewData["Alumno_Provincia"] = alumno.Municipio.Provincia.Nombre_provincia;
@@ -121,10 +124,14 @@ namespace Infocursos.Controllers
             @ViewData["Alumno_Descripcion"] = alumno.User_Descripcion;
             @ViewData["Alumno_Categorias"] = alumno.Categorias;
             @ViewData["IdomaYNivel"] = alumno.Idioma_Nivel;
-            ViewData["Cursos"] = alumno.Cursos_Estado;
+            @ViewData["Cursos"] = alumno.Cursos_Estado;
+
+            DAL_Estado_Curso dal_Estado_Curso = new DAL_Estado_Curso();
+            ViewData["Estados"] = dal_Estado_Curso.Select_Estado_Curso(null, null);
 
             return View("AlumnoPerfil");
         }
+
         /// <summary>
         /// Funcion que guardara en nuestra BBDD en caso de estar validada, una nueva descripcion.
         /// </summary>
@@ -151,11 +158,13 @@ namespace Infocursos.Controllers
 
             return RellenarAlumnoPerfil();
         }
+
         /// <summary>
         /// Funcion que mostrara el div de descripcion cuando alumno clicke.
         /// </summary>
         /// <param name="verOcancelar">Determinara si el alumno quiere ver o cancelar el div de descripcion.</param>
         /// <returns>Una nueva vista de Alumno perfil con los parametros de verOcancelar</returns>
+
         public ActionResult Descripcion_VerAnadir_Cancelar(string verOcancelar)
         {
             Session["Alumno_ShowAddDescription"] = verOcancelar;
@@ -167,12 +176,14 @@ namespace Infocursos.Controllers
         /// </summary>
         /// <param name="requestedView">Vista que se quiera ver segun el clickado.</param>
         /// <returns>Una nueva vista de Alumno perfil con los parametros de requestView.</returns>
+
         public ActionResult Info_Cursos(string requestedView)
         {
             Session["Alumno_View_Info_Cursos"] = requestedView;
 
             return RellenarAlumnoPerfil();
         }
+
         /// <summary>
         /// Funcion que retornara la vista de AlumnoCursos.
         /// </summary>
@@ -181,25 +192,75 @@ namespace Infocursos.Controllers
         /// </returns>
         public ActionResult AlumnoMisCursos()
         {
-            ViewBag.Message = "Your Course Alumno Info page.";
+            if (!AlumnoIsLoged())
+                return View("../Home/Index");
+            else
+            {
+                Session["AlumnoCursos"] = (Alumno)Session["User"];
+                Session["Cursos_Mostrando"] = "Insctripciones";
+            }
 
-            return View();
+            return RellenarAlumnoMisCursos();
         }
+        [HttpPost]
+        public ActionResult RellenarAlumnoMisCursos()
+        {
+            Alumno alumno = (Alumno)Session["AlumnoCursos"];
+            List<Object[]> cursosAMostrar = new List<object[]>();
+
+            if (Session["Cursos_Mostrando"].Equals("Insctripciones"))
+            {
+                @ViewData["Cursos_ActiveInscripciones"] = "active disabled";
+                foreach (Object[] curso_Estado in alumno.Cursos_Estado)
+                    if (((Estado_Curso)curso_Estado[1]).Id_estado_curso > 0 && DateTime.Compare(((Curso)curso_Estado[0]).Fecha_final, DateTime.Now) > 0)
+                        cursosAMostrar.Add(curso_Estado);
+            }
+            else if (Session["Cursos_Mostrando"].Equals("Guardados"))
+            {
+                @ViewData["Cursos_ActiveGuardados"] = "active disabled";
+                foreach (Object[] curso_Estado in alumno.Cursos_Estado)
+                    if (((Estado_Curso)curso_Estado[1]).Id_estado_curso == 0)
+                        cursosAMostrar.Add(curso_Estado);
+            }
+            else if (Session["Cursos_Mostrando"].Equals("Expirados"))
+            {
+                @ViewData["Cursos_ActiveExpirados"] = "active disabled";
+                foreach (Object[] curso_Estado in alumno.Cursos_Estado)
+                    if (((Estado_Curso)curso_Estado[1]).Id_estado_curso == -1 || DateTime.Compare(((Curso)curso_Estado[0]).Fecha_final, DateTime.Now) < 0)
+                        cursosAMostrar.Add(curso_Estado);
+            }
+
+            ViewData["Cursos"] = cursosAMostrar;
+            DAL_Estado_Curso dal_Estado_Curso = new DAL_Estado_Curso();
+            ViewData["Estados"] = dal_Estado_Curso.Select_Estado_Curso(null, null);
+
+            return View("AlumnoMisCursos");
+        }
+
+        public ActionResult CambiarCursosMostrando(string cursosMostrando)
+        {
+            Session["Cursos_Mostrando"] = cursosMostrando;
+
+            return RellenarAlumnoMisCursos();
+        }
+
         /// <summary>
         /// Funcion que retornara la vista de RegistroAlumno
         /// </summary>
         /// <returns>Vista de RegistroAlumno</returns>
+
         public ActionResult RegistroAlumno()
         {
             return View();
         }
-        
+
         /// <summary>
         /// Funcion que validara y dara de alta a un usuario Alumno en nuestra BBDD.
         /// </summary>
         /// <returns>
         /// Vista de inicio de sesion en caso de exito.
         /// </returns>
+
         [HttpPost]
         public ActionResult RegistrarAlumno()
         {
@@ -267,6 +328,7 @@ namespace Infocursos.Controllers
         /// <returns>
         /// La vista RegistroFormador.
         /// </returns>
+
         [HttpPost]
         public ActionResult CambioARegistroFormador()
         {
